@@ -7,10 +7,13 @@
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:CipherKey.ViewModels"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        xmlns:converter="clr-namespace:CipherKey.Core.Converter;assembly=CipherKey.Core"
         WindowStartupLocation="CenterScreen"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         Title="CipherKey" Height="600" Width="950">
     <ui:FluentWindow.Resources>
+        <converter:ListCountZeroToVisibilityConverter x:Key="ListCountZeroToVisibilityConverter"/>
+        <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <Storyboard x:Key="ExpandModuleView">
             <DoubleAnimation Storyboard.TargetName="ModuleView" Storyboard.TargetProperty="(ContentControl.Width)"
                              To="400" Duration="0:0:0.3"/>
@@ -53,7 +56,7 @@
 
         <ScrollViewer Grid.Row="1" PreviewMouseLeftButtonDown="Grid_PreviewMouseLeftButtonDown">
             <StackPanel Orientation="Vertical" Margin="2 15 0 2">
-                <ListView ItemsSource="{Binding Topics, UpdateSourceTrigger=PropertyChanged}">
+                <ListView ItemsSource="{Binding Topics, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedTopic, UpdateSourceTrigger=PropertyChanged}">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"></StackPanel>
@@ -79,5 +82,74 @@
         </ScrollViewer>
         
         
+        <!-- Main View -->
+        <Grid Grid.Row="1" Grid.Column="1">
+            <!-- No Data View -->
+            <Grid Background="{ui:ThemeResource }" Panel.ZIndex="999" Visibility="{Binding Passwords, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ListCountZeroToVisibilityConverter}}">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ui:SymbolIcon Symbol="LockOpen16" FontSize="50"/>
+                    <TextBlock Text="Noch keine Passwörter vorhanden"/>
+                    <Button Content="Passwort hinzufügen" HorizontalAlignment="Center" Command="{Binding CreatePasswordCommand}" Margin="0 15 0 0"/>
+                </StackPanel>
+            </Grid>
+            
+            <!-- Password Base View -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Orientation="Horizontal" Margin="5 0 0 0" VerticalAlignment="Center">
+                    <Button Command="{Binding CreatePasswordCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="Add12" VerticalAlignment="Center"/>
+                            <TextBlock Text="Neu" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <ItemsControl Margin="5 0 5 0" ItemsSource="{Binding Passwords, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ui:CardExpander Margin="0 0 0 5">
+                                <ui:CardExpander.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Background="Green" Height="15" Width="15" CornerRadius="100" Margin="5 0 5 0"/>
+                                        <TextBlock Text="{Binding Name}" Margin="10 0 0 0" VerticalAlignment="Center"/>
+                                        <Border Background="Black" Opacity=".5" Width="2" VerticalAlignment="Stretch" Margin="10 0 10 0"/>
+                                        <TextBlock Text="Erstellt am:"/>
+                                        <TextBlock Text="{Binding Created, StringFormat=dd.MM.yyyy}" Margin="10 0 0 0"/>
+                                    </StackPanel>
+                                </ui:CardExpander.Header>
+                                <ui:CardExpander.Content>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="Passwort Qualität:"/>
+                                        <ProgressBar Value="{Binding PasswordScore, UpdateSourceTrigger=PropertyChanged}" Maximum="100" Margin="0 5 0 0"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0 15 0 0">
+                                            <TextBlock Text="Passwort:" VerticalAlignment="Center"/>
+                                            <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                                            <Button Margin="5 0 0 0" Command="{Binding CopyPassword, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
+                                                <ui:SymbolIcon Symbol="Copy16" Height="22"/>
+                                            </Button>
+                                            <Button Margin="5 0 0 0" Background="Green">
+                                                <ui:SymbolIcon Symbol="LockClosed24" Height="22"/>
+                                            </Button>
+                                            <TextBlock Text="{Binding AvailableSeconds, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 0 0" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Sekunden" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ui:CardExpander.Content>
+                            </ui:CardExpander>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Grid>
     </Grid>
 </ui:FluentWindow>

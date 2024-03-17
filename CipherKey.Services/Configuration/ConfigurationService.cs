@@ -49,11 +49,6 @@ namespace CipherKey.Services.Configuration
 			throw new NotImplementedException();
 		}
 
-		public CipherResult<bool> GetDecodedPasswords<T>(T entry, string masterPassword)
-		{
-			throw new NotImplementedException();
-		}
-
 		public CipherResult<bool> IsConfigured()
 		{
 			var applicationConfiguration = _applicationConfigurationService.GetAll();

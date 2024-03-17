@@ -35,7 +35,7 @@ namespace CipherKey
 
 		private void Grid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			if(e.Source is not CreateTopic)
+			if(e.Source is not ContentControl)
 			{
 				var storyboard = FindResource("CollapseModuleView") as Storyboard;
 				storyboard.Begin();

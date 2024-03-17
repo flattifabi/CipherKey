@@ -1,8 +1,10 @@
 ﻿using CipherKey.Core.ApplicationConstants;
 using CipherKey.Core.Configurations;
 using CipherKey.Core.Helpers;
+using CipherKey.Core.Password;
 using CipherKey.Core.UserControls;
 using CipherKey.Services.Configuration;
+using CipherKey.Services.Password;
 using CipherKey.ViewModels;
 using CipherKey.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +36,7 @@ namespace CipherKey
 		{
 			services.AddSingleton<ISnackbarService, SnackbarService>();
 			services.AddSingleton<IConfigurationService, ConfigurationService>();
+			services.AddSingleton<IPasswordService, PasswordService>();
 
 			services.AddSingleton<Splash, Splash>();
 			services.AddSingleton<SplashViewModel, SplashViewModel>();
@@ -45,6 +48,7 @@ namespace CipherKey
 			services.AddSingleton<MainWindowViewModel, MainWindowViewModel>();
 
 			services.AddSingleton<CreateTopic, CreateTopic>();
+			services.AddSingleton<CreatePassword, CreatePassword>();
 		}
 		public void Run()
 		{
