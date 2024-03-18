@@ -27,9 +27,9 @@
                      To="0" Duration="0:0:0.3"/>
         </Storyboard>
     </ui:FluentWindow.Resources>
-    <Grid PreviewMouseLeftButtonDown="Grid_PreviewMouseLeftButtonDown">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -43,15 +43,15 @@
         <ContentControl Width="0" Grid.RowSpan="100" Grid.ColumnSpan="100" Panel.ZIndex="999" Content="{Binding ModuleView, UpdateSourceTrigger=PropertyChanged}" x:Name="ModuleView" HorizontalAlignment="Right" Margin="0 25 0 25"/>
         
         <!-- DragMove -->
-        <Grid PreviewMouseLeftButtonDown="Grid_PreviewMouseLeftButtonDown" Grid.ColumnSpan="100" Background="{ui:ThemeResource }" MouseDown="RowDefinition_MouseDown"></Grid>
+        <Grid Grid.ColumnSpan="100" Background="{ui:ThemeResource }" MouseDown="RowDefinition_MouseDown"></Grid>
         
         <!-- Header information -->
-        <StackPanel PreviewMouseLeftButtonDown="Grid_PreviewMouseLeftButtonDown" Orientation="Horizontal" Grid.ColumnSpan="100" Margin="15" Grid.RowSpan="100" Panel.ZIndex="99">
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="100" Margin="15" Grid.RowSpan="100" Panel.ZIndex="99">
             <TextBlock Text="CipherKey"/>
         </StackPanel>
         
         <!-- Right Window Commands -->
-        <StackPanel PreviewMouseLeftButtonDown="Grid_PreviewMouseLeftButtonDown" Panel.ZIndex="99" Orientation="Horizontal" Grid.ColumnSpan="100" Grid.RowSpan="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15">
+        <StackPanel Panel.ZIndex="99" Orientation="Horizontal" Grid.ColumnSpan="100" Grid.RowSpan="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15">
             <Button BorderThickness="0" Grid.ColumnSpan="100" Grid.RowSpan="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5 0 0 0" Command="{Binding CloseCommand}">
                 <ui:SymbolIcon Symbol="ArrowMinimize16" Foreground="Orange" Height="20" Width="20" FontSize="20"/>
             </Button>
@@ -60,130 +60,19 @@
             </Button>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" PreviewMouseLeftButtonDown="Grid_PreviewMouseLeftButtonDown">
-            <StackPanel Orientation="Vertical" Margin="2 15 0 2">
-                <ListView ItemsSource="{Binding Topics, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedTopic, UpdateSourceTrigger=PropertyChanged}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="10 5 15 0">
-                                <Border CornerRadius="100" Height="35" Width="35" BorderThickness="2" BorderBrush="{Binding Design.ForegroundHex}">
-                                    <Border.Background>
-                                        <ImageBrush ImageSource="{Binding Design.TopicImage, UpdateSourceTrigger=PropertyChanged}" Stretch="UniformToFill" />
-                                    </Border.Background>
-                                </Border>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="15 0 0 0"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button HorizontalAlignment="Stretch" Height="50" Margin="0 5 0 0" Command="{Binding CreateTopicCommand}">
-                    <ui:SymbolIcon Symbol="Add12"/>
-                </Button>
-            </StackPanel>  
-        </ScrollViewer>
-        
-        
-        <!-- Main View -->
-        <Grid Grid.Row="1" Grid.Column="1">
-            <!-- No Data View -->
-            <Grid Background="{ui:ThemeResource }" Panel.ZIndex="999" Visibility="{Binding Passwords, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ListCountZeroToVisibilityConverter}}">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <ui:SymbolIcon Symbol="LockOpen16" FontSize="50"/>
-                    <TextBlock Text="Noch keine Passwörter vorhanden"/>
-                    <Button Content="Passwort hinzufügen" HorizontalAlignment="Center" Command="{Binding CreatePasswordCommand}" Margin="0 15 0 0"/>
-                </StackPanel>
-            </Grid>
-            
-            <!-- Password Base View -->
-            <Grid Margin="0 8 0 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0" VerticalAlignment="Center">
-                    <Button Command="{Binding CreatePasswordCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="Add12" VerticalAlignment="Center"/>
-                            <TextBlock Text="Neu" Margin="5 0 0 0" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
+        <ListView Grid.Row="1" Background="Green" Grid.Column="0" ItemsSource="{Binding Modules, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectedValue="{Binding SelectedModule, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Background="Transparent">
+                        <ui:SymbolIcon Symbol="{Binding Symbol.Symbol}" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ContentControl Content="{Binding SelectedModule.View, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="9999" Grid.Row="1" Grid.Column="1"/>
 
 
-                <ScrollViewer Grid.Row="1">
-                    <ItemsControl Margin="5 0 5 0" ItemsSource="{Binding Passwords, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"></StackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <ui:CardExpander Margin="0 0 0 5">
-                                    <ui:CardExpander.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Border Background="Green" Height="15" Width="15" CornerRadius="100" Margin="5 0 5 0"/>
-                                            <TextBlock Text="{Binding Name}" Margin="10 0 0 0" VerticalAlignment="Center"/>
-                                            <Border Background="Black" Opacity=".5" Width="2" VerticalAlignment="Stretch" Margin="10 0 10 0"/>
-                                            <TextBlock Text="Erstellt am:"/>
-                                            <TextBlock Text="{Binding Created, StringFormat=dd.MM.yyyy}" Margin="10 0 0 0"/>
-                                        </StackPanel>
-                                    </ui:CardExpander.Header>
-                                    <ui:CardExpander.Content>
-                                        <StackPanel Orientation="Vertical">
-                                            <TextBlock Text="Passwort Qualität:"/>
-                                            <ProgressBar Foreground="{Binding PasswordScore, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PasswordQualityIntegerToColorConverter}}" Value="{Binding PasswordScore, UpdateSourceTrigger=PropertyChanged}" Maximum="100" Margin="0 5 0 0"/>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0 15 0 0">
-                                                <TextBlock Text="Passwort:" VerticalAlignment="Center"/>
-                                                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" VerticalAlignment="Center" Margin="10 0 0 0"/>
-                                                <Button Margin="5 0 0 0" IsEnabled="{Binding IsCopyEnabled, UpdateSourceTrigger=PropertyChanged}" Command="{Binding DataContext.CopyPasswordCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
-                                                    <ui:SymbolIcon Symbol="Copy16" Height="22"/>
-                                                </Button>
-                                                <Button Margin="5 0 0 0" Background="Green">
-                                                    <ui:SymbolIcon Symbol="LockClosed24" Height="22"/>
-                                                </Button>
-                                                <TextBlock Text="{Binding AvailableSeconds, UpdateSourceTrigger=PropertyChanged, FallbackValue=Nicht aktiv}" Margin="10 0 0 0" VerticalAlignment="Center"/>
-                                                <TextBlock Text="Sekunden" Margin="5 0 0 0" VerticalAlignment="Center"/>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Horizontal" Margin="0 5 0 0" Visibility="{Binding Username, Converter={StaticResource StringHasValueToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                                <TextBlock Text="Benutzername:" VerticalAlignment="Center"/>
-                                                <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" VerticalAlignment="Center" Margin="10 0 0 0"/>
-                                                <Button Margin="5 0 0 0" IsEnabled="{Binding IsCopyEnabled, UpdateSourceTrigger=PropertyChanged}" Command="{Binding DataContext.CopyUsernameCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
-                                                    <ui:SymbolIcon Symbol="Copy16" Height="22"/>
-                                                </Button>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Left">
-                                                <Button Background="Orange"  Command="{Binding DataContext.EditPasswordCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <ui:SymbolIcon Symbol="DocumentEdit16"/>
-                                                        <TextBlock Text="Bearbeiten" Margin="5 0 0 0"/>
-                                                    </StackPanel>
-                                                </Button>
-                                                <Button Background="Red" Margin="5 0 0 0" Command="{Binding DataContext.DeletePasswordEntry, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <ui:SymbolIcon Symbol="Delete12"/>
-                                                        <TextBlock Text="Löschen" Margin="5 0 0 0"/>
-                                                    </StackPanel>
-                                                </Button>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </ui:CardExpander.Content>
-                                </ui:CardExpander>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-                
-                
-            </Grid>
-        </Grid>
     </Grid>
 </ui:FluentWindow>

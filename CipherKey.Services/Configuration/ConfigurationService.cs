@@ -1,9 +1,11 @@
 ﻿using CipherKey.Core.ApplicationConstants;
 using CipherKey.Core.Configurations;
+using CipherKey.Core.Data;
 using CipherKey.Core.Extensions;
 using CipherKey.Core.Helpers;
 using CipherKey.Core.Models;
 using CipherKey.Core.Password;
+using CipherKey.Crypt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +16,14 @@ namespace CipherKey.Services.Configuration
 {
 	public class ConfigurationService : IConfigurationService
 	{
-		private XmlService<ApplicationConfiguration> _applicationConfigurationService;
-		private XmlService<PasswordBase> _passwordService;
-		private XmlService<Topic> _topicService;
+		//private XmlService<ApplicationConfiguration> _applicationConfigurationService;
+		//private XmlService<PasswordBase> _passwordService;
+		//private XmlService<Topic> _topicService;
 		public ConfigurationService()
 		{
-			_topicService = new XmlService<Topic>(FilePaths.PasswordStorageFilePath + FilePaths.TopicFileName);
-			_passwordService = new XmlService<PasswordBase>(FilePaths.PasswordStorageFilePath + FilePaths.PasswordsFileName);
-			_applicationConfigurationService = new XmlService<ApplicationConfiguration>(FilePaths.PasswordStorageFilePath + FilePaths.ApplicationConfigurationFileName);
+			//_topicService = new XmlService<Topic>(FilePaths.PasswordStorageFilePath + FilePaths.TopicFileName);
+			//_passwordService = new XmlService<PasswordBase>(FilePaths.PasswordStorageFilePath + FilePaths.PasswordsFileName);
+			//_applicationConfigurationService = new XmlService<ApplicationConfiguration>(FilePaths.PasswordStorageFilePath + FilePaths.ApplicationConfigurationFileName);
 		}
 		public void Initialize()
 		{
@@ -32,8 +34,9 @@ namespace CipherKey.Services.Configuration
 		{
 			if (!IsConfigured().ResultData)
 			{
-				_applicationConfigurationService.Add(new ApplicationConfiguration());
-				_topicService.Add(new Topic()
+				var t = CipherF<CipherStorage>.Load();
+				t.ApplicationConfiguration = new ApplicationConfiguration();
+				t.Topics.Add(new Topic()
 				{
 					Name = "Allgemein",
 					Description = "Allgemeine Passwörter",
@@ -44,6 +47,7 @@ namespace CipherKey.Services.Configuration
 						ForegroundHex = "#575757",
 					}
 				});
+				CipherF<CipherStorage>.Save(t);
 			}
 		}
 
@@ -54,64 +58,68 @@ namespace CipherKey.Services.Configuration
 
 		public CipherResult<bool> IsConfigured()
 		{
-			var applicationConfiguration = _applicationConfigurationService.GetAll();
-			if (applicationConfiguration.Count > 0)
-			{
-				var firstElement = applicationConfiguration.FirstOrDefault();
-				if (firstElement != null && !string.IsNullOrEmpty(firstElement.MasterPassword))
-				{
-					return new CipherResult<bool> { ResultData = true };
-				}
+			var cipherData = CipherF<CipherStorage>.Load();
+			var applicationConfiguration = cipherData.ApplicationConfiguration;
+            if (applicationConfiguration != null && !string.IsNullOrEmpty(applicationConfiguration.MasterPassword))
+            {
+				return new CipherResult<bool> { ResultData = true };
 			}
 			return new CipherResult<bool> { ResultData = false };
 		}
 
 		public CipherResult<bool> SetMasterPassword(string enteredMasterPassword)
 		{
-			Predicate<ApplicationConfiguration> predicate = (x) => string.IsNullOrEmpty(x.MasterPassword);
-			Action<ApplicationConfiguration> action = (x) => x.MasterPassword = enteredMasterPassword.Hash();
-			_applicationConfigurationService.Update(predicate, action);
+			var f = CipherF<CipherStorage>.Load();
+			f.ApplicationConfiguration.MasterPassword = enteredMasterPassword.Hash();
+			CipherF<CipherStorage>.Save(f);
 			return new CipherResult<bool> { ResultData = true };
 		}
 
 		public CipherResult<string> CheckPassword(string password)
 		{
-			var applicationConfiguration = _applicationConfigurationService.GetAll();
-			if (applicationConfiguration.Count > 0)
+			var t = CipherF<CipherStorage>.Load();
+			if (t.ApplicationConfiguration.MasterPassword == password.Hash())
 			{
-				var firstElement = applicationConfiguration.FirstOrDefault();
-				if (firstElement != null && firstElement.MasterPassword == password.Hash())
-				{
-					return new CipherResult<string> { ResultData = password };
-				}
+				return new CipherResult<string> { ResultData = password };
 			}
 			return new CipherResult<string> { ResultData = string.Empty };
 		}
 
 		public CipherResult<bool> AddTopic(Topic topic)
 		{
-			_topicService.Add(topic);
+			var t = CipherF<CipherStorage>.Load();
+			t.Topics.Add(topic);
+			CipherF<CipherStorage>.Save(t);
 			return new CipherResult<bool> { ResultData = true };
 		}
 
 		public CipherResult<bool> DeleteTopic(Topic topic)
 		{
-			Predicate<Topic> predicate = (x) => x.Name == topic.Name;
-			_topicService.Delete(predicate);
+			var t = CipherF<CipherStorage>.Load();
+			t.Topics.Remove(topic);
+			CipherF<CipherStorage>.Save(t);
 			return new CipherResult<bool> { ResultData = true };
 		}
 
 		public CipherResult<bool> UpdateTopic(Topic topic)
 		{
-			Predicate<Topic> predicate = (x) => x.Name == topic.Name;
-			Action<Topic> action = (x) => x = topic;
-			_topicService.Update(predicate, action);
+
+			var t = CipherF<CipherStorage>.Load();
+			var oldTopic = t.Topics.FirstOrDefault(x => x.Name == topic.Name);
+			if (oldTopic != null)
+			{
+				t.Topics.Remove(oldTopic);
+				t.Topics.Add(topic);
+				CipherF<CipherStorage>.Save(t);
+			}
+			CipherF<CipherStorage>.Save(t);
 			return new CipherResult<bool> { ResultData = true };
 		}
 
 		public CipherResult<List<Topic>> GetTopics()
 		{
-			return new CipherResult<List<Topic>> { ResultData = _topicService.GetAll() };
+			CipherF<CipherStorage>.Load();
+			return new CipherResult<List<Topic>> { ResultData = CipherF<CipherStorage>.Load().Topics };
 		}
 	}
 }

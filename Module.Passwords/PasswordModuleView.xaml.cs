@@ -1,6 +1,4 @@
-﻿using CipherKey.Core.UserControls;
-using System;
-using System.CodeDom;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,24 +11,27 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wpf.Ui.Controls;
 
-namespace CipherKey
+namespace Module.Passwords
 {
 	/// <summary>
-	/// Interaktionslogik für MainWindow.xaml
+	/// Interaktionslogik für PasswordModuleView.xaml
 	/// </summary>
-	public partial class MainWindow : FluentWindow
+	public partial class PasswordModuleView : UserControl
 	{
-		public MainWindow()
+		public PasswordModuleView()
 		{
 			InitializeComponent();
 		}
-
-		private void RowDefinition_MouseDown(object sender, MouseButtonEventArgs e)
+		private void Grid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			DragMove();
+			if (e.Source is not ContentControl)
+			{
+				var storyboard = FindResource("CollapseModuleView") as Storyboard;
+				storyboard.Begin();
+			}
 		}
 	}
 }

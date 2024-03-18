@@ -1,16 +1,20 @@
 ﻿using CipherKey.Core.ApplicationConstants;
 using CipherKey.Core.Configurations;
+using CipherKey.Core.Data;
 using CipherKey.Core.Helpers;
 using CipherKey.Core.Password;
 using CipherKey.Core.UserControls;
+using CipherKey.Crypt;
 using CipherKey.Services.Configuration;
 using CipherKey.Services.Password;
 using CipherKey.ViewModels;
 using CipherKey.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Module.Passwords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Wpf.Ui;
@@ -30,6 +34,7 @@ namespace CipherKey
 		{
 			var services = new ServiceCollection();
 			ConfigureServices(services);
+			ConfigureCipherFile();
 			_serviceProvider = services.BuildServiceProvider();
 		}
 		private void ConfigureServices(IServiceCollection services)
@@ -50,9 +55,17 @@ namespace CipherKey
 			services.AddSingleton<CreateTopic, CreateTopic>();
 			services.AddSingleton<CreatePassword, CreatePassword>();
 			services.AddSingleton<EditPassword, EditPassword>();
+
+			/* Modules */
+			services.AddSingleton<PasswordModuleView>();
+			services.AddSingleton<PasswordModuleViewModel>();
+			services.AddSingleton<PasswordModule>();
 		}
 		public void Run()
 		{
+			CipherF<CipherStorage>.Path = FilePaths.CipherStorageFilePath;
+			CipherF<CipherStorage>.Key = IDGenerator.GetComputerID();
+
 			_serviceProvider.GetService<IConfigurationService>().Initialize();
 			FolderCryptor.DecryptFolder(FilePaths.PasswordStorageFilePath, IDGenerator.GetComputerID());
 			var configurationService = _serviceProvider.GetService<IConfigurationService>();
@@ -87,7 +100,8 @@ namespace CipherKey
 			_startupViewModel.LoginSuccess += (sender, e) =>
 			{
 				_startupView.Close();
-				_mainWindowViewModel.MasterPassword = e.MasterPassword;
+				//_mainWindowViewModel.MasterPassword = e.MasterPassword;
+				_serviceProvider.GetService<PasswordModuleViewModel>().MasterPassword = e.MasterPassword;
 				_mainWindowViewModel.Initialize();
 				_mainWindow.Show();
 			};
@@ -97,6 +111,13 @@ namespace CipherKey
 			var snackbarService = _serviceProvider.GetService<ISnackbarService>();
 			var mainWindow = _serviceProvider.GetService<MainWindow>();
 			snackbarService.SetSnackbarPresenter(mainWindow.SnackbarPresenter);
+		}
+		public void ConfigureCipherFile()
+		{
+			FilePaths.CreateBaseFilePath();
+			CipherF<CipherStorage>.Path = FilePaths.CipherStorageFilePath;
+			CipherF<CipherStorage>.Key = IDGenerator.GetComputerID();
+			CipherF<CipherStorage>.CreateIfNotExist();
 		}
 	}
 }

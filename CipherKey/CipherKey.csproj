@@ -27,7 +27,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CipherKey.Core\CipherKey.Core.csproj" />
+    <ProjectReference Include="..\CipherKey.Crypt\CipherKey.Crypt.csproj" />
     <ProjectReference Include="..\CipherKey.Services\CipherKey.Services.csproj" />
+    <ProjectReference Include="..\Module.Passwords\Module.Passwords.csproj" />
   </ItemGroup>
 
   <ItemGroup>
