@@ -112,5 +112,34 @@ namespace CipherKey.Services.Password
 			_passwordService.Add(password);
 			return new CipherResult<bool> { ResultData = true };
 		}
+
+		public CipherResult<bool> DeletePassword(PasswordBase password)
+		{
+			Predicate<PasswordBase> foundPassword = pred => pred == password;
+			_passwordService.Delete(foundPassword);
+			return new CipherResult<bool> { ResultData = true };
+		}
+
+		public CipherResult<bool> ChangePassword(PasswordBase password)
+		{
+			Predicate<PasswordBase> match = pred => pred.Created == password.Created;
+			Action<PasswordBase> update = pred =>
+			{
+				pred.Name = password.Name;
+				pred.Note = password.Note;
+				pred.Password = password.Password;
+				pred.PasswordEntryDesign = password.PasswordEntryDesign;
+				pred.PasswordProperties = password.PasswordProperties;
+				pred.PasswordScore = password.PasswordScore;
+				pred.PasswordType = password.PasswordType;
+				pred.StorageType = password.StorageType;
+				pred.Topic = password.Topic;
+				pred.Username = password.Username;
+				pred.Value = password.Value;
+				pred.Created = password.Created;
+			};
+			_passwordService.Update(match, update);
+			return new CipherResult<bool> { ResultData = true };
+		}
 	}
 }

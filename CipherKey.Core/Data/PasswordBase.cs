@@ -14,20 +14,38 @@ namespace CipherKey.Core.Password
 {
 	public class PasswordBase : BaseViewModel
     {
+        private bool _isEditOn;
+        [XmlIgnore]
+        public bool IsEditOn
+        {
+            get => _isEditOn;
+            set
+            {
+                _isEditOn = value;
+                OnPropertyChanged(nameof(IsEditOn));
+            }
+        }
+        [XmlIgnore]
+        public bool IsCopyEnabled { get; set; } = true;
         [XmlIgnore]
         private string _oldText = string.Empty;
 		[XmlIgnore]
 		public DispatcherTimer _clipboardTimer = new DispatcherTimer();
-		[XmlIgnore]
-        public int AvailableSeconds { get; set; } = 15;
-
+        [XmlIgnore]
+        public Nullable<int> AvailableSeconds { get; set; } = null;
+        public void DataChanged()
+        {
+            OnPropertyChanged(nameof(Name), nameof(Note), nameof(Password), nameof(PasswordEntryDesign), nameof(PasswordProperties), 
+                nameof(PasswordScore), nameof(PasswordType), nameof(StorageType), nameof(Topic), nameof(Username), nameof(Value));
+        }
 		public void StartClipboardTimer(string oldText)
 		{
+            IsCopyEnabled = false;
+			AvailableSeconds = 25;
             _oldText = oldText;
 			_clipboardTimer.Interval = TimeSpan.FromSeconds(1);
 			_clipboardTimer.Tick += ClipboardTimer_Tick;
-
-			// Start a task to run the timer
+            OnPropertyChanged(nameof(IsCopyEnabled));
 			Task.Run(() =>
 			{
 				_clipboardTimer.Start();
@@ -36,12 +54,15 @@ namespace CipherKey.Core.Password
 
 		private void ClipboardTimer_Tick(object? sender, EventArgs e)
 		{
-			AvailableSeconds--;
+			AvailableSeconds = AvailableSeconds -1;
             OnPropertyChanged(nameof(AvailableSeconds));
 			if (AvailableSeconds <= 0)
 			{
                 Clipboard.SetText(_oldText);
+                AvailableSeconds = null;
                 _clipboardTimer.Stop();
+                IsCopyEnabled = true;
+                OnPropertyChanged(nameof(IsCopyEnabled));
 			}
 		}
 

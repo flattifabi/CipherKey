@@ -10,6 +10,7 @@ namespace CipherKey.Core.Configurations
 {
     public interface IConfigurationService
     {
+		void Initialize();
 		CipherResult<bool> ChangeMasterPassword(string oldMasterPassword, string newMasterPassword);
 		CipherResult<bool> IsConfigured();
 		CipherResult<bool> SetMasterPassword(string enteredMasterPassword);

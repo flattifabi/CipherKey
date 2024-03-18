@@ -49,9 +49,11 @@ namespace CipherKey
 
 			services.AddSingleton<CreateTopic, CreateTopic>();
 			services.AddSingleton<CreatePassword, CreatePassword>();
+			services.AddSingleton<EditPassword, EditPassword>();
 		}
 		public void Run()
 		{
+			_serviceProvider.GetService<IConfigurationService>().Initialize();
 			FolderCryptor.DecryptFolder(FilePaths.PasswordStorageFilePath, IDGenerator.GetComputerID());
 			var configurationService = _serviceProvider.GetService<IConfigurationService>();
 			_startupView = _serviceProvider.GetService<Splash>() ?? new();
@@ -68,6 +70,7 @@ namespace CipherKey
 			_configurationView.DataContext = _configurationViewModel;
 
 			DoEventSubscription();
+			InitializeDefaultComponents();
 
 			if (!configurationService.IsConfigured().ResultData)
 				_configurationView.Show();
@@ -91,9 +94,9 @@ namespace CipherKey
 		}
 		public void InitializeDefaultComponents()
 		{
-			//var snackbarService = _serviceProvider.GetService<ISnackbarService>();
-			//var mainWindow = _serviceProvider.GetService<MainWindow>();
-			//snackbarService.SetSnackbarPresenter(mainWindow.SnackbarPresenter);
+			var snackbarService = _serviceProvider.GetService<ISnackbarService>();
+			var mainWindow = _serviceProvider.GetService<MainWindow>();
+			snackbarService.SetSnackbarPresenter(mainWindow.SnackbarPresenter);
 		}
 	}
 }

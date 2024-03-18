@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:CipherKey"
         mc:Ignorable="d"
         WindowStyle="None"
+                 
         xmlns:vm="clr-namespace:CipherKey.ViewModels"
-                 d:DataContext="{d:DesignInstance Type=vm:SplashViewModel}"
+        d:DataContext="{d:DesignInstance Type=vm:SplashViewModel}"
         ResizeMode="NoResize"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         WindowStartupLocation="CenterScreen"
-        Title="CipherKey | Login" Height="600" Width="800">
+        Title="CipherKey | Login" Height="600" Width="800" Icon="/assets/images/CodeQuestLogoWithoutText.png">
     <Grid>
         <Button BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15" Command="{Binding CloseCommand}">
             <ui:SymbolIcon Symbol="ArrowExit20" Foreground="Red" Height="20" Width="20" FontSize="20"/>
@@ -22,7 +23,7 @@
                 <TextBlock Text="CipherKey" FontSize="23" HorizontalAlignment="Center" Margin="0 5 0 0" FontWeight="SemiBold"/>
                 <TextBlock Text="Öffne deinen Passwort Tresor mit deinem Master-Passwort" Margin="0 5 0 0"/>
 
-                <TabControl Margin="0 20 0 0">
+                <TabControl Margin="0 20 0 0" BorderThickness="2" BorderBrush="Gray">
                     <TabItem Header="Lokal">
                         <StackPanel Orientation="Vertical">
                             <ui:PasswordBox x:Name="localMasterPassword" HorizontalAlignment="Stretch" PlaceholderEnabled="True" PlaceholderText="Master Passwort" Text="{Binding EnteredMasterPassword, UpdateSourceTrigger=PropertyChanged}" Margin="0 15 0 0"/>

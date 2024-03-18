@@ -6,10 +6,18 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <PackageIcon>CodeQuestLogoWithoutText.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="assets\images\CodeQuestLogoWithoutText.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\fabif\Desktop\CodeQuestLogoWithoutText.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

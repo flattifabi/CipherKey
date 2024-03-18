@@ -12,6 +12,8 @@ namespace CipherKey.Core.Password
     {
         CipherResult<List<PasswordBase>> GetPasswordsByTopic(string topic);
         CipherResult<bool> AddPassword(PasswordBase password);
+        CipherResult<bool> DeletePassword(PasswordBase password);
+		CipherResult<bool> ChangePassword(PasswordBase password);
         CipherResult<string> GetEncryptedPassword(string value, string masterPassword);
         CipherResult<string> GetDecryptedPassword(string value, string masterPassword);
     }

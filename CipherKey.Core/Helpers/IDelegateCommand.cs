@@ -44,43 +44,24 @@ namespace CipherKey.Core.Helpers
 	public class DelegateCommand<T> : IDelegateCommand
 	{
 		private readonly Action<T> _execute;
-		private readonly Func<T, bool> _canExecute;
 
-		public DelegateCommand(Action<T> execute) : this(execute, null)
+		public DelegateCommand(Action<T> execute)
 		{
-		}
-
-		public DelegateCommand(Action<T> execute, Func<T, bool> canExecute)
-		{
-			_execute = execute ?? throw new ArgumentNullException(nameof(execute));
-			_canExecute = canExecute;
-		}
-
-		public event EventHandler CanExecuteChanged
-		{
-			add => CommandManager.RequerySuggested += value;
-			remove => CommandManager.RequerySuggested -= value;
+			_execute = execute;
 		}
 
 		public bool CanExecute(object parameter)
 		{
-			if (parameter != null && parameter is T typedParameter)
-			{
-				return _canExecute?.Invoke(typedParameter) ?? true;
-			}
-			return _canExecute?.Invoke(default(T)) ?? true;
+			return true;
 		}
 
 		public void Execute(object parameter)
 		{
-			if (parameter != null && parameter is T typedParameter)
-			{
-				_execute(typedParameter);
-			}
-			else
-			{
-				_execute(default(T));
-			}
+			_execute((T)parameter);
 		}
+
+#pragma warning disable CS0067 // Das Ereignis "TypeRelayCommand<T>.CanExecuteChanged" wird nie verwendet.
+		public event EventHandler CanExecuteChanged;
+#pragma warning restore CS0067 // Das Ereignis "TypeRelayCommand<T>.CanExecuteChanged" wird nie verwendet.
 	}
 }

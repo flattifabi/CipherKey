@@ -19,10 +19,13 @@ namespace CipherKey.Services.Configuration
 		private XmlService<Topic> _topicService;
 		public ConfigurationService()
 		{
-			FilePaths.CreateBaseFilePath();
 			_topicService = new XmlService<Topic>(FilePaths.PasswordStorageFilePath + FilePaths.TopicFileName);
 			_passwordService = new XmlService<PasswordBase>(FilePaths.PasswordStorageFilePath + FilePaths.PasswordsFileName);
 			_applicationConfigurationService = new XmlService<ApplicationConfiguration>(FilePaths.PasswordStorageFilePath + FilePaths.ApplicationConfigurationFileName);
+		}
+		public void Initialize()
+		{
+			FilePaths.CreateBaseFilePath();
 			SetApplicationConfiguration();
 		}
 		private void SetApplicationConfiguration()
