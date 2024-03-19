@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{10B1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module.Passwords", "Module.Passwords\Module.Passwords.csproj", "{0F812E09-A505-488F-A0FC-8C10FC07A4C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CipherKey.Management", "CipherKey.Management\CipherKey.Management.csproj", "{20CA6FF4-8F31-4547-8DED-0B2CDD76289D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{0F812E09-A505-488F-A0FC-8C10FC07A4C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F812E09-A505-488F-A0FC-8C10FC07A4C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F812E09-A505-488F-A0FC-8C10FC07A4C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20CA6FF4-8F31-4547-8DED-0B2CDD76289D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20CA6FF4-8F31-4547-8DED-0B2CDD76289D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20CA6FF4-8F31-4547-8DED-0B2CDD76289D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20CA6FF4-8F31-4547-8DED-0B2CDD76289D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
