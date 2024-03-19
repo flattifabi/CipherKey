@@ -10,6 +10,9 @@
         xmlns:converter="clr-namespace:CipherKey.Core.Converter;assembly=CipherKey.Core"
         WindowStartupLocation="CenterScreen"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        ui:ExtendsContentIntoTitleBar="True"
+        ResizeMode="NoResize"
+        ui:WindowCornerPreference="Round"
         Title="CipherKey" Height="600" Width="950">
     <ui:FluentWindow.Resources>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -29,7 +32,7 @@
     </ui:FluentWindow.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="80"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -52,7 +55,7 @@
 
         <!-- Right Window Commands -->
         <StackPanel Panel.ZIndex="99" Orientation="Horizontal" Grid.ColumnSpan="100" Grid.RowSpan="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15">
-            <Button BorderThickness="0" Grid.ColumnSpan="100" Grid.RowSpan="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5 0 0 0" Command="{Binding CloseCommand}">
+            <Button BorderThickness="0" Grid.ColumnSpan="100" Grid.RowSpan="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5 0 0 0" Command="{Binding MinimizeCommand}">
                 <ui:SymbolIcon Symbol="ArrowMinimize16" Foreground="Orange" Height="20" Width="20" FontSize="20"/>
             </Button>
             <Button BorderThickness="0" Grid.ColumnSpan="100" Grid.RowSpan="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5 0 0 0" Command="{Binding CloseCommand}">
@@ -60,48 +63,47 @@
             </Button>
         </StackPanel>
 
-        <ui:NavigationView
-            x:Name="RootNavigation"
-            Grid.Row="1"
-            Padding="42,0,42,0"
-            BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
-            FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
-            FrameMargin="0"
-            IsBackButtonVisible="Visible"
-            IsPaneToggleVisible="True"
-            MenuItemsSource="{Binding MenuItems, UpdateSourceTrigger=PropertyChanged}"
-            PaneDisplayMode="LeftFluent">
-            <ui:NavigationView.Header>
-                <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
-            </ui:NavigationView.Header>
-        </ui:NavigationView>
-       
-        <!--<ItemsControl Grid.Row="1" Focusable="True" Background="Transparent" Grid.Column="0" ItemsSource="{Binding Modules, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <ItemsControl.ItemsPanel>
+        <ListView ItemsSource="{Binding Modules, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding SelectedModule, UpdateSourceTrigger=PropertyChanged}" 
+                  HorizontalAlignment="Left" Margin="5 0 0 0" Grid.Row="1">
+            <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Background="Transparent" Orientation="Vertical"/>
+                    <StackPanel Orientation="Vertical"/>
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Button HorizontalAlignment="Center" Height="60" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                        <ui:SymbolIcon Symbol="{Binding Symbol.Symbol}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 -5 10 5">
-                            <ui:SymbolIcon.RenderTransform>
-                                <ScaleTransform ScaleX="2" ScaleY="2"/>
-                            </ui:SymbolIcon.RenderTransform>
-                        </ui:SymbolIcon>
-                    </Button>
+                    <Grid Background="Transparent" Width="55" Height="55">
+
+                        <ui:SymbolIcon Symbol="{Binding Symbol.Symbol, UpdateSourceTrigger=PropertyChanged}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="{Binding ModuleName}"/>
+                        </ToolTipService.ToolTip>
+                        <ToolTipService.InitialShowDelay>500</ToolTipService.InitialShowDelay>
+                    </Grid>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>-->
-        <Border Width="2" Margin="2 0 2 0" Grid.Row="1" HorizontalAlignment="Right">
+            </ListView.ItemTemplate>
+        </ListView>
+        <Border Width="2" Margin="2 0 2 0" Grid.Row="1" HorizontalAlignment="Right" CornerRadius="100">
             <Border.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush x:Name="GradientBrush" EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF1730FF" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset=".7"/>
+                    <GradientStop x:Name="TransparentStop" Color="Transparent" Offset=".4"/>
                 </LinearGradientBrush>
             </Border.Background>
-
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                        Storyboard.TargetName="TransparentStop"
+                        Storyboard.TargetProperty="Offset"
+                        From="0.4" To="1" Duration="0:0:1"
+                        AccelerationRatio="0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
         </Border>
 
         <ContentControl Margin="5 0 0 0" Content="{Binding SelectedModule.View, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="9999" Grid.Row="1" Grid.Column="1"/>

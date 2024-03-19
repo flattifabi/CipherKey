@@ -25,26 +25,28 @@ namespace CipherKey.ViewModels
         private IModuleBase _selectedModule;
 		internal string MasterPassword;
 
-        public ObservableCollection<object> MenuItems { get; set; } = new()
-        {
-            new NavigationViewItem()
-            {
-                Content = "Password",
-                Icon = new SymbolIcon { Symbol = SymbolRegular.Key24 }
-            }
-        };
 		public ObservableCollection<IModuleBase> Modules { get; set; } = new ObservableCollection<IModuleBase>();
 
+        public IDelegateCommand CloseCommand => new DelegateCommand(() => Application.Current.Shutdown());
+        public IDelegateCommand MinimizeCommand => new DelegateCommand(() =>
+        {
+            _mainWindow.WindowState = WindowState.Minimized;
+        });
+
+        private readonly MainWindow _mainWindow;
         private readonly PasswordModule _passwordModule;
-        public MainWindowViewModel(PasswordModule passwordModule)
+        public MainWindowViewModel(PasswordModule passwordModule, MainWindow mainWindow)
         {
             _passwordModule = passwordModule;
+            _mainWindow = mainWindow;
         }
         public void Initialize()
         {
             Modules.Add(_passwordModule);
             foreach(var module in Modules)
                 module.Initialize();
+
+            SelectedModule = Modules.First();
         }
         public IModuleBase SelectedModule
         {

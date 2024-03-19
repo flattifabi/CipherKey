@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -11,6 +13,31 @@ namespace CipherKey.Crypt
 	{
 		public static string Path { get; set; }
 		public static string Key { get; set; }
+
+		public static void CompressAndEncryptFolder(string folderPath, string? key = null)
+		{
+			string zipFilePath = System.IO.Path.Combine(Path, "temp.zip");
+			ZipFile.CreateFromDirectory(folderPath, zipFilePath);
+
+			byte[] zipFileBytes = File.ReadAllBytes(zipFilePath);
+			byte[] encryptedZipBytes = Encrypt(zipFileBytes, key ?? Key);
+			File.WriteAllBytes(Path + ".cipher", encryptedZipBytes);
+			File.Delete(zipFilePath);
+		}
+
+		public static void DecryptAndDecompressFolder(string outputPath, string? key = null)
+		{
+			byte[] encryptedZipBytes = File.ReadAllBytes(Path + ".cipher");
+			byte[] decryptedZipBytes = Decrypt(encryptedZipBytes, key ?? Key);
+			string tempZipFilePath = System.IO.Path.Combine(Path, "temp.zip");
+			File.WriteAllBytes(tempZipFilePath, decryptedZipBytes);
+			ZipFile.ExtractToDirectory(tempZipFilePath, outputPath);
+			File.Delete(tempZipFilePath);
+		}
+
+
+
+
 		public static void Save(T data)
 		{
 			XmlSerializer serializer = new XmlSerializer(typeof(T));
