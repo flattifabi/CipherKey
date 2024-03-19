@@ -68,7 +68,7 @@ namespace CipherKey.Crypt
 				return (T)serializer.Deserialize(memoryStream);
 			}
 		}
-		private static byte[] Encrypt(byte[] data, string key)
+		public static byte[] Encrypt(byte[] data, string key)
 		{
 			byte[] keyBytes = Encoding.UTF8.GetBytes(key);
 			byte[] encryptedData = new byte[data.Length];
@@ -79,7 +79,7 @@ namespace CipherKey.Crypt
 			return encryptedData;
 		}
 
-		private static byte[] Decrypt(byte[] data, string key)
+		public static byte[] Decrypt(byte[] data, string key)
 		{
 			return Encrypt(data, key);
 		}
