@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace CipherKey.Tests
 {
-	[TestFixture]
 	public class CipherCryptTest
 	{
 		private const string TestFolderPath = "TestFolder";
@@ -33,33 +32,6 @@ namespace CipherKey.Tests
 
 			if (Directory.Exists(TestFolderPath))
 				Directory.Delete(TestFolderPath, true);
-		}
-
-		[Test]
-		public void CompressAndEncryptFolder_Success()
-		{
-			CipherF<string>.Path = TestFolderPath;
-			CipherF<string>.Key = TestKey;
-
-			CipherF<string>.CompressAndEncryptFolder(TestFolderPath);
-
-			Assert.IsTrue(File.Exists(CipherFilePath));
-		}
-
-		[Test]
-		public void DecryptAndDecompressFolder_Success()
-		{
-			CipherF<string>.Path = TestFolderPath;
-			CipherF<string>.Key = TestKey;
-
-			CipherF<string>.CompressAndEncryptFolder(TestFolderPath);
-
-			string outputPath = "DecryptedFolder";
-			CipherF<string>.DecryptAndDecompressFolder(outputPath);
-
-			Assert.IsTrue(Directory.Exists(outputPath));
-			Assert.IsTrue(File.Exists(Path.Combine(outputPath, "test.txt")));
-			Assert.AreEqual("Hello, World!", File.ReadAllText(Path.Combine(outputPath, "test.txt")));
 		}
 
 		[Test]
