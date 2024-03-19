@@ -1,4 +1,5 @@
-﻿using CipherKey.Core.UserControls;
+﻿using CipherKey.Core.Interfaces;
+using CipherKey.Core.UserControls;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -32,5 +33,30 @@ namespace CipherKey
 		{
 			DragMove();
 		}
-	}
+
+        private void SymbolIcon_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is FrameworkElement element && element.DataContext is IModuleBase item)
+            {
+                var listView = FindAncestor<ListView>(element);
+                if (listView != null)
+                {
+                    listView.SelectedItem = item;
+                }
+            }
+        }
+        public static T FindAncestor<T>(DependencyObject dependencyObject) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(dependencyObject);
+
+            if (parent == null) return null;
+
+            if (parent is T parentT)
+            {
+                return parentT;
+            }
+
+            return FindAncestor<T>(parent);
+        }
+    }
 }

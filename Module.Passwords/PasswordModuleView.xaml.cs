@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
 
 namespace Module.Passwords
 {
@@ -25,7 +26,8 @@ namespace Module.Passwords
 		{
 			InitializeComponent();
 		}
-		private void Grid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        private void Grid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.Source is not ContentControl)
 			{

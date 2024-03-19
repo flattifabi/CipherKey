@@ -35,7 +35,7 @@ namespace CipherKey.Services.Configuration
 			if (!IsConfigured().ResultData)
 			{
 				var t = CipherF<CipherStorage>.Load();
-				t.ApplicationConfiguration = new ApplicationConfiguration();
+				t = new CipherStorage();
 				t.Topics.Add(new Topic()
 				{
 					Name = "Allgemein",
@@ -58,13 +58,20 @@ namespace CipherKey.Services.Configuration
 
 		public CipherResult<bool> IsConfigured()
 		{
-			var cipherData = CipherF<CipherStorage>.Load();
-			var applicationConfiguration = cipherData.ApplicationConfiguration;
-            if (applicationConfiguration != null && !string.IsNullOrEmpty(applicationConfiguration.MasterPassword))
-            {
-				return new CipherResult<bool> { ResultData = true };
+			try
+			{
+                var cipherData = CipherF<CipherStorage>.Load();
+                var applicationConfiguration = cipherData.ApplicationConfiguration;
+                if (applicationConfiguration != null && !string.IsNullOrEmpty(applicationConfiguration.MasterPassword))
+                {
+                    return new CipherResult<bool> { ResultData = true };
+                }
+                return new CipherResult<bool> { ResultData = false };
+            }
+			catch(Exception e)
+			{
+				return new CipherResult<bool> { ResultData = false };
 			}
-			return new CipherResult<bool> { ResultData = false };
 		}
 
 		public CipherResult<bool> SetMasterPassword(string enteredMasterPassword)

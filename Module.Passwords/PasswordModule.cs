@@ -13,7 +13,7 @@ namespace Module.Passwords
 	{
 		public string ModuleName => "Passwort Tresor";
 		public Control View { get; set; }
-		public SymbolIcon Symbol { get; set; } = new SymbolIcon() { Symbol = SymbolRegular.Key32 };
+		public SymbolIcon Symbol { get; set; } = new SymbolIcon() { Symbol = SymbolRegular.Key32, FontSize = 25 };
 		private PasswordModuleViewModel _viewModel;
 		private PasswordModuleView _view;
 		public PasswordModule(PasswordModuleView view, PasswordModuleViewModel viewModel)
