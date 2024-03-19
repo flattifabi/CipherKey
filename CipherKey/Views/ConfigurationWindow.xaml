@@ -1,0 +1,42 @@
+﻿<ui:FluentWindow x:Class="CipherKey.Views.ConfigurationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CipherKey.Views"
+        mc:Ignorable="d"
+        xmlns:vm="clr-namespace:CipherKey.ViewModels"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance Type=vm:ConfigurationViewModel}"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        WindowStartupLocation="CenterScreen"
+        Title="CipherKey | Einrichten" Height="600" Width="400">
+    <Grid>
+        <Button BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15" Command="{Binding CloseCommand}">
+            <ui:SymbolIcon Symbol="ArrowExit20" Foreground="Red" Height="20" Width="20" FontSize="20"/>
+        </Button>
+
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Image Source="/assets/images/CodeQuestLogoWithoutText.png" Height="100" Width="100" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <TextBlock Text="ClipherKey" Margin="0 7 0 0" HorizontalAlignment="Center"/>
+
+            <TextBlock Margin="10" Text="Als Passwort-Tresor für dich oder für dein Team, ClipherKey ist der richtige und wichtige Weg! Mit einigen Sicherheitsprozesse zählt ClipherKey zu einer der Sichersten Passwort-Safes der Welt!" TextWrapping="Wrap"/>
+
+            <StackPanel Orientation="Vertical" Margin="10 15 10 0">
+                <TextBlock Text="Master-Passwort vergeben" FontWeight="Bold"/>
+                <ui:PasswordBox x:Name="password" MinWidth="200" Margin="0 7 0 0" PlaceholderEnabled="True" PlaceholderText="Master-Passwort" />
+                <ui:PasswordBox x:Name="repeatPassword" MinWidth="200" Margin="0 7 0 0" PlaceholderEnabled="True" PlaceholderText="Master-Passwort wiederholen" />
+                <TextBlock Text="* Dein Masterpasswort ist der einzige schlüssel zu deinem Passwort Tresor" TextWrapping="Wrap" Opacity=".3" Margin="0 5 0 0"/>
+                <Button Margin="0 15 0 0" HorizontalAlignment="Right" Command="{Binding CreateCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Symbol="LockClosed12" FontSize="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Erstellen" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</ui:FluentWindow>

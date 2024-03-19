@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PackageIcon>CodeQuestLogoWithoutText.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="assets\images\CodeQuestLogoWithoutText.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\fabif\Desktop\CodeQuestLogoWithoutText.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="WPF-UI" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CipherKey.Core\CipherKey.Core.csproj" />
+    <ProjectReference Include="..\CipherKey.Crypt\CipherKey.Crypt.csproj" />
+    <ProjectReference Include="..\CipherKey.Services\CipherKey.Services.csproj" />
+    <ProjectReference Include="..\Module.Passwords\Module.Passwords.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="assets\images\CodeQuestLogoWithoutText.png" />
+  </ItemGroup>
+
+</Project>
