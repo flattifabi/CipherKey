@@ -10,6 +10,7 @@ using CipherKey.Services.Password;
 using CipherKey.ViewModels;
 using CipherKey.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Module.Passwords;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace CipherKey
 		private void ConfigureServices(IServiceCollection services)
 		{
 			services.AddSingleton<ISnackbarService, SnackbarService>();
+			services.AddSingleton<IContentDialogService, ContentDialogService>();
 			services.AddSingleton<IConfigurationService, ConfigurationService>();
 			services.AddSingleton<IPasswordService, PasswordService>();
 
@@ -111,7 +113,10 @@ namespace CipherKey
 		public void InitializeDefaultComponents()
 		{
 			var snackbarService = _serviceProvider.GetService<ISnackbarService>();
+			var dialogService = _serviceProvider.GetService<IContentDialogService>();
 			var mainWindow = _serviceProvider.GetService<MainWindow>();
+
+			dialogService.SetContentPresenter(mainWindow.ContentPresenter);
 			snackbarService.SetSnackbarPresenter(mainWindow.SnackbarPresenter);
 		}
 		public void ConfigureCipherFile()

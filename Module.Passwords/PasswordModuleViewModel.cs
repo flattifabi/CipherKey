@@ -14,6 +14,8 @@ using System.Windows;
 using Wpf.Ui;
 using CipherKey.Crypt;
 using CipherKey.Core.Data;
+using Wpf.Ui.Extensions;
+using Wpf.Ui.Controls;
 
 namespace Module.Passwords
 {
@@ -22,13 +24,14 @@ namespace Module.Passwords
 		#region Fields
 
 		private readonly IConfigurationService _configurationService;
+		private readonly IPasswordService _passwordService;
+		private readonly ISnackbarService _snackbarService;
+		private readonly IContentDialogService _contentDialogService;
 		private readonly CreatePassword _createPasswordView;
 		private readonly CreateTopic _createTopicView;
 		private readonly EditPassword _editPassword;
 		private readonly PasswordBackupList _backupList;
 		private readonly CreateSource _createSource;
-		private readonly IPasswordService _passwordService;
-		private readonly ISnackbarService _snackbarService;
 		private readonly PasswordModuleView _view;
 		private Control _moduleView;
 		private Topic _selectedTopic;
@@ -40,7 +43,7 @@ namespace Module.Passwords
 
 		public PasswordModuleViewModel(IConfigurationService configurationService, IPasswordService passwordService, ISnackbarService snackbarService,
 			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword, 
-			PasswordBackupList backupList, CreateSource createSource)
+			PasswordBackupList backupList, CreateSource createSource, IContentDialogService contentDialogService)
 		{
 			_configurationService = configurationService;
 			_view = view;
@@ -51,6 +54,7 @@ namespace Module.Passwords
 			_editPassword = editPassword;
 			_backupList = backupList;
 			_createSource = createSource;
+			_contentDialogService = contentDialogService;
 		}
 
 		#endregion Public Constructors
@@ -121,10 +125,21 @@ namespace Module.Passwords
 		private void OnSourceWantToAdd(object? sender, string e)
 		{
 			var checkIfSourceIsValid = CipherF<CipherStorage>.IsRemoteSourceValid(e);
-			if(!checkIfSourceIsValid)
+			if (!checkIfSourceIsValid)
 			{
 				_snackbarService.Show("Fehler", "Der Tresorpfad ist nicht gültig. Überprüfe den Pfad und die Datei", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
+				return;
 			}
+			var result = _contentDialogService.ShowAsync(new ContentDialog()
+			{
+				Title = "Passwort eingeben",
+				Content = "Bitte gib das Masterpasswort für den geteilten Tresor ein",
+				PrimaryButtonText = "OK",
+				SecondaryButtonText = "Abbrechen",
+				DefaultButton = ContentDialogButton.Primary,
+				IsPrimaryButtonEnabled = false,
+				IsSecondaryButtonEnabled = true,
+			}, new CancellationToken());
 		}
 
 		#endregion Public Methods

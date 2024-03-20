@@ -38,6 +38,8 @@ namespace CipherKey.Core.UserControls
 		private string _remotePath;
 		public IDelegateCommand AddRemoteSourceCommand => new DelegateCommand(OnAddRemoteSource);
 		public IDelegateCommand SelectRemoteCreateFolderPathCommand => new DelegateCommand(OnSelectRemoteCreateFolderPath);
+		public IDelegateCommand SelectRemotePasswordSafeCommand => new DelegateCommand(OnSelectRemotePasswordSafe);
+
 		public IDelegateCommand CreateRemoteSourceCommand => new DelegateCommand(OnCreateRemoteSource);
 
 		private readonly ISnackbarService _snackbarService;
@@ -51,6 +53,7 @@ namespace CipherKey.Core.UserControls
 		{
 			RemoteAdressWantToAdd?.Invoke(this, RemotePath);
 		}
+		
 		private void OnCreateRemoteSource()
 		{
 			var fullPath = System.IO.Path.Combine(RemoteCreateFolderPath, RemoteCreateFileName + ".cipher");
@@ -72,7 +75,6 @@ namespace CipherKey.Core.UserControls
 				_snackbarService.Show("Erstellt", $"Der geteilte Tresor {RemoteCreateFileName} wurde erfolgreich erstellt", Wpf.Ui.Controls.ControlAppearance.Success,null, new TimeSpan(0, 0, 5));
 			else
 				_snackbarService.Show("Fehler", $"Der geteilte Tresor {RemoteCreateFileName} konnte nicht erstellt werden", Wpf.Ui.Controls.ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
-
 		}
 		public string RemotePath
 		{
@@ -128,7 +130,14 @@ namespace CipherKey.Core.UserControls
 			if(dialog.ShowDialog() == CommonFileDialogResult.Ok)
 				RemoteCreateFolderPath = dialog.FileName;
 		}
-
+		private void OnSelectRemotePasswordSafe()
+		{
+			var dialog = new CommonOpenFileDialog();
+			dialog.IsFolderPicker = false;
+			dialog.Filters.Add(new CommonFileDialogFilter("CipherKey", "*.cipher"));
+			if(dialog.ShowDialog() == CommonFileDialogResult.Ok)
+				RemotePath = dialog.FileName;
+		}
 		public event PropertyChangedEventHandler? PropertyChanged;
 		public void OnPropertyChanged([CallerMemberName] string propertyName = "")
 		{
