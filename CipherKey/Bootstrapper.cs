@@ -56,6 +56,7 @@ namespace CipherKey
 			services.AddSingleton<CreatePassword, CreatePassword>();
 			services.AddSingleton<EditPassword, EditPassword>();
 			services.AddSingleton<PasswordBackupList, PasswordBackupList>();
+			services.AddSingleton<CreateSource, CreateSource>();
 
 			/* Modules */
 			services.AddSingleton<PasswordModuleView>();

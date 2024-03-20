@@ -21,11 +21,12 @@ namespace CipherKey.Services.Configuration
 
         public ConfigurationService()
 		{ }
-        #endregion Public Constructors
 
-        #region Public Methods
+		#endregion Public Constructors
 
-        public CipherResult<bool> AddTopic(Topic topic)
+		#region Public Methods
+
+		public CipherResult<bool> AddTopic(Topic topic)
         {
             var t = CipherF<CipherStorage>.Load();
             t.Topics.Add(topic);
@@ -56,7 +57,12 @@ namespace CipherKey.Services.Configuration
             return new CipherResult<bool> { ResultData = true };
         }
 
-        public CipherResult<List<Topic>> GetTopics()
+		public CipherResult<List<string>> GetRemoteAdresses()
+		{
+			throw new NotImplementedException();
+		}
+
+		public CipherResult<List<Topic>> GetTopics()
         {
             CipherF<CipherStorage>.Load();
             return new CipherResult<List<Topic>> { ResultData = CipherF<CipherStorage>.Load().Topics };
@@ -85,7 +91,7 @@ namespace CipherKey.Services.Configuration
             }
         }
 
-        public CipherResult<bool> SetMasterPassword(string enteredMasterPassword)
+		public CipherResult<bool> SetMasterPassword(string enteredMasterPassword)
         {
             var f = CipherF<CipherStorage>.Load();
             f.ApplicationConfiguration.MasterPassword = enteredMasterPassword.Hash();
@@ -107,12 +113,30 @@ namespace CipherKey.Services.Configuration
             CipherF<CipherStorage>.Save(t);
             return new CipherResult<bool> { ResultData = true };
         }
+		public CipherResult<bool> AddRemoteAddress(string address)
+		{
+			var t = CipherF<CipherStorage>.Load();
+			t.ApplicationConfiguration.RemoteAddresses.Add(new RemoteAdressData() { FilePath = address });
+			CipherF<CipherStorage>.Save(t);
+			return new CipherResult<bool> { ResultData = true };
+		}
+		public CipherResult<bool> RemoveRemoteAddress(string address)
+		{
+			var t = CipherF<CipherStorage>.Load();
+            var remoteAddress = t.ApplicationConfiguration.RemoteAddresses.FirstOrDefault(x => x.FilePath == address);
+            if(remoteAddress != null)
+            {
+				t.ApplicationConfiguration.RemoteAddresses.Remove(remoteAddress);
+				CipherF<CipherStorage>.Save(t);
+                return new CipherResult<bool> { ResultData = true };
+			}
+            return new CipherResult<bool> { ResultData = false, ErrorText = "Adress not available on personal source" };
+		}
+		#endregion Public Methods
 
-        #endregion Public Methods
+		#region Private Methods
 
-        #region Private Methods
-
-        private void SetApplicationConfiguration()
+		private void SetApplicationConfiguration()
         {
 			if (!IsConfigured().ResultData)
 			{

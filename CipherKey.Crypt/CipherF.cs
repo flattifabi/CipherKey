@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CipherKey.Crypt
 {
@@ -37,7 +38,7 @@ namespace CipherKey.Crypt
 
 
 
-
+		
 		public static void Save(T data)
 		{
 			XmlSerializer serializer = new XmlSerializer(typeof(T));
@@ -88,6 +89,68 @@ namespace CipherKey.Crypt
 			if(!File.Exists(Path))
 			{
 				Save(default(T));
+			}
+		}
+		public static void CreateIfNotExists(string path, string key)
+		{
+			if (!File.Exists(path))
+				SaveRemote(path, key, default(T));
+		}
+		public static bool IsRemoteSourceValid(string address)
+		{
+			if(File.Exists(address))
+			{
+				if(address.EndsWith(".cipher"))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		/// <summary>
+		/// Load the file from the remote address and decrypt it using the key (Network drive)
+		/// </summary>
+		/// <param name="address"></param>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public static T LoadRemote(string address, string key)
+		{
+			byte[] encryptedBytes = File.ReadAllBytes(address);
+			byte[] decryptedBytes = Decrypt(encryptedBytes, key);
+
+			XmlSerializer serializer = new XmlSerializer(typeof(T));
+			using (MemoryStream memoryStream = new MemoryStream(decryptedBytes))
+			{
+				return (T)serializer.Deserialize(memoryStream);
+			}
+		}
+		/// <summary>
+		/// Save the file to the remote address and encrypt it using the key (Network drive)
+		/// </summary>
+		/// <param name="address"></param>
+		/// <param name="key"></param>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public static bool SaveRemote(string address, string key, T data)
+		{
+			try
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(T));
+				using (MemoryStream memoryStream = new MemoryStream())
+				{
+					serializer.Serialize(memoryStream, data);
+					byte[] encryptedBytes = Encrypt(memoryStream.ToArray(), key);
+					if (!File.Exists(address))
+					{
+						File.Create(address).Close();
+					}
+					File.WriteAllBytes(address, encryptedBytes);
+				}
+				return true;
+			}
+			catch(Exception e)
+			{
+				return false;
 			}
 		}
 	}

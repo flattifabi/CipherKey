@@ -12,6 +12,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows;
 using Wpf.Ui;
+using CipherKey.Crypt;
+using CipherKey.Core.Data;
 
 namespace Module.Passwords
 {
@@ -24,6 +26,7 @@ namespace Module.Passwords
 		private readonly CreateTopic _createTopicView;
 		private readonly EditPassword _editPassword;
 		private readonly PasswordBackupList _backupList;
+		private readonly CreateSource _createSource;
 		private readonly IPasswordService _passwordService;
 		private readonly ISnackbarService _snackbarService;
 		private readonly PasswordModuleView _view;
@@ -36,7 +39,8 @@ namespace Module.Passwords
 		#region Public Constructors
 
 		public PasswordModuleViewModel(IConfigurationService configurationService, IPasswordService passwordService, ISnackbarService snackbarService,
-			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword, PasswordBackupList backupList)
+			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword, 
+			PasswordBackupList backupList, CreateSource createSource)
 		{
 			_configurationService = configurationService;
 			_view = view;
@@ -46,6 +50,7 @@ namespace Module.Passwords
 			_snackbarService = snackbarService;
 			_editPassword = editPassword;
 			_backupList = backupList;
+			_createSource = createSource;
 		}
 
 		#endregion Public Constructors
@@ -61,6 +66,9 @@ namespace Module.Passwords
 		public IDelegateCommand DeletePasswordEntry => new DelegateCommand<PasswordBase>(OnDeletePasswordEntry);
 		public IDelegateCommand EditPasswordCommand => new DelegateCommand<PasswordBase>(OnEditPasswordEntry);
 		public IDelegateCommand OpenPasswordBackupCommand => new DelegateCommand<PasswordBase>(OnOpenPasswordBackup);
+		public IDelegateCommand AddSourceCommand => new DelegateCommand(OnAddSource);
+
+		
 
 		public string MasterPassword { get; set; } = string.Empty;
 		public Control ModuleView
@@ -98,6 +106,7 @@ namespace Module.Passwords
 			_createTopicView.TopicCreated += OnTopicCreated;
 			_createPasswordView.PasswordCreated += OnPasswordCreated;
 			_editPassword.PasswordChanged += OnPasswordChanged;
+			_createSource.RemoteAdressWantToAdd += OnSourceWantToAdd;
 			_backupList.PasswordBackupSetEvent += (sender, e) =>
 			{
 				LoadPasswordsForSelectedTopic();
@@ -107,6 +116,15 @@ namespace Module.Passwords
 			};
 			SelectedTopic = Topics.FirstOrDefault();
 			OnPropertyChanged(nameof(Topics));
+		}
+
+		private void OnSourceWantToAdd(object? sender, string e)
+		{
+			var checkIfSourceIsValid = CipherF<CipherStorage>.IsRemoteSourceValid(e);
+			if(!checkIfSourceIsValid)
+			{
+				_snackbarService.Show("Fehler", "Der Tresorpfad ist nicht gültig. Überprüfe den Pfad und die Datei", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
+			}
 		}
 
 		#endregion Public Methods
@@ -179,6 +197,10 @@ namespace Module.Passwords
 			};
 			_editPassword.SetPasswordBase(passwordBase);
 			SetModuleView(_editPassword);
+		}
+		private void OnAddSource()
+		{
+			SetModuleView(_createSource);
 		}
 		private void OnOpenPasswordBackup(PasswordBase @base)
 		{

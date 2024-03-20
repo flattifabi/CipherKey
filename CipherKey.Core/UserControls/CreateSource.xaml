@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="CipherKey.Core.UserControls.CreateSource"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CipherKey.Core.UserControls"
+             mc:Ignorable="d" 
+             xmlns:converter="clr-namespace:CipherKey.Core.Converter"
+             d:DataContext="{d:DesignInstance Type=local:CreateSource}"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border Width="400" CornerRadius="15 0 0 15" BorderThickness="2" BorderBrush="{ui:ThemeResource ControlStrokeColorDefaultBrush}">
+        <Border.Background>
+            <SolidColorBrush Color="{ui:ThemeResource ApplicationBackgroundColor}"/>
+        </Border.Background>
+        <Grid>
+            <ScrollViewer>
+                <StackPanel Orientation="Vertical" Margin="10" VerticalAlignment="Top">
+
+                    <TextBlock Text="Tresor Verbindung hinzufügen" FontSize="17" FontWeight="Bold" Margin="0 10 0 0"/>
+                    <Border Background="Black" Height="2" HorizontalAlignment="Stretch" Margin="0 15 0 0" Opacity=".2"/>
+
+                    <Expander Header="Verbindung zu Laufwerk" Margin="0 10 0 0">
+                        <Expander.Content>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Bei einer Verbindung zum Laufwerk muss die Adresse der .cipher Datei eingegeben werden. Wende dich an den ersteller des Tresors" TextWrapping="Wrap"/>
+                                <ui:TextBox PlaceholderEnabled="True" Text="{Binding RemotePath, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Y:\Laufwerk\storage.cipher" Margin="0 5 0 0"/>
+                                <Button Content="Hinzufügen" Command="{Binding AddRemoteSourceCommand}" Margin="0 10 0 0" HorizontalAlignment="Right"/>
+                            </StackPanel>
+                        </Expander.Content>
+                    </Expander>
+
+                    <Expander Header="Tresor erstellen" Margin="0 10 0 0">
+                        <Expander.Content>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Erstelle einen Passwort Tresor auf welchen andere Personen mit den Masterpasswort zugreifen können. Keine Sorge, der ersteller kann jederzeit gezielt Rechner / Benutzer ausschließen" TextWrapping="Wrap"/>
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0 5 0 0">
+                                    <ui:TextBox PlaceholderEnabled="True" Text="{Binding RemoteCreateFolderPath, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" PlaceholderText="In welchen Ordner soll der" Margin="0 0 0 0" HorizontalAlignment="Stretch"/>
+                                    <Button Content="Dateiexplorer öffnen" Command="{Binding SelectRemoteCreateFolderPathCommand}" Margin="0 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                </WrapPanel>
+                                <ui:TextBox PlaceholderEnabled="True" Text="{Binding RemoteCreateFileName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" PlaceholderText="Dateiname (ohne .cipher)" Margin="0 10 0 0" HorizontalAlignment="Stretch"/>
+                                <ui:PasswordBox Text="{Binding RemoteCreateMasterPassword, UpdateSourceTrigger=PropertyChanged}" Margin="0 10 0 0" PlaceholderEnabled="True" PlaceholderText="Master-Passwort wählen" />
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0 10 0 0">
+                                    <Border BorderBrush="Transparent" CornerRadius="7" Padding="5">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="Gray" Opacity=".2" />
+                                        </Border.Background>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="Darf der Benutzer das Master-Passwort verschlüsselt abspeichern für eine schnelle und automatische verbindung beim start?" TextWrapping="Wrap"/>
+                                            <CheckBox Content="Erlauben" IsChecked="{Binding RemoteCreateRememberPasswordEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                                <Button Content="Erstellen" HorizontalAlignment="Right" Margin="0 10 0 0" Command="{Binding CreateRemoteSourceCommand}"/>
+                                <!--<Button Content="Hinzufügen" Command="{Binding AddRemoteSourceCommand}" Margin="0 10 0 0" HorizontalAlignment="Right"/>-->
+                            </StackPanel>
+                        </Expander.Content>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+    </Border>
+</UserControl>
