@@ -11,5 +11,6 @@ namespace CipherKey.Core.Data
     {
         public PasswordBase PasswordData { get; set; } = new();
         public DateTime ChangedAt { get; set; } = DateTime.Now;
+        public string Comment { get; set; } = string.Empty;
     }
 }

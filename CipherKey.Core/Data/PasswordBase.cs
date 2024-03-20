@@ -48,7 +48,8 @@ namespace CipherKey.Core.Password
                 _isCopyActive = value; OnPropertyChanged(nameof(IsCopyActive));
             }
         }
-
+        [XmlIgnore]
+        public string PasswordChangeComment { get; set; } = string.Empty;
         [XmlIgnore]
         public bool IsCopyEnabled { get; set; } = true;
 
@@ -94,6 +95,8 @@ namespace CipherKey.Core.Password
 
         [XmlAttribute]
         public string Value { get; set; } = string.Empty;
+        [XmlAttribute]
+        public Guid Guid { get; set; } = Guid.NewGuid();
 
         #endregion Public Properties
 

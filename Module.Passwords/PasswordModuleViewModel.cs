@@ -23,6 +23,7 @@ namespace Module.Passwords
 		private readonly CreatePassword _createPasswordView;
 		private readonly CreateTopic _createTopicView;
 		private readonly EditPassword _editPassword;
+		private readonly PasswordBackupList _backupList;
 		private readonly IPasswordService _passwordService;
 		private readonly ISnackbarService _snackbarService;
 		private readonly PasswordModuleView _view;
@@ -35,7 +36,7 @@ namespace Module.Passwords
 		#region Public Constructors
 
 		public PasswordModuleViewModel(IConfigurationService configurationService, IPasswordService passwordService, ISnackbarService snackbarService,
-			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword)
+			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword, PasswordBackupList backupList)
 		{
 			_configurationService = configurationService;
 			_view = view;
@@ -44,6 +45,7 @@ namespace Module.Passwords
 			_createPasswordView = createPasswordView;
 			_snackbarService = snackbarService;
 			_editPassword = editPassword;
+			_backupList = backupList;
 		}
 
 		#endregion Public Constructors
@@ -58,6 +60,8 @@ namespace Module.Passwords
 		public IDelegateCommand CreateTopicCommand => new DelegateCommand(OpenCreateTopic);
 		public IDelegateCommand DeletePasswordEntry => new DelegateCommand<PasswordBase>(OnDeletePasswordEntry);
 		public IDelegateCommand EditPasswordCommand => new DelegateCommand<PasswordBase>(OnEditPasswordEntry);
+		public IDelegateCommand OpenPasswordBackupCommand => new DelegateCommand<PasswordBase>(OnOpenPasswordBackup);
+
 		public string MasterPassword { get; set; } = string.Empty;
 		public Control ModuleView
 		{
@@ -94,6 +98,13 @@ namespace Module.Passwords
 			_createTopicView.TopicCreated += OnTopicCreated;
 			_createPasswordView.PasswordCreated += OnPasswordCreated;
 			_editPassword.PasswordChanged += OnPasswordChanged;
+			_backupList.PasswordBackupSetEvent += (sender, e) =>
+			{
+				LoadPasswordsForSelectedTopic();
+				_passwordService.RestorePasswordFromBackup(e.PasswordBase, e.PasswordBackupData);
+				_snackbarService.Show("Wiederhergestellt", "Das Passwort wurde wiederhergestellt", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
+				CloseModuleView();
+			};
 			SelectedTopic = Topics.FirstOrDefault();
 			OnPropertyChanged(nameof(Topics));
 		}
@@ -163,17 +174,23 @@ namespace Module.Passwords
 				PasswordScore = @base.PasswordScore,
 				Username = @base.Username,
 				Value = @base.Value,
-				Created = @base.Created
+				Created = @base.Created,
+				Guid = @base.Guid
 			};
 			_editPassword.SetPasswordBase(passwordBase);
 			SetModuleView(_editPassword);
+		}
+		private void OnOpenPasswordBackup(PasswordBase @base)
+		{
+			_backupList.SetPasswordBackup(@base.passwordBackups, @base);
+			SetModuleView(_backupList);
 		}
 
 		private void OnPasswordChanged(object? sender, PasswordBase e)
 		{
 			var decodedPassword = _passwordService.GetEncryptedPassword(e.Password, MasterPassword);
 			e.Password = decodedPassword.ResultData;
-			_passwordService.ChangePassword(e);
+			_passwordService.ChangePassword(e, e.PasswordChangeComment);
 			/* Update on UI */
 			var password = Passwords.Where(x => x.Created == e.Created).FirstOrDefault();
 			if (password != null)

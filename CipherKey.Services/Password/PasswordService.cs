@@ -33,17 +33,17 @@ namespace CipherKey.Services.Password
             return new CipherResult<bool> { ResultData = true };
         }
 
-        public CipherResult<bool> ChangePassword(PasswordBase password)
+        public CipherResult<bool> ChangePassword(PasswordBase password, string? comment = "")
         {
             var t = CipherF<CipherStorage>.Load();
-            var oldPassword = t.Passwords.FirstOrDefault(x => x.Created == password.Created);
+            var oldPassword = t.Passwords.FirstOrDefault(x => x.Guid == password.Guid);
             if (oldPassword != null)
             {
-                AddPasswordBackup(oldPassword);
                 t.Passwords.Remove(oldPassword);
                 t.Passwords.Add(password);
-                CipherF<CipherStorage>.Save(t);
-            }
+				t = AddPasswordBackup(oldPassword, t, comment);
+				CipherF<CipherStorage>.Save(t);
+			}
             return new CipherResult<bool> { ResultData = true };
         }
 
@@ -139,9 +139,9 @@ namespace CipherKey.Services.Password
         {
 			var f = CipherF<CipherStorage>.Load();
 			var passwords = f.Passwords.Where(x => x.Topic.ToLower() == topic.ToLower()).ToList();
-            foreach(var password in passwords) 
+            foreach(var password in passwords)
             {
-                var foundPasswordBackup = f.PasswordBackUps.Where(x => x.PasswordData == password).ToList();
+                var foundPasswordBackup = f.PasswordBackUps.Where(x => x.PasswordData.Created == password.Created).ToList();
                 password.passwordBackups = foundPasswordBackup;
             }
 			return new CipherResult<List<PasswordBase>> { ResultData = passwords };
@@ -150,12 +150,12 @@ namespace CipherKey.Services.Password
         public CipherResult<bool> RestorePasswordFromBackup(PasswordBase currentPassword, PasswordBackupData backupData)
         {
             var t = CipherF<CipherStorage>.Load();
-            var foundPassword = t.Passwords.Where(x => x == currentPassword).FirstOrDefault();
+            var foundPassword = t.Passwords.Where(x => x.Guid == currentPassword.Guid).FirstOrDefault();
             if(foundPassword == null)
-                t.Passwords.Add(backupData.PasswordData);
+                return new CipherResult<bool> { ResultData = false, ErrorText = "Password not found" };
             else
             {
-                t.Passwords.Remove(currentPassword);
+                t.Passwords.Remove(foundPassword);
                 t.Passwords.Add(backupData.PasswordData);
             }
             CipherF<CipherStorage>.Save(t);
@@ -166,12 +166,11 @@ namespace CipherKey.Services.Password
 
         #region Private Methods
 
-        private void AddPasswordBackup(PasswordBase passwordBase)
+        private CipherStorage AddPasswordBackup(PasswordBase passwordBase, CipherStorage cipherStorage, string? comment = "")
 		{
-			var t = CipherF<CipherStorage>.Load();
-			PasswordBackupData passwordBackupData = new PasswordBackupData() { PasswordData = passwordBase, ChangedAt=DateTime.Now};
-			t.PasswordBackUps.Add(passwordBackupData);
-			CipherF<CipherStorage>.Save(t);
+			PasswordBackupData passwordBackupData = new PasswordBackupData() { PasswordData = passwordBase, ChangedAt=DateTime.Now, Comment = comment};
+			cipherStorage.PasswordBackUps.Add(passwordBackupData);
+            return cipherStorage;
         }
 
         #endregion Private Methods
