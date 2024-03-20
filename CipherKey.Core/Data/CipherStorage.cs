@@ -13,5 +13,6 @@ namespace CipherKey.Core.Data
 		public List<Topic> Topics { get; set; } = new List<Topic> { };
 		public List<PasswordBase> Passwords { get; set; } = new List<PasswordBase> { };
 		public ApplicationConfiguration ApplicationConfiguration { get; set; } = new ApplicationConfiguration { };
+		public List<PasswordBackupData> PasswordBackUps { get; set; } = new List<PasswordBackupData> { };
 	}
 }

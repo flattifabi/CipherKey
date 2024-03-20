@@ -1,4 +1,5 @@
-﻿using CipherKey.Core.Enums;
+﻿using CipherKey.Core.Data;
+using CipherKey.Core.Enums;
 using CipherKey.Core.Helpers;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,43 @@ namespace CipherKey.Core.Password
 {
 	public class PasswordBase : BaseViewModel
     {
+        #region Public Fields
+
+        [XmlIgnore]
+        public DispatcherTimer _clipboardTimer = new DispatcherTimer();
+
+        #endregion Public Fields
+
+        #region Private Fields
+
+        private bool _isCopyActive;
         private bool _isEditOn;
+        [XmlIgnore]
+        private string _oldText = string.Empty;
+
+        #endregion Private Fields
+
+        #region Public Properties
+
+        [XmlIgnore]
+        public Nullable<int> AvailableSeconds { get; set; } = null;
+
+        [XmlAttribute]
+        public DateTime Created { get; set; } = DateTime.Now;
+
+        [XmlIgnore]
+        public bool IsCopyActive
+        {
+            get => _isCopyActive;
+            set
+            {
+                _isCopyActive = value; OnPropertyChanged(nameof(IsCopyActive));
+            }
+        }
+
+        [XmlIgnore]
+        public bool IsCopyEnabled { get; set; } = true;
+
         [XmlIgnore]
         public bool IsEditOn
         {
@@ -26,13 +63,42 @@ namespace CipherKey.Core.Password
             }
         }
         [XmlIgnore]
-        public bool IsCopyEnabled { get; set; } = true;
-        [XmlIgnore]
-        private string _oldText = string.Empty;
-		[XmlIgnore]
-		public DispatcherTimer _clipboardTimer = new DispatcherTimer();
-        [XmlIgnore]
-        public Nullable<int> AvailableSeconds { get; set; } = null;
+        public List<PasswordBackupData> passwordBackups { get; set; } = new List<PasswordBackupData> { };
+        [XmlAttribute]
+        public string Name { get; set; } = string.Empty;
+
+        [XmlAttribute]
+        public string Note { get; set; } = string.Empty;
+
+        [XmlAttribute]
+        public string Password { get; set; } = string.Empty;
+
+        public PasswordEntryDesign PasswordEntryDesign { get; set; } = new PasswordEntryDesign();
+
+        public PasswordProperties PasswordProperties { get; set; } = new PasswordProperties();
+
+        [XmlAttribute]
+        public int PasswordScore { get; set; }
+
+        [XmlAttribute]
+        public PasswordType PasswordType { get; set; } = PasswordType.Other;
+
+        [XmlAttribute]
+        public StorageType StorageType { get; set; } = StorageType.Local;
+
+        [XmlAttribute]
+        public string Topic { get; set; } = "General";
+
+        [XmlAttribute]
+        public string Username { get; set; } = string.Empty;
+
+        [XmlAttribute]
+        public string Value { get; set; } = string.Empty;
+
+        #endregion Public Properties
+
+        #region Public Methods
+
         public void DataChanged()
         {
             OnPropertyChanged(nameof(Name), nameof(Note), nameof(Password), nameof(PasswordEntryDesign), nameof(PasswordProperties), 
@@ -40,6 +106,8 @@ namespace CipherKey.Core.Password
         }
 		public void StartClipboardTimer(string oldText)
 		{
+            _clipboardTimer = new DispatcherTimer();
+            IsCopyActive = true;
             IsCopyEnabled = false;
 			AvailableSeconds = 25;
             _oldText = oldText;
@@ -50,43 +118,28 @@ namespace CipherKey.Core.Password
 			{
 				_clipboardTimer.Start();
 			});
-		}
+        }
 
-		private void ClipboardTimer_Tick(object? sender, EventArgs e)
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private void ClipboardTimer_Tick(object? sender, EventArgs e)
 		{
 			AvailableSeconds = AvailableSeconds -1;
             OnPropertyChanged(nameof(AvailableSeconds));
 			if (AvailableSeconds <= 0)
 			{
+                IsCopyActive = false;
                 Clipboard.SetText(_oldText);
                 AvailableSeconds = null;
                 _clipboardTimer.Stop();
+                _clipboardTimer = null;
                 IsCopyEnabled = true;
                 OnPropertyChanged(nameof(IsCopyEnabled));
 			}
-		}
+        }
 
-		[XmlAttribute]
-        public PasswordType PasswordType { get; set; } = PasswordType.Other;
-        [XmlAttribute]
-        public string Topic { get; set; } = "General";
-        [XmlAttribute]
-        public string Value { get; set; } = string.Empty;
-        [XmlAttribute]
-        public string Note { get; set; } = string.Empty;
-        [XmlAttribute]
-        public string Username { get; set; } = string.Empty;
-        [XmlAttribute]
-        public string Password { get; set; } = string.Empty;
-        [XmlAttribute]
-        public string Name { get; set; } = string.Empty;
-        [XmlAttribute]
-        public int PasswordScore { get; set; }
-        [XmlAttribute]
-        public DateTime Created { get; set; } = DateTime.Now;
-        [XmlAttribute]
-        public StorageType StorageType { get; set; } = StorageType.Local;
-        public PasswordEntryDesign PasswordEntryDesign { get; set; } = new PasswordEntryDesign();
-        public PasswordProperties PasswordProperties { get; set; } = new PasswordProperties();
+        #endregion Private Methods
     }
 }
