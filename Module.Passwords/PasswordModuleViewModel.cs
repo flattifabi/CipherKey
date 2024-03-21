@@ -77,6 +77,7 @@ namespace Module.Passwords
 		public IDelegateCommand EditPasswordCommand => new DelegateCommand<PasswordBase>(OnEditPasswordEntry);
 		public IDelegateCommand OpenPasswordBackupCommand => new DelegateCommand<PasswordBase>(OnOpenPasswordBackup);
 		public IDelegateCommand AddSourceCommand => new DelegateCommand(OnAddSource);
+		public IDelegateCommand RemoveRemoteConnectionCommand => new DelegateCommand<RemoteAdressData>(OnRemoveRemoteConnection);
 
 		public string MasterPassword { get; set; } = string.Empty;
 		public Control ModuleView
@@ -109,7 +110,7 @@ namespace Module.Passwords
 
 		#region Public Methods
 
-		public void Initialize()
+		public async void Initialize()
 		{
 			Topics = new ObservableCollection<Topic>(_configurationService.GetTopics().ResultData);
 			Addresses = new ObservableCollection<RemoteAdressData>(_configurationService.GetRemoteAdresses().ResultData);
@@ -125,6 +126,14 @@ namespace Module.Passwords
 				_snackbarService.Show("Wiederhergestellt", "Das Passwort wurde wiederhergestellt", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
 				CloseModuleView();
 			};
+
+			if(Addresses.Where(x => !string.IsNullOrEmpty(x.Password)).Count() != 0)
+			{
+				var result = await _safeConnectService.ConnectAllAvailabelSafes(Addresses.Where(x => !string.IsNullOrEmpty(x.Password)).ToList(), MasterPassword);
+				if (result) _snackbarService.Show("Erfolgreich", "Alle Tresore wurden erfolgreich verbunden", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
+				else _snackbarService.Show("Fehler", "Es konnten nicht alle Tresore verbunden werden", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
+
+			}
 			SelectedTopic = Topics.FirstOrDefault();
 			OnPropertyChanged(nameof(Topics));
 		}
@@ -165,6 +174,18 @@ namespace Module.Passwords
 						if (t.EnableToSavePassword)
 							remoteAddressData.Password = _passwordService.GetEncryptedPassword(inputDialog.GetPassword(), MasterPassword).ResultData;
 
+						var textInputDialog = new TextInputDialog();
+						textInputDialog.Title = "Anzeige Name";
+						textInputDialog.Text = "Gib einen Namen an wie der Tresor bei dir angezeigt werden soll. Diesen Namen kannst nur du sehen";
+						var textInputDialogResult = await _contentDialogService.ShowAsync(new ContentDialog()
+						{
+							Content = textInputDialog,
+							PrimaryButtonText = "OK",
+						}, new CancellationToken());
+						if(textInputDialogResult.ToString() == "Primary")
+						{
+							remoteAddressData.PersonalName = textInputDialog.Input;
+						}
                         Addresses.Add(remoteAddressData);
 						_configurationService.AddRemoteAddress(remoteAddressData);
 					}else
@@ -211,6 +232,26 @@ namespace Module.Passwords
 			var encryptedPassword = _passwordService.GetDecryptedPassword(@base.Password, MasterPassword);
 			Clipboard.SetText(encryptedPassword.ResultData);
 			@base.StartClipboardTimer(currentText);
+		}
+		private async void OnRemoveRemoteConnection(RemoteAdressData data)
+		{
+			TextInputDialog textInputDialog = new();
+			textInputDialog.Title = "Löschen Bestätigen";
+			textInputDialog.Text = "Gib den Namen des Tresors ein um die Verbindung zu entfernen";
+			var result = await _contentDialogService.ShowAsync(new ContentDialog()
+			{
+				Content = textInputDialog,
+				PrimaryButtonText = "OK",
+			}, new CancellationToken());
+			if(result.ToString() != "Primary") return;
+			if(result.ToString() == "Primary" && textInputDialog.Input != data.PersonalName)
+			{
+				_snackbarService.Show("Fehler", "Der Name des Tresors ist nicht korrekt", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
+				return;
+			}
+			_snackbarService.Show("Gelöscht", "Die Verbindung zu dem Tresor wurde entfernt", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
+			_configurationService.RemoveRemoteAddress(data.FilePath);
+			Addresses.Remove(data);
 		}
 
 		private void OnCopyUsername(PasswordBase @base)

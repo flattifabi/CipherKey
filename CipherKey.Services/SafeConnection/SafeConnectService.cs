@@ -31,14 +31,22 @@ namespace CipherKey.Services.SafeConnection
             {
                 foreach(var adress in addr)
                 {
-                    var blankPassword = _passwordService.GetEncryptedPassword(adress.Password, localMasterPassword);
-                    var t = CipherF<CipherStorage>.LoadRemote(adress.FilePath, blankPassword.ResultData);
-                    if (t != null)
+                    var blankPassword = _passwordService.GetDecryptedPassword(adress.Password, localMasterPassword);
+                    try
                     {
-                        adress.RemoteAddressState = Core.Enums.RemoteAddressState.Connected;
-                        adress.CipherStorage = t;
-                    }
-                    else adress.RemoteAddressState = Core.Enums.RemoteAddressState.NotConnected;
+						var t = CipherF<CipherStorage>.LoadRemote(adress.FilePath, blankPassword.ResultData.Hash());
+						if (t != null)
+						{
+							adress.RemoteAddressState = Core.Enums.RemoteAddressState.Connected;
+							adress.CipherStorage = t;
+						}
+						else adress.RemoteAddressState = Core.Enums.RemoteAddressState.NotConnected;
+					}
+                    catch(Exception)
+                    {
+						adress.RemoteAddressState = Core.Enums.RemoteAddressState.NotConnected;
+						continue;
+					}
                 }
             });
             return true;
@@ -50,7 +58,7 @@ namespace CipherKey.Services.SafeConnection
             await Task.Run(() =>
             {
                 string blankPassword = _passwordService.GetEncryptedPassword(address.Password, password).ResultData;
-                var t = CipherF<CipherStorage>.LoadRemote(address.FilePath, masterPasswordHash);
+                var t = CipherF<CipherStorage>.LoadRemote(address.FilePath, blankPassword.Hash());
                 storage = t;
             });
             if (storage == null)
