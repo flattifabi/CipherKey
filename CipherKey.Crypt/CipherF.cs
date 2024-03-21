@@ -91,10 +91,10 @@ namespace CipherKey.Crypt
 				Save(default(T));
 			}
 		}
-		public static void CreateIfNotExists(string path, string key)
+		public static void CreateIfNotExists(string path, string key, T data)
 		{
 			if (!File.Exists(path))
-				SaveRemote(path, key, default(T));
+				SaveRemote(path, key, data);
 		}
 		public static bool IsRemoteSourceValid(string address)
 		{
@@ -118,12 +118,16 @@ namespace CipherKey.Crypt
 			byte[] encryptedBytes = File.ReadAllBytes(address);
 			byte[] decryptedBytes = Decrypt(encryptedBytes, key);
 
-			XmlSerializer serializer = new XmlSerializer(typeof(T));
-			using (MemoryStream memoryStream = new MemoryStream(decryptedBytes))
-			{
-				return (T)serializer.Deserialize(memoryStream);
-			}
-		}
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            using (MemoryStream memoryStream = new MemoryStream(decryptedBytes))
+            {
+                return (T)serializer.Deserialize(memoryStream);
+            }
+            //using (MemoryStream memoryStream = new MemoryStream(decryptedBytes))
+            //{
+            //	return (T)serializer.Deserialize(memoryStream);
+            //}
+        }
 		/// <summary>
 		/// Save the file to the remote address and encrypt it using the key (Network drive)
 		/// </summary>
@@ -145,6 +149,7 @@ namespace CipherKey.Crypt
 						File.Create(address).Close();
 					}
 					File.WriteAllBytes(address, encryptedBytes);
+					//File.WriteAllBytes(address, memoryStream.ToArray());
 				}
 				return true;
 			}

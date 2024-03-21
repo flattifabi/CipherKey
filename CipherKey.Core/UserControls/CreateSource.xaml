@@ -24,7 +24,10 @@
                         <Expander.Content>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="Bei einer Verbindung zum Laufwerk muss die Adresse der .cipher Datei eingegeben werden. Wende dich an den ersteller des Tresors" TextWrapping="Wrap"/>
-                                <ui:TextBox PlaceholderEnabled="True" Text="{Binding RemotePath, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Y:\Laufwerk\storage.cipher" Margin="0 5 0 0"/>
+                                <WrapPanel Margin="0 5 0 0">
+                                    <ui:TextBox PlaceholderEnabled="True" Text="{Binding RemotePath, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Y:\Laufwerk\storage.cipher" Margin="0 0 0 0"/>
+                                    <Button Content="Durchsuchen" Command="{Binding SelectRemotePasswordSafeCommand}" VerticalAlignment="Center" Height="35"/>
+                                </WrapPanel>
                                 <Button Content="Hinzufügen" Command="{Binding AddRemoteSourceCommand}" Margin="0 10 0 0" HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Expander.Content>
@@ -39,7 +42,7 @@
                                     <Button Content="Dateiexplorer öffnen" Command="{Binding SelectRemoteCreateFolderPathCommand}" Margin="0 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                                 </WrapPanel>
                                 <ui:TextBox PlaceholderEnabled="True" Text="{Binding RemoteCreateFileName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" PlaceholderText="Dateiname (ohne .cipher)" Margin="0 10 0 0" HorizontalAlignment="Stretch"/>
-                                <ui:PasswordBox Text="{Binding RemoteCreateMasterPassword, UpdateSourceTrigger=PropertyChanged}" Margin="0 10 0 0" PlaceholderEnabled="True" PlaceholderText="Master-Passwort wählen" />
+                                <ui:PasswordBox x:Name="MasterPassword" Text="{Binding RemoteCreateMasterPassword, UpdateSourceTrigger=PropertyChanged}" Margin="0 10 0 0" PlaceholderEnabled="True" PlaceholderText="Master-Passwort wählen" />
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0 10 0 0">
                                     <Border BorderBrush="Transparent" CornerRadius="7" Padding="5">
                                         <Border.Background>

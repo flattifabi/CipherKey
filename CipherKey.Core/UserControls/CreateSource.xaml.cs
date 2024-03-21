@@ -1,4 +1,5 @@
 ﻿using CipherKey.Core.Data;
+using CipherKey.Core.Extensions;
 using CipherKey.Core.Helpers;
 using CipherKey.Crypt;
 using Microsoft.Win32;
@@ -56,25 +57,35 @@ namespace CipherKey.Core.UserControls
 		
 		private void OnCreateRemoteSource()
 		{
-			var fullPath = System.IO.Path.Combine(RemoteCreateFolderPath, RemoteCreateFileName + ".cipher");
+			RemoteCreateMasterPassword = MasterPassword.Password;
 
-			CipherF<CipherStorage>.CreateIfNotExists(fullPath, RemoteCreateMasterPassword);
-			var t = CipherF<CipherStorage>.LoadRemote(fullPath, RemoteCreateMasterPassword);
-			t = new CipherStorage()
+            var fullPath = System.IO.Path.Combine(RemoteCreateFolderPath, RemoteCreateFileName + ".cipher");
+            var storage = new CipherStorage()
+            {
+                EnableToSavePassword = RemoteCreateRememberPasswordEnabled,
+                IsRemote = true,
+                ApplicationConfiguration = new Models.ApplicationConfiguration()
+                {
+                    MasterPassword = RemoteCreateMasterPassword.Hash(),
+                    MetaData = IDGenerator.GetComputerID(),
+                    RemoteAddresses = new List<RemoteAdressData> { }
+                },
+                RemotePasswordIfIsRemote = RemoteCreateMasterPassword.Hash(),
+                PasswordBackUps = new List<PasswordBackupData> { },
+                Passwords = new List<Password.PasswordBase> { },
+                RemoteBlacklist = new List<string> { },
+                RemoteOwnerUsernames = new List<string> { Environment.UserName },
+                Topics = new List<Password.Topic> { },
+            };
+			try
 			{
-				EnableToSavePassword = RemoteCreateRememberPasswordEnabled,
-				IsRemote = true,
-				ApplicationConfiguration = new Models.ApplicationConfiguration()
-				{
-					MasterPassword = RemoteCreateMasterPassword,
-				}
-			};
-
-			var success = CipherF<CipherStorage>.SaveRemote(fullPath, RemoteCreateMasterPassword, t);
-			if (success)
-				_snackbarService.Show("Erstellt", $"Der geteilte Tresor {RemoteCreateFileName} wurde erfolgreich erstellt", Wpf.Ui.Controls.ControlAppearance.Success,null, new TimeSpan(0, 0, 5));
-			else
-				_snackbarService.Show("Fehler", $"Der geteilte Tresor {RemoteCreateFileName} konnte nicht erstellt werden", Wpf.Ui.Controls.ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
+                CipherF<CipherStorage>.CreateIfNotExists(fullPath, RemoteCreateMasterPassword.Hash(), storage);
+            }
+			catch(Exception e)
+			{
+                _snackbarService.Show("Fehler", $"Der geteilte Tresor {RemoteCreateFileName} konnte nicht erstellt werden", Wpf.Ui.Controls.ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
+            }
+			_snackbarService.Show("Erstellt", $"Der geteilte Tresor {RemoteCreateFileName} wurde erfolgreich erstellt", Wpf.Ui.Controls.ControlAppearance.Success,null, new TimeSpan(0, 0, 5));
 		}
 		public string RemotePath
 		{

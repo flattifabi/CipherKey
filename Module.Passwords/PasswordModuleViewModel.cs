@@ -16,6 +16,8 @@ using CipherKey.Crypt;
 using CipherKey.Core.Data;
 using Wpf.Ui.Extensions;
 using Wpf.Ui.Controls;
+using CipherKey.Core.Dialogs;
+using CipherKey.Core.Extensions;
 
 namespace Module.Passwords
 {
@@ -122,7 +124,7 @@ namespace Module.Passwords
 			OnPropertyChanged(nameof(Topics));
 		}
 
-		private void OnSourceWantToAdd(object? sender, string e)
+		private async void OnSourceWantToAdd(object? sender, string e)
 		{
 			var checkIfSourceIsValid = CipherF<CipherStorage>.IsRemoteSourceValid(e);
 			if (!checkIfSourceIsValid)
@@ -130,16 +132,39 @@ namespace Module.Passwords
 				_snackbarService.Show("Fehler", "Der Tresorpfad ist nicht gültig. Überprüfe den Pfad und die Datei", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
 				return;
 			}
-			var result = _contentDialogService.ShowAsync(new ContentDialog()
+
+			var inputDialog = new InputDialog();
+			inputDialog.Title = "Passwort eingeben";
+			inputDialog.Text = "Gib das Master-Passwort für den geteilten Tresor ein";
+			var result = await _contentDialogService.ShowAsync(new ContentDialog()
 			{
-				Title = "Passwort eingeben",
-				Content = "Bitte gib das Masterpasswort für den geteilten Tresor ein",
+				Content = inputDialog,
 				PrimaryButtonText = "OK",
-				SecondaryButtonText = "Abbrechen",
-				DefaultButton = ContentDialogButton.Primary,
-				IsPrimaryButtonEnabled = false,
-				IsSecondaryButtonEnabled = true,
 			}, new CancellationToken());
+
+			if(result.ToString() != "Primary")
+			{
+				/* User canceled the function to add remote password safe / storage */
+				return;
+			}
+			if(result.ToString() == "Primary")
+			{
+				/* User want to add */
+				if (!string.IsNullOrEmpty(inputDialog.Input))
+				{
+					var t = CipherF<CipherStorage>.LoadRemote(e, inputDialog.Input.Hash());
+					if (t != null)
+					{
+
+					}else
+					{
+						_snackbarService.Show("Fehler", "Das Master-Passwort ist nicht gültig wodurch diese Datei nicht entschlüsselt werden kann", ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
+					}
+				}
+				else
+					_snackbarService.Show("Eingabe ungültig", "Deine Eingabe war unvollständig. Das Passwortfeld darf nicht leer sein", ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
+			}
+			Console.WriteLine("Test");
 		}
 
 		#endregion Public Methods
