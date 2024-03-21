@@ -3,10 +3,12 @@ using CipherKey.Core.Configurations;
 using CipherKey.Core.Data;
 using CipherKey.Core.Helpers;
 using CipherKey.Core.Password;
+using CipherKey.Core.SafeConnect;
 using CipherKey.Core.UserControls;
 using CipherKey.Crypt;
 using CipherKey.Services.Configuration;
 using CipherKey.Services.Password;
+using CipherKey.Services.SafeConnection;
 using CipherKey.ViewModels;
 using CipherKey.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +46,7 @@ namespace CipherKey
 			services.AddSingleton<IContentDialogService, ContentDialogService>();
 			services.AddSingleton<IConfigurationService, ConfigurationService>();
 			services.AddSingleton<IPasswordService, PasswordService>();
+			services.AddSingleton<ISafeConnectService, SafeConnectService>();
 
 			services.AddSingleton<Splash, Splash>();
 			services.AddSingleton<SplashViewModel, SplashViewModel>();

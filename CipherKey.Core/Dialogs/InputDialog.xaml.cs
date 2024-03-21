@@ -50,14 +50,9 @@ namespace CipherKey.Core.Dialogs
                 OnPropertyChanged();
             }
         }
-        public string Input
+        public string GetPassword()
         {
-            get => _input;
-            set
-            {
-                _input = value;
-                OnPropertyChanged();
-            }
+            return Password.Password;
         }
 
         public void OnPropertyChanged([CallerMemberName] string propertyName = "")

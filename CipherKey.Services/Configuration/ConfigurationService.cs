@@ -1,6 +1,7 @@
 ﻿using CipherKey.Core.ApplicationConstants;
 using CipherKey.Core.Configurations;
 using CipherKey.Core.Data;
+using CipherKey.Core.Enums;
 using CipherKey.Core.Extensions;
 using CipherKey.Core.Helpers;
 using CipherKey.Core.Models;
@@ -57,9 +58,11 @@ namespace CipherKey.Services.Configuration
             return new CipherResult<bool> { ResultData = true };
         }
 
-		public CipherResult<List<string>> GetRemoteAdresses()
+		public CipherResult<List<RemoteAdressData>> GetRemoteAdresses()
 		{
-			throw new NotImplementedException();
+			var t = CipherF<CipherStorage>.Load();
+            var addresses = t.ApplicationConfiguration.RemoteAddresses;
+            return new CipherResult<List<RemoteAdressData>> { ResultData = addresses };
 		}
 
 		public CipherResult<List<Topic>> GetTopics()
@@ -113,10 +116,10 @@ namespace CipherKey.Services.Configuration
             CipherF<CipherStorage>.Save(t);
             return new CipherResult<bool> { ResultData = true };
         }
-		public CipherResult<bool> AddRemoteAddress(string address)
+		public CipherResult<bool> AddRemoteAddress(RemoteAdressData address)
 		{
 			var t = CipherF<CipherStorage>.Load();
-			t.ApplicationConfiguration.RemoteAddresses.Add(new RemoteAdressData() { FilePath = address });
+			t.ApplicationConfiguration.RemoteAddresses.Add(address);
 			CipherF<CipherStorage>.Save(t);
 			return new CipherResult<bool> { ResultData = true };
 		}

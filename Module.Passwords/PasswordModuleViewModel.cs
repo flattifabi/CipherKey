@@ -18,6 +18,7 @@ using Wpf.Ui.Extensions;
 using Wpf.Ui.Controls;
 using CipherKey.Core.Dialogs;
 using CipherKey.Core.Extensions;
+using CipherKey.Core.SafeConnect;
 
 namespace Module.Passwords
 {
@@ -29,6 +30,8 @@ namespace Module.Passwords
 		private readonly IPasswordService _passwordService;
 		private readonly ISnackbarService _snackbarService;
 		private readonly IContentDialogService _contentDialogService;
+		private readonly ISafeConnectService _safeConnectService;
+
 		private readonly CreatePassword _createPasswordView;
 		private readonly CreateTopic _createTopicView;
 		private readonly EditPassword _editPassword;
@@ -45,7 +48,7 @@ namespace Module.Passwords
 
 		public PasswordModuleViewModel(IConfigurationService configurationService, IPasswordService passwordService, ISnackbarService snackbarService,
 			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword, 
-			PasswordBackupList backupList, CreateSource createSource, IContentDialogService contentDialogService)
+			PasswordBackupList backupList, CreateSource createSource, IContentDialogService contentDialogService, ISafeConnectService safeConnectService)
 		{
 			_configurationService = configurationService;
 			_view = view;
@@ -57,6 +60,7 @@ namespace Module.Passwords
 			_backupList = backupList;
 			_createSource = createSource;
 			_contentDialogService = contentDialogService;
+			_safeConnectService = safeConnectService;
 		}
 
 		#endregion Public Constructors
@@ -74,8 +78,6 @@ namespace Module.Passwords
 		public IDelegateCommand OpenPasswordBackupCommand => new DelegateCommand<PasswordBase>(OnOpenPasswordBackup);
 		public IDelegateCommand AddSourceCommand => new DelegateCommand(OnAddSource);
 
-		
-
 		public string MasterPassword { get; set; } = string.Empty;
 		public Control ModuleView
 		{
@@ -88,6 +90,7 @@ namespace Module.Passwords
 		}
 
 		public ObservableCollection<PasswordBase> Passwords { get; set; }
+		public ObservableCollection<RemoteAdressData> Addresses { get; set; }
 		public Topic SelectedTopic
 		{
 			get => _selectedTopic;
@@ -109,7 +112,9 @@ namespace Module.Passwords
 		public void Initialize()
 		{
 			Topics = new ObservableCollection<Topic>(_configurationService.GetTopics().ResultData);
-			_createTopicView.TopicCreated += OnTopicCreated;
+			Addresses = new ObservableCollection<RemoteAdressData>(_configurationService.GetRemoteAdresses().ResultData);
+
+            _createTopicView.TopicCreated += OnTopicCreated;
 			_createPasswordView.PasswordCreated += OnPasswordCreated;
 			_editPassword.PasswordChanged += OnPasswordChanged;
 			_createSource.RemoteAdressWantToAdd += OnSourceWantToAdd;
@@ -142,20 +147,26 @@ namespace Module.Passwords
 				PrimaryButtonText = "OK",
 			}, new CancellationToken());
 
-			if(result.ToString() != "Primary")
-			{
-				/* User canceled the function to add remote password safe / storage */
-				return;
-			}
+			if(result.ToString() != "Primary") return;
 			if(result.ToString() == "Primary")
 			{
-				/* User want to add */
-				if (!string.IsNullOrEmpty(inputDialog.Input))
+				if (!string.IsNullOrEmpty(inputDialog.GetPassword()))
 				{
-					var t = CipherF<CipherStorage>.LoadRemote(e, inputDialog.Input.Hash());
+					var t = CipherF<CipherStorage>.LoadRemote(e, inputDialog.GetPassword().Hash());
 					if (t != null)
 					{
+						var remoteAddressData = new RemoteAdressData()
+						{
+							FilePath = e,
+							PersonalName = e,
+							RemoteAddressState = CipherKey.Core.Enums.RemoteAddressState.Connected,
+							Password = inputDialog.GetPassword(),
+						};
+						if (t.EnableToSavePassword)
+							remoteAddressData.Password = _passwordService.GetEncryptedPassword(inputDialog.GetPassword(), MasterPassword).ResultData;
 
+                        Addresses.Add(remoteAddressData);
+						_configurationService.AddRemoteAddress(remoteAddressData);
 					}else
 					{
 						_snackbarService.Show("Fehler", "Das Master-Passwort ist nicht gültig wodurch diese Datei nicht entschlüsselt werden kann", ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));

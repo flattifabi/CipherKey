@@ -1,8 +1,11 @@
-﻿using System;
+﻿using CipherKey.Core.Enums;
+using CipherKey.Core.Password;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace CipherKey.Core.Data
 {
@@ -20,5 +23,9 @@ namespace CipherKey.Core.Data
 		///		Only available to save if remote allows this
 		/// </summary>
 		public string Password { get; set; } = string.Empty;
+		[XmlIgnore]
+		public RemoteAddressState RemoteAddressState { get; set; } = RemoteAddressState.NotConnected;
+		[XmlIgnore]
+		public CipherStorage CipherStorage { get; set; }
 	}
 }
