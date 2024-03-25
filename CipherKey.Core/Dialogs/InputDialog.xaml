@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="CipherKey.Core.Dialogs.InputDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:local="clr-namespace:CipherKey.Core.Dialogs"
+             d:DataContext="{d:DesignInstance Type=local:InputDialog}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="0 10 0 0"/>
+            <ui:PasswordBox x:Name="Password" Margin="0 10 0 0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

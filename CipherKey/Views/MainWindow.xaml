@@ -41,7 +41,8 @@
         </Grid.RowDefinitions>
 
         <!-- WPF UI Components -->
-        <ui:SnackbarPresenter x:Name="SnackbarPresenter" Grid.RowSpan="100" Grid.ColumnSpan="100" VerticalAlignment="Bottom"/>
+        <ui:SnackbarPresenter x:Name="SnackbarPresenter" Grid.RowSpan="100" Grid.ColumnSpan="100" Panel.ZIndex="999999" VerticalAlignment="Bottom"/>
+        <ContentPresenter x:Name="ContentPresenter" Grid.RowSpan="100" Grid.Column="100" Panel.ZIndex="999999999" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
         <ContentControl Width="0" Grid.RowSpan="100" Grid.ColumnSpan="100" Panel.ZIndex="999" Content="{Binding ModuleView, UpdateSourceTrigger=PropertyChanged}" x:Name="ModuleView" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 25 0 25"/>
 

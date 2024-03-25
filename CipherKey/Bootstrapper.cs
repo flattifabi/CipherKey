@@ -2,14 +2,19 @@
 using CipherKey.Core.Configurations;
 using CipherKey.Core.Data;
 using CipherKey.Core.Helpers;
+using CipherKey.Core.Logging;
 using CipherKey.Core.Password;
+using CipherKey.Core.SafeConnect;
 using CipherKey.Core.UserControls;
 using CipherKey.Crypt;
 using CipherKey.Services.Configuration;
+using CipherKey.Services.Logging;
 using CipherKey.Services.Password;
+using CipherKey.Services.SafeConnection;
 using CipherKey.ViewModels;
 using CipherKey.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Module.Passwords;
 using System;
 using System.Collections.Generic;
@@ -39,9 +44,12 @@ namespace CipherKey
 		}
 		private void ConfigureServices(IServiceCollection services)
 		{
+			services.AddSingleton<ILogService, LogService>();
 			services.AddSingleton<ISnackbarService, SnackbarService>();
+			services.AddSingleton<IContentDialogService, ContentDialogService>();
 			services.AddSingleton<IConfigurationService, ConfigurationService>();
 			services.AddSingleton<IPasswordService, PasswordService>();
+			services.AddSingleton<ISafeConnectService, SafeConnectService>();
 
 			services.AddSingleton<Splash, Splash>();
 			services.AddSingleton<SplashViewModel, SplashViewModel>();
@@ -55,6 +63,9 @@ namespace CipherKey
 			services.AddSingleton<CreateTopic, CreateTopic>();
 			services.AddSingleton<CreatePassword, CreatePassword>();
 			services.AddSingleton<EditPassword, EditPassword>();
+			services.AddSingleton<PasswordBackupList, PasswordBackupList>();
+			services.AddSingleton<CreateSource, CreateSource>();
+			services.AddSingleton<CreateTopicRemote, CreateTopicRemote>();
 
 			/* Modules */
 			services.AddSingleton<PasswordModuleView>();
@@ -109,7 +120,10 @@ namespace CipherKey
 		public void InitializeDefaultComponents()
 		{
 			var snackbarService = _serviceProvider.GetService<ISnackbarService>();
+			var dialogService = _serviceProvider.GetService<IContentDialogService>();
 			var mainWindow = _serviceProvider.GetService<MainWindow>();
+
+			dialogService.SetContentPresenter(mainWindow.ContentPresenter);
 			snackbarService.SetSnackbarPresenter(mainWindow.SnackbarPresenter);
 		}
 		public void ConfigureCipherFile()

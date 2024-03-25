@@ -1,4 +1,5 @@
-﻿using CipherKey.Core.Data;
+﻿using CipherKey.Core.Configurations;
+using CipherKey.Core.Data;
 using CipherKey.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace CipherKey.Core.Password
         CipherResult<List<PasswordBackupData>> GetPasswordBackups();
         CipherResult<bool> AddPassword(PasswordBase password);
         CipherResult<bool> DeletePassword(PasswordBase password);
-		CipherResult<bool> ChangePassword(PasswordBase password);
+		CipherResult<bool> ChangePassword(PasswordBase password, string? comment = "");
         CipherResult<string> GetEncryptedPassword(string value, string masterPassword);
         CipherResult<string> GetDecryptedPassword(string value, string masterPassword);
         CipherResult<bool> RestorePasswordFromBackup(PasswordBase currentPassword, PasswordBackupData backupData);
