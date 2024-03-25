@@ -94,7 +94,7 @@ namespace CipherKey.Crypt
 		public static void CreateIfNotExists(string path, string key, T data)
 		{
 			if (!File.Exists(path))
-				SaveRemote(path, key, data);
+				Save(path, key, data);
 		}
 		public static bool IsRemoteSourceValid(string address)
 		{
@@ -113,7 +113,7 @@ namespace CipherKey.Crypt
 		/// <param name="address"></param>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public static T LoadRemote(string address, string key)
+		public static T Load(string address, string key)
 		{
 			byte[] encryptedBytes = File.ReadAllBytes(address);
 			byte[] decryptedBytes = Decrypt(encryptedBytes, key);
@@ -135,7 +135,7 @@ namespace CipherKey.Crypt
 		/// <param name="key"></param>
 		/// <param name="data"></param>
 		/// <returns></returns>
-		public static bool SaveRemote(string address, string key, T data)
+		public static bool Save(string address, string key, T data)
 		{
 			try
 			{

@@ -32,6 +32,7 @@ namespace Module.Passwords
 		private readonly IContentDialogService _contentDialogService;
 		private readonly ISafeConnectService _safeConnectService;
 
+		private readonly CreateTopicRemote _createTopicRemote;
 		private readonly CreatePassword _createPasswordView;
 		private readonly CreateTopic _createTopicView;
 		private readonly EditPassword _editPassword;
@@ -48,7 +49,8 @@ namespace Module.Passwords
 
 		public PasswordModuleViewModel(IConfigurationService configurationService, IPasswordService passwordService, ISnackbarService snackbarService,
 			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword, 
-			PasswordBackupList backupList, CreateSource createSource, IContentDialogService contentDialogService, ISafeConnectService safeConnectService)
+			PasswordBackupList backupList, CreateSource createSource, IContentDialogService contentDialogService, ISafeConnectService safeConnectService,
+			CreateTopicRemote createTopicRemote)
 		{
 			_configurationService = configurationService;
 			_view = view;
@@ -61,6 +63,7 @@ namespace Module.Passwords
 			_createSource = createSource;
 			_contentDialogService = contentDialogService;
 			_safeConnectService = safeConnectService;
+			_createTopicRemote = createTopicRemote;
 		}
 
 		#endregion Public Constructors
@@ -78,6 +81,7 @@ namespace Module.Passwords
 		public IDelegateCommand OpenPasswordBackupCommand => new DelegateCommand<PasswordBase>(OnOpenPasswordBackup);
 		public IDelegateCommand AddSourceCommand => new DelegateCommand(OnAddSource);
 		public IDelegateCommand RemoveRemoteConnectionCommand => new DelegateCommand<RemoteAdressData>(OnRemoveRemoteConnection);
+		public IDelegateCommand AddTopicToRemoteConnectionCommand => new DelegateCommand<RemoteAdressData>(OnAddTopicToRemoteConnection);
 
 		public string MasterPassword { get; set; } = string.Empty;
 		public Control ModuleView
@@ -132,12 +136,53 @@ namespace Module.Passwords
 				var result = await _safeConnectService.ConnectAllAvailabelSafes(Addresses.Where(x => !string.IsNullOrEmpty(x.Password)).ToList(), MasterPassword);
 				if (result) _snackbarService.Show("Erfolgreich", "Alle Tresore wurden erfolgreich verbunden", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
 				else _snackbarService.Show("Fehler", "Es konnten nicht alle Tresore verbunden werden", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
-
 			}
 			SelectedTopic = Topics.FirstOrDefault();
+			foreach(var address in Addresses)
+				address.Changed();
 			OnPropertyChanged(nameof(Topics));
 		}
+		private async void OnAddTopicToRemoteConnection(RemoteAdressData data)
+		{
+			AddRemoteTopicDialog addRemoteTopicDialog = new();
+			var result = await _contentDialogService.ShowAsync(new ContentDialog()
+			{
+				Content = addRemoteTopicDialog,
+				PrimaryButtonText = "OK",
+			}, new CancellationToken());
+			if(result.ToString() != "Primary") return;
+			if(result.ToString() == "Primary")
+			{
 
+				if(string.IsNullOrEmpty(addRemoteTopicDialog.Topic.Name))
+				{
+					_snackbarService.Show("Fehler", "Der Name des Themas darf nicht leer sein", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
+					return;
+				}
+				var topic = new Topic()
+				{
+					Name = addRemoteTopicDialog.Topic.Name,
+					Description = addRemoteTopicDialog.Topic.Description,
+					Design = addRemoteTopicDialog.Topic.Design
+				};
+				_configurationService.AddTopic(topic, new SourceConfiguration()
+				{
+					Password = data.Password,
+					Path = data.FilePath,
+					LocalMasterPassword = MasterPassword
+				});
+				//Topics.Add(topic);
+				data.CipherStorage.Topics.Add(topic);
+				data.Changed();
+				_snackbarService.Show("Erfolgreich", "Die Kategorie wurde erfolgreich hinzugefügt", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
+			}
+
+			//_createTopicRemote.SetSourceContext(new SourceConfiguration()
+			//{
+			//	Path = data.FilePath,
+			//	Password = data.Password,
+			//});
+		}
 		private async void OnSourceWantToAdd(object? sender, string e)
 		{
 			var checkIfSourceIsValid = CipherF<CipherStorage>.IsRemoteSourceValid(e);
@@ -161,7 +206,7 @@ namespace Module.Passwords
 			{
 				if (!string.IsNullOrEmpty(inputDialog.GetPassword()))
 				{
-					var t = CipherF<CipherStorage>.LoadRemote(e, inputDialog.GetPassword().Hash());
+					var t = CipherF<CipherStorage>.Load(e, inputDialog.GetPassword().Hash());
 					if (t != null)
 					{
 						var remoteAddressData = new RemoteAdressData()

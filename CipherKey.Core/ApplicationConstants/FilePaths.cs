@@ -13,7 +13,7 @@ namespace CipherKey.Core.ApplicationConstants
         public static readonly string PasswordsFileName = "Passwords.xml";
         public static readonly string TopicFileName = "Topics.xml";
         public static readonly string ApplicationConfigurationFileName = "ApplicationConfiguration.xml";
-
+        public static readonly string LogFolder = PasswordStorageFilePath + "Logs\\";
         public static void CreateBaseFilePath()
         {
 			if (!System.IO.Directory.Exists(PasswordStorageFilePath))

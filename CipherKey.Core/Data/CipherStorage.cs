@@ -2,13 +2,14 @@
 using CipherKey.Core.Password;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CipherKey.Core.Data
 {
-	public class CipherStorage
+	public class CipherStorage : INotifyPropertyChanged
 	{
 		public List<Topic> Topics { get; set; } = new List<Topic> { };
 		public List<PasswordBase> Passwords { get; set; } = new List<PasswordBase> { };
@@ -19,5 +20,11 @@ namespace CipherKey.Core.Data
 		public string RemotePasswordIfIsRemote { get; set; } = string.Empty;
 		public List<string> RemoteOwnerUsernames { get; set; } = new List<string> { Environment.UserName };
 		public List<string> RemoteBlacklist { get; set; } = new List<string> { };
+		public void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		public event PropertyChangedEventHandler? PropertyChanged;
 	}
 }

@@ -2,11 +2,13 @@
 using CipherKey.Core.Configurations;
 using CipherKey.Core.Data;
 using CipherKey.Core.Helpers;
+using CipherKey.Core.Logging;
 using CipherKey.Core.Password;
 using CipherKey.Core.SafeConnect;
 using CipherKey.Core.UserControls;
 using CipherKey.Crypt;
 using CipherKey.Services.Configuration;
+using CipherKey.Services.Logging;
 using CipherKey.Services.Password;
 using CipherKey.Services.SafeConnection;
 using CipherKey.ViewModels;
@@ -42,6 +44,7 @@ namespace CipherKey
 		}
 		private void ConfigureServices(IServiceCollection services)
 		{
+			services.AddSingleton<ILogService, LogService>();
 			services.AddSingleton<ISnackbarService, SnackbarService>();
 			services.AddSingleton<IContentDialogService, ContentDialogService>();
 			services.AddSingleton<IConfigurationService, ConfigurationService>();
@@ -62,6 +65,7 @@ namespace CipherKey
 			services.AddSingleton<EditPassword, EditPassword>();
 			services.AddSingleton<PasswordBackupList, PasswordBackupList>();
 			services.AddSingleton<CreateSource, CreateSource>();
+			services.AddSingleton<CreateTopicRemote, CreateTopicRemote>();
 
 			/* Modules */
 			services.AddSingleton<PasswordModuleView>();

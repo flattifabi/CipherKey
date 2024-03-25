@@ -34,7 +34,7 @@ namespace CipherKey.Services.SafeConnection
                     var blankPassword = _passwordService.GetDecryptedPassword(adress.Password, localMasterPassword);
                     try
                     {
-						var t = CipherF<CipherStorage>.LoadRemote(adress.FilePath, blankPassword.ResultData.Hash());
+						var t = CipherF<CipherStorage>.Load(adress.FilePath, blankPassword.ResultData.Hash());
 						if (t != null)
 						{
 							adress.RemoteAddressState = Core.Enums.RemoteAddressState.Connected;
@@ -58,7 +58,7 @@ namespace CipherKey.Services.SafeConnection
             await Task.Run(() =>
             {
                 string blankPassword = _passwordService.GetEncryptedPassword(address.Password, password).ResultData;
-                var t = CipherF<CipherStorage>.LoadRemote(address.FilePath, blankPassword.Hash());
+                var t = CipherF<CipherStorage>.Load(address.FilePath, blankPassword.Hash());
                 storage = t;
             });
             if (storage == null)

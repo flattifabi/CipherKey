@@ -4,9 +4,11 @@ using CipherKey.Core.Data;
 using CipherKey.Core.Enums;
 using CipherKey.Core.Extensions;
 using CipherKey.Core.Helpers;
+using CipherKey.Core.Logging;
 using CipherKey.Core.Models;
 using CipherKey.Core.Password;
 using CipherKey.Crypt;
+using CipherKey.Services.Password;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,62 +21,107 @@ namespace CipherKey.Services.Configuration
 	{
 
         #region Public Constructors
-
-        public ConfigurationService()
-		{ }
+        private readonly ILogService _logService;
+		private readonly IPasswordService _passwordService;
+        public ConfigurationService(ILogService logService, IPasswordService passwordService)
+		{
+            _logService = logService;
+			_passwordService = passwordService;
+        }
 
 		#endregion Public Constructors
 
 		#region Public Methods
 
 		public CipherResult<bool> AddTopic(Topic topic)
-        {
-            var t = CipherF<CipherStorage>.Load();
-            t.Topics.Add(topic);
-            CipherF<CipherStorage>.Save(t);
-            return new CipherResult<bool> { ResultData = true };
-        }
-
-        public CipherResult<bool> ChangeMasterPassword(string oldMasterPassword, string newMasterPassword)
-        {
-            throw new NotImplementedException();
+        { 
+            try
+            {
+				var t = CipherF<CipherStorage>.Load();
+				t.Topics.Add(topic);
+				CipherF<CipherStorage>.Save(t);
+                _logService.Info<IConfigurationService>("Topic added", topic);
+				return new CipherResult<bool> { ResultData = true };
+			}
+            catch(Exception e)
+            {
+                _logService.Error<IConfigurationService>("Failed to add topic", topic, e);
+                return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
+            }
         }
 
         public CipherResult<string> CheckPassword(string password)
         {
-            var t = CipherF<CipherStorage>.Load();
-            if (t.ApplicationConfiguration.MasterPassword == password.Hash())
+            try
             {
-                return new CipherResult<string> { ResultData = password };
-            }
-            return new CipherResult<string> { ResultData = string.Empty };
+				var t = CipherF<CipherStorage>.Load();
+				if (t.ApplicationConfiguration.MasterPassword == password.Hash())
+				{
+					return new CipherResult<string> { ResultData = password };
+				}
+                _logService.Info<IConfigurationService>("Password entered and checked successfully", password);
+				return new CipherResult<string> { ResultData = string.Empty };
+			}
+            catch(Exception e)
+            {
+				_logService.Error<IConfigurationService>("Failed to check password", password, e);
+				return new CipherResult<string> { ResultData = string.Empty, ErrorText = e.Message };
+			}
         }
 
         public CipherResult<bool> DeleteTopic(Topic topic)
         {
-            var t = CipherF<CipherStorage>.Load();
-            t.Topics.Remove(topic);
-            CipherF<CipherStorage>.Save(t);
-            return new CipherResult<bool> { ResultData = true };
+            try
+            {
+				var t = CipherF<CipherStorage>.Load();
+				t.Topics.Remove(topic);
+				CipherF<CipherStorage>.Save(t);
+                _logService.Info<IConfigurationService>("Topic deleted", topic);
+				return new CipherResult<bool> { ResultData = true };
+			}
+            catch(Exception e)
+            {
+                _logService.Error<IConfigurationService>("Failed to delete topic", topic, e);
+				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
+            }
         }
 
 		public CipherResult<List<RemoteAdressData>> GetRemoteAdresses()
 		{
-			var t = CipherF<CipherStorage>.Load();
-            var addresses = t.ApplicationConfiguration.RemoteAddresses;
-            return new CipherResult<List<RemoteAdressData>> { ResultData = addresses };
+            try
+            {
+				var t = CipherF<CipherStorage>.Load();
+				var addresses = t.ApplicationConfiguration.RemoteAddresses;
+				return new CipherResult<List<RemoteAdressData>> { ResultData = addresses };
+			}
+            catch(Exception e)
+            {
+                _logService.Error<IConfigurationService>("Failed to get remote addresses", null, e);
+                return new CipherResult<List<RemoteAdressData>> { ResultData = new List<RemoteAdressData>(), ErrorText = e.Message };
+            }
 		}
 
 		public CipherResult<List<Topic>> GetTopics()
         {
-            CipherF<CipherStorage>.Load();
-            return new CipherResult<List<Topic>> { ResultData = CipherF<CipherStorage>.Load().Topics };
+            try
+            {
+				CipherF<CipherStorage>.Load();
+                _logService.Info<IConfigurationService>("Topics loaded successfully", null);
+				return new CipherResult<List<Topic>> { ResultData = CipherF<CipherStorage>.Load().Topics };
+			}
+            catch(Exception e)
+            {
+                _logService.Error<IConfigurationService>("Failed to load topics", null, e);
+				return new CipherResult<List<Topic>> { ResultData = new List<Topic>(), ErrorText = e.Message };
+            }
         }
 
         public void Initialize()
         {
+            _logService.Info<IConfigurationService>("Initialize Configuration Service", null);
 			FilePaths.CreateBaseFilePath();
 			SetApplicationConfiguration();
+            _logService.Info<IConfigurationService>("Configuration Service initialized", null);
 		}
         public CipherResult<bool> IsConfigured()
         {
@@ -84,56 +131,95 @@ namespace CipherKey.Services.Configuration
                 var applicationConfiguration = cipherData.ApplicationConfiguration;
                 if (applicationConfiguration != null && !string.IsNullOrEmpty(applicationConfiguration.MasterPassword))
                 {
+                    _logService.Info<IConfigurationService>("Application is configured", null);
                     return new CipherResult<bool> { ResultData = true };
                 }
+                _logService.Info<IConfigurationService>("Application is not configured", null);
                 return new CipherResult<bool> { ResultData = false };
             }
             catch (Exception e)
             {
+                _logService.Error<IConfigurationService>("Failed to check if application is configured", null, e);
                 return new CipherResult<bool> { ResultData = false };
             }
         }
 
 		public CipherResult<bool> SetMasterPassword(string enteredMasterPassword)
         {
-            var f = CipherF<CipherStorage>.Load();
-            f.ApplicationConfiguration.MasterPassword = enteredMasterPassword.Hash();
-            CipherF<CipherStorage>.Save(f);
-            return new CipherResult<bool> { ResultData = true };
+            try
+            {
+				var f = CipherF<CipherStorage>.Load();
+				f.ApplicationConfiguration.MasterPassword = enteredMasterPassword.Hash();
+				CipherF<CipherStorage>.Save(f);
+                _logService.Info<IConfigurationService>("Master password set", null);
+				return new CipherResult<bool> { ResultData = true };
+			}
+            catch(Exception e)
+            {
+                _logService.Error<IConfigurationService>("Failed to set master password", null, e);
+                return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
+            }
         }
 
         public CipherResult<bool> UpdateTopic(Topic topic)
         {
-
-            var t = CipherF<CipherStorage>.Load();
-            var oldTopic = t.Topics.FirstOrDefault(x => x.Name == topic.Name);
-            if (oldTopic != null)
+            try
             {
-                t.Topics.Remove(oldTopic);
-                t.Topics.Add(topic);
-                CipherF<CipherStorage>.Save(t);
+				var t = CipherF<CipherStorage>.Load();
+				var oldTopic = t.Topics.FirstOrDefault(x => x.Name == topic.Name);
+				if (oldTopic != null)
+				{
+					t.Topics.Remove(oldTopic);
+					t.Topics.Add(topic);
+					CipherF<CipherStorage>.Save(t);
+				}
+				CipherF<CipherStorage>.Save(t);
+                _logService.Info<IConfigurationService>("Topic updated", topic);
+				return new CipherResult<bool> { ResultData = true };
+			}
+            catch(Exception e)
+            {
+                _logService.Error<IConfigurationService>("Failed to update topic", topic, e);
+				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
             }
-            CipherF<CipherStorage>.Save(t);
-            return new CipherResult<bool> { ResultData = true };
         }
 		public CipherResult<bool> AddRemoteAddress(RemoteAdressData address)
 		{
-			var t = CipherF<CipherStorage>.Load();
-			t.ApplicationConfiguration.RemoteAddresses.Add(address);
-			CipherF<CipherStorage>.Save(t);
-			return new CipherResult<bool> { ResultData = true };
+            try
+            {
+				var t = CipherF<CipherStorage>.Load();
+				t.ApplicationConfiguration.RemoteAddresses.Add(address);
+				CipherF<CipherStorage>.Save(t);
+                _logService.Info<IConfigurationService>("Remote address added", null);
+				return new CipherResult<bool> { ResultData = true };
+			}
+            catch(Exception e)
+            {
+                _logService.Error<IConfigurationService>("Failed to add remote address", null, e);
+                return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
+            }
 		}
 		public CipherResult<bool> RemoveRemoteAddress(string address)
 		{
-			var t = CipherF<CipherStorage>.Load();
-            var remoteAddress = t.ApplicationConfiguration.RemoteAddresses.FirstOrDefault(x => x.FilePath == address);
-            if(remoteAddress != null)
+            try
             {
-				t.ApplicationConfiguration.RemoteAddresses.Remove(remoteAddress);
-				CipherF<CipherStorage>.Save(t);
-                return new CipherResult<bool> { ResultData = true };
+				var t = CipherF<CipherStorage>.Load();
+				var remoteAddress = t.ApplicationConfiguration.RemoteAddresses.FirstOrDefault(x => x.FilePath == address);
+				if (remoteAddress != null)
+				{
+					t.ApplicationConfiguration.RemoteAddresses.Remove(remoteAddress);
+					CipherF<CipherStorage>.Save(t);
+					return new CipherResult<bool> { ResultData = true };
+				}
+                _logService.Info<IConfigurationService>("Adress not available on personal source", address);
+				return new CipherResult<bool> { ResultData = false, ErrorText = "Adress not available on personal source" };
 			}
-            return new CipherResult<bool> { ResultData = false, ErrorText = "Adress not available on personal source" };
+            catch(Exception e)
+            {
+                _logService.Error<IConfigurationService>("Failed to remove remote address", null, e);
+				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
+            }
+			
 		}
 		#endregion Public Methods
 
@@ -141,6 +227,7 @@ namespace CipherKey.Services.Configuration
 
 		private void SetApplicationConfiguration()
         {
+            _logService.Info<IConfigurationService>("Set Application Configuration", null);
 			if (!IsConfigured().ResultData)
 			{
 				var t = CipherF<CipherStorage>.Load();
@@ -157,9 +244,83 @@ namespace CipherKey.Services.Configuration
 					}
 				});
 				CipherF<CipherStorage>.Save(t);
+                _logService.Info<IConfigurationService>("Application Configuration set", null);
 			}
         }
 
-        #endregion Private Methods
-    }
+		public CipherResult<bool> AddTopic(Topic topic, ISourceConfiguration sourceConfiguration)
+		{
+			try
+			{
+				var blankPassword = _passwordService.GetDecryptedPassword(sourceConfiguration.Password, sourceConfiguration.LocalMasterPassword);
+				var t = CipherF<CipherStorage>.Load(sourceConfiguration.Path, blankPassword.ResultData.Hash());
+				t.Topics.Add(topic);
+				CipherF<CipherStorage>.Save(sourceConfiguration.Path, blankPassword.ResultData.Hash(), t);
+				_logService.Info<IConfigurationService>($"Topic added to Remote [{sourceConfiguration.Path}]", topic);
+				return new CipherResult<bool> { ResultData = true };
+			}
+			catch (Exception e)
+			{
+				_logService.Error<IConfigurationService>($"Failed to add topic to Remote [{sourceConfiguration.Path}]", topic, e);
+				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
+			}
+		}
+
+		public CipherResult<bool> DeleteTopic(Topic topic, ISourceConfiguration sourceConfiguration)
+		{
+			try
+			{
+				var t = CipherF<CipherStorage>.Load(sourceConfiguration.Path, sourceConfiguration.Password);
+				t.Topics.Remove(topic);
+				CipherF<CipherStorage>.Save(sourceConfiguration.Path, sourceConfiguration.Password, t);
+				_logService.Info<IConfigurationService>($"Topic deleted at Remote [{sourceConfiguration.Path}]", topic);
+				return new CipherResult<bool> { ResultData = true };
+			}
+			catch (Exception e)
+			{
+				_logService.Error<IConfigurationService>($"Failed to delete topic at Remote [{sourceConfiguration.Password}]", topic, e);
+				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
+			}
+		}
+
+		public CipherResult<bool> UpdateTopic(Topic topic, ISourceConfiguration sourceConfiguration)
+		{
+			try
+			{
+				var t = CipherF<CipherStorage>.Load(sourceConfiguration.Path, sourceConfiguration.Password);
+				var oldTopic = t.Topics.FirstOrDefault(x => x.Name == topic.Name);
+				if (oldTopic != null)
+				{
+					t.Topics.Remove(oldTopic);
+					t.Topics.Add(topic);
+					CipherF<CipherStorage>.Save(t);
+				}
+				CipherF<CipherStorage>.Save(sourceConfiguration.Path, sourceConfiguration.Password, t);
+				_logService.Info<IConfigurationService>($"Topic updated at Remote [{sourceConfiguration.Path}]", topic);
+				return new CipherResult<bool> { ResultData = true };
+			}
+			catch (Exception e)
+			{
+				_logService.Error<IConfigurationService>($"Failed to update topic at Remote [{sourceConfiguration.Path}]", topic, e);
+				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
+			}
+		}
+
+		public CipherResult<List<Topic>> GetTopics(ISourceConfiguration sourceConfiguration)
+		{
+			try
+			{
+				CipherF<CipherStorage>.Load(sourceConfiguration.Path, sourceConfiguration.Password);
+				_logService.Info<IConfigurationService>($"Topics loaded successfully at Remote [{sourceConfiguration.Path}]", null);
+				return new CipherResult<List<Topic>> { ResultData = CipherF<CipherStorage>.Load().Topics };
+			}
+			catch (Exception e)
+			{
+				_logService.Error<IConfigurationService>($"Failed to load topics at Remote [{sourceConfiguration.Path}]", null, e);
+				return new CipherResult<List<Topic>> { ResultData = new List<Topic>(), ErrorText = e.Message };
+			}
+		}
+
+		#endregion Private Methods
+	}
 }

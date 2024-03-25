@@ -28,7 +28,7 @@ namespace CipherKey.Core.Helpers
 				aes.Key = keyBytes;
 				aes.GenerateIV();
 
-				using (FileStream fsInput = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+				using (FileStream fsInput = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
 				{
 					using (FileStream fsEncrypted = new FileStream(filePath + ".encrypted", FileMode.Create, FileAccess.Write))
 					{
