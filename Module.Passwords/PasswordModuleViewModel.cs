@@ -206,37 +206,47 @@ namespace Module.Passwords
 			{
 				if (!string.IsNullOrEmpty(inputDialog.GetPassword()))
 				{
-					var t = CipherF<CipherStorage>.Load(e, inputDialog.GetPassword().Hash());
-					if (t != null)
+					try
 					{
-						var remoteAddressData = new RemoteAdressData()
-						{
-							FilePath = e,
-							PersonalName = e,
-							RemoteAddressState = CipherKey.Core.Enums.RemoteAddressState.Connected,
-							Password = inputDialog.GetPassword(),
-						};
-						if (t.EnableToSavePassword)
-							remoteAddressData.Password = _passwordService.GetEncryptedPassword(inputDialog.GetPassword(), MasterPassword).ResultData;
+                        var t = CipherF<CipherStorage>.Load(e, inputDialog.GetPassword().Hash());
+                        if (t != null)
+                        {
+                            var remoteAddressData = new RemoteAdressData()
+                            {
+                                FilePath = e,
+                                PersonalName = e,
+                                RemoteAddressState = CipherKey.Core.Enums.RemoteAddressState.Connected,
+                                Password = inputDialog.GetPassword(),
+                            };
+                            if (t.EnableToSavePassword)
+                                remoteAddressData.Password = _passwordService.GetEncryptedPassword(inputDialog.GetPassword(), MasterPassword).ResultData;
 
-						var textInputDialog = new TextInputDialog();
-						textInputDialog.Title = "Anzeige Name";
-						textInputDialog.Text = "Gib einen Namen an wie der Tresor bei dir angezeigt werden soll. Diesen Namen kannst nur du sehen";
-						var textInputDialogResult = await _contentDialogService.ShowAsync(new ContentDialog()
-						{
-							Content = textInputDialog,
-							PrimaryButtonText = "OK",
-						}, new CancellationToken());
-						if(textInputDialogResult.ToString() == "Primary")
-						{
-							remoteAddressData.PersonalName = textInputDialog.Input;
-						}
-                        Addresses.Add(remoteAddressData);
-						_configurationService.AddRemoteAddress(remoteAddressData);
-					}else
+                            var textInputDialog = new TextInputDialog();
+                            textInputDialog.Title = "Anzeige Name";
+                            textInputDialog.Text = "Gib einen Namen an wie der Tresor bei dir angezeigt werden soll. Diesen Namen kannst nur du sehen";
+                            var textInputDialogResult = await _contentDialogService.ShowAsync(new ContentDialog()
+                            {
+                                Content = textInputDialog,
+                                PrimaryButtonText = "OK",
+                            }, new CancellationToken());
+                            if (textInputDialogResult.ToString() == "Primary")
+                            {
+                                remoteAddressData.PersonalName = textInputDialog.Input;
+                            }
+							remoteAddressData.CipherStorage = t;
+                            Addresses.Add(remoteAddressData);
+                            _configurationService.AddRemoteAddress(remoteAddressData);
+                        }
+                        else
+                        {
+                            _snackbarService.Show("Fehler", "Das Master-Passwort ist nicht gültig wodurch diese Datei nicht entschlüsselt werden kann", ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
+                        }
+                    }
+					catch(Exception ex)
 					{
-						_snackbarService.Show("Fehler", "Das Master-Passwort ist nicht gültig wodurch diese Datei nicht entschlüsselt werden kann", ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
-					}
+                        _snackbarService.Show("Fehler", "Das Master-Passwort ist nicht gültig wodurch diese Datei nicht entschlüsselt werden kann", ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
+                    }
+					
 				}
 				else
 					_snackbarService.Show("Eingabe ungültig", "Deine Eingabe war unvollständig. Das Passwortfeld darf nicht leer sein", ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
