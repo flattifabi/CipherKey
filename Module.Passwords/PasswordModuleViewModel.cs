@@ -16,8 +16,8 @@ using CipherKey.Crypt;
 using CipherKey.Core.Data;
 using Wpf.Ui.Extensions;
 using Wpf.Ui.Controls;
-using CipherKey.Core.Dialogs;
 using CipherKey.Core.Extensions;
+using CipherKey.Core.Dialogs;
 using CipherKey.Core.SafeConnect;
 
 namespace Module.Passwords
@@ -31,8 +31,7 @@ namespace Module.Passwords
 		private readonly ISnackbarService _snackbarService;
 		private readonly IContentDialogService _contentDialogService;
 		private readonly ISafeConnectService _safeConnectService;
-
-		private readonly CreateTopicRemote _createTopicRemote;
+		
 		private readonly CreatePassword _createPasswordView;
 		private readonly CreateTopic _createTopicView;
 		private readonly EditPassword _editPassword;
@@ -48,9 +47,8 @@ namespace Module.Passwords
 		#region Public Constructors
 
 		public PasswordModuleViewModel(IConfigurationService configurationService, IPasswordService passwordService, ISnackbarService snackbarService,
-			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword, 
-			PasswordBackupList backupList, CreateSource createSource, IContentDialogService contentDialogService, ISafeConnectService safeConnectService,
-			CreateTopicRemote createTopicRemote)
+			PasswordModuleView view, CreateTopic createTopicView, CreatePassword createPasswordView, EditPassword editPassword,
+			PasswordBackupList backupList, CreateSource createSource, IContentDialogService contentDialogService, ISafeConnectService safeConnectService)
 		{
 			_configurationService = configurationService;
 			_view = view;
@@ -63,15 +61,13 @@ namespace Module.Passwords
 			_createSource = createSource;
 			_contentDialogService = contentDialogService;
 			_safeConnectService = safeConnectService;
-			_createTopicRemote = createTopicRemote;
 		}
 
 		#endregion Public Constructors
 
 
 		#region Properties
-
-		public IDelegateCommand CloseCommand => new DelegateCommand(Close);
+		
 		public IDelegateCommand CopyPasswordCommand => new DelegateCommand<PasswordBase>(OnCopyPassword);
 		public IDelegateCommand CopyUsernameCommand => new DelegateCommand<PasswordBase>(OnCopyUsername);
 		public IDelegateCommand CreatePasswordCommand => new DelegateCommand(OpenCreatePassword);
@@ -79,9 +75,6 @@ namespace Module.Passwords
 		public IDelegateCommand DeletePasswordEntry => new DelegateCommand<PasswordBase>(OnDeletePasswordEntry);
 		public IDelegateCommand EditPasswordCommand => new DelegateCommand<PasswordBase>(OnEditPasswordEntry);
 		public IDelegateCommand OpenPasswordBackupCommand => new DelegateCommand<PasswordBase>(OnOpenPasswordBackup);
-		public IDelegateCommand AddSourceCommand => new DelegateCommand(OnAddSource);
-		public IDelegateCommand RemoveRemoteConnectionCommand => new DelegateCommand<RemoteAdressData>(OnRemoveRemoteConnection);
-		public IDelegateCommand AddTopicToRemoteConnectionCommand => new DelegateCommand<RemoteAdressData>(OnAddTopicToRemoteConnection);
 
 		public string MasterPassword { get; set; } = string.Empty;
 		public Control ModuleView
@@ -259,11 +252,6 @@ namespace Module.Passwords
 
 		#region Private Methods
 
-		private void Close()
-		{
-			Application.Current.Shutdown();
-		}
-
 		private void CloseModuleView()
 		{
 			var storyboard = _view.FindResource("CollapseModuleView") as Storyboard;
@@ -288,27 +276,6 @@ namespace Module.Passwords
 			Clipboard.SetText(encryptedPassword.ResultData);
 			@base.StartClipboardTimer(currentText);
 		}
-		private async void OnRemoveRemoteConnection(RemoteAdressData data)
-		{
-			TextInputDialog textInputDialog = new();
-			textInputDialog.Title = "Löschen Bestätigen";
-			textInputDialog.Text = "Gib den Namen des Tresors ein um die Verbindung zu entfernen";
-			var result = await _contentDialogService.ShowAsync(new ContentDialog()
-			{
-				Content = textInputDialog,
-				PrimaryButtonText = "OK",
-			}, new CancellationToken());
-			if(result.ToString() != "Primary") return;
-			if(result.ToString() == "Primary" && textInputDialog.Input != data.PersonalName)
-			{
-				_snackbarService.Show("Fehler", "Der Name des Tresors ist nicht korrekt", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
-				return;
-			}
-			_snackbarService.Show("Gelöscht", "Die Verbindung zu dem Tresor wurde entfernt", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
-			_configurationService.RemoveRemoteAddress(data.FilePath);
-			Addresses.Remove(data);
-		}
-
 		private void OnCopyUsername(PasswordBase @base)
 		{
 			_snackbarService.Show("Kopiert", "Der Benutzername wurde in die Zwischenablage kopiert", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
@@ -345,10 +312,7 @@ namespace Module.Passwords
 			_editPassword.SetPasswordBase(passwordBase);
 			SetModuleView(_editPassword);
 		}
-		private void OnAddSource()
-		{
-			SetModuleView(_createSource);
-		}
+		
 		private void OnOpenPasswordBackup(PasswordBase @base)
 		{
 			_backupList.SetPasswordBackup(@base.passwordBackups, @base);
