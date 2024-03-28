@@ -36,9 +36,6 @@ namespace CipherKey.Crypt
 			File.Delete(tempZipFilePath);
 		}
 
-
-
-		
 		public static void Save(T data)
 		{
 			XmlSerializer serializer = new XmlSerializer(typeof(T));
@@ -123,10 +120,6 @@ namespace CipherKey.Crypt
             {
                 return (T)serializer.Deserialize(memoryStream);
             }
-            //using (MemoryStream memoryStream = new MemoryStream(decryptedBytes))
-            //{
-            //	return (T)serializer.Deserialize(memoryStream);
-            //}
         }
 		/// <summary>
 		/// Save the file to the remote address and encrypt it using the key (Network drive)

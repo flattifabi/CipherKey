@@ -27,35 +27,24 @@
                 <TextBlock Text="CipherKey" FontSize="23" HorizontalAlignment="Center" Margin="0 5 0 0" FontWeight="SemiBold"/>
                 <TextBlock Text="Öffne deinen Passwort Tresor mit deinem Master-Passwort" Margin="0 5 0 0"/>
 
-                <TabControl Margin="0 20 0 0" BorderThickness="2" BorderBrush="Gray">
-                    <TabItem Header="Lokal">
-                        <StackPanel Orientation="Vertical">
-                            <ui:PasswordBox x:Name="localMasterPassword" HorizontalAlignment="Stretch" Text="{Binding EnteredLocalStoragePassword, Converter={StaticResource SecureStringConverter}, UpdateSourceTrigger=PropertyChanged}" PlaceholderEnabled="True" PlaceholderText="Master Passwort" Margin="0 15 0 0"/>
-                            <Button Height="50" Padding="5 0 5 0" HorizontalAlignment="Center" Margin="0 20 0 0" Command="{Binding LoadLocalStorage}">
-                                <StackPanel Orientation="Horizontal">
-                                    <ui:SymbolIcon Foreground="Green" Symbol="LockClosed12" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 0 0"/>
-                                    <TextBlock Text="Verifizieren" VerticalAlignment="Center" Margin="10 0 10 0"/>
-                                </StackPanel>
-                            </Button>
+                <StackPanel Orientation="Vertical" Margin="0 20 0 0">
+                    <ui:PasswordBox x:Name="localMasterPassword" HorizontalAlignment="Stretch" Text="{Binding EnteredLocalStoragePassword, Converter={StaticResource SecureStringConverter}, UpdateSourceTrigger=PropertyChanged}" PlaceholderEnabled="True" PlaceholderText="Master Passwort" Margin="0 15 0 0"/>
+                    <Button Height="50" Padding="5 0 5 0" HorizontalAlignment="Center" Margin="0 20 0 0" Command="{Binding LoadLocalStorage}">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Foreground="Green" Symbol="LockClosed12" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                            <TextBlock Text="Verifizieren" VerticalAlignment="Center" Margin="10 0 10 0"/>
                         </StackPanel>
-                    </TabItem>
-                    <TabItem Header="Pfad">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Anmeldung" HorizontalAlignment="Center" Margin="0 10 0 0"></TextBlock>
-                            <ui:TextBox HorizontalAlignment="Stretch" PlaceholderEnabled="True" PlaceholderText="Source-Link" Margin="0 10 0 0"/>
-                            <ui:TextBox HorizontalAlignment="Stretch" PlaceholderEnabled="True" PlaceholderText="E-Mail" Margin="0 10 0 0"/>
-                            <ui:PasswordBox HorizontalAlignment="Stretch" PlaceholderEnabled="True" PlaceholderText="Passwort" Margin="0 10 0 0"/>
-                            <Button Height="50" Padding="5 0 5 0" HorizontalAlignment="Center" Margin="0 20 0 0">
-                                <StackPanel Orientation="Horizontal">
-                                    <ui:SymbolIcon Foreground="Green" Symbol="LockClosed12" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 0 0"/>
-                                    <TextBlock Text="Verifizieren" VerticalAlignment="Center" Margin="10 0 10 0"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </TabItem>
-                </TabControl>
+                    </Button>
+                </StackPanel>
+
+
+                
                 
             </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15">
+            <Image Source="/assets/images/wwd_logo.png" Height="35" Width="35"/>
+            <TextBlock Text="Ein Produkt von WebWatchDog" VerticalAlignment="Center" Margin="10 0 0 0" Foreground="Gray"/>
         </StackPanel>
     </Grid>
 </ui:FluentWindow>

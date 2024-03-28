@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="assets\images\CodeQuestLogoWithoutText.png" />
+    <None Remove="assets\images\wwd_logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +41,7 @@
 
   <ItemGroup>
     <Resource Include="assets\images\CodeQuestLogoWithoutText.png" />
+    <Resource Include="assets\images\wwd_logo.png" />
   </ItemGroup>
 
 </Project>
