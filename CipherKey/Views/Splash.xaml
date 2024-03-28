@@ -16,6 +16,7 @@
         Title="CipherKey | Login" Height="600" Width="800" Icon="/assets/images/CodeQuestLogoWithoutText.png">
     <Window.Resources>
         <converter:SecureStringConverter x:Key="SecureStringConverter"/>
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <Button BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15" Command="{Binding CloseCommand}">
@@ -42,10 +43,9 @@
                     <TabItem Header="Pfad">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Anmeldung" HorizontalAlignment="Center" Margin="0 10 0 0"></TextBlock>
-                            <ui:TextBox HorizontalAlignment="Stretch" PlaceholderEnabled="True" PlaceholderText="Source-Link" Margin="0 10 0 0"/>
-                            <ui:TextBox HorizontalAlignment="Stretch" PlaceholderEnabled="True" PlaceholderText="E-Mail" Margin="0 10 0 0"/>
-                            <ui:PasswordBox HorizontalAlignment="Stretch" PlaceholderEnabled="True" PlaceholderText="Passwort" Margin="0 10 0 0"/>
-                            <Button Height="50" Padding="5 0 5 0" HorizontalAlignment="Center" Margin="0 20 0 0">
+                            <ui:TextBox x:Name="RemotePath" HorizontalAlignment="Stretch" PlaceholderEnabled="True" PlaceholderText=".cipher Pfad" Margin="0 10 0 0"/>
+                            <ui:PasswordBox HorizontalAlignment="Stretch" x:Name="RemotePassword" PlaceholderEnabled="True" PlaceholderText="Passwort" Margin="0 10 0 0"/>
+                            <Button Height="50" Padding="5 0 5 0" HorizontalAlignment="Center" Margin="0 20 0 0" Command="{Binding LoadPathStorage}">
                                 <StackPanel Orientation="Horizontal">
                                     <ui:SymbolIcon Foreground="Green" Symbol="LockClosed12" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10 0 0 0"/>
                                     <TextBlock Text="Verifizieren" VerticalAlignment="Center" Margin="10 0 10 0"/>
@@ -56,6 +56,14 @@
                 </TabControl>
             </StackPanel>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10" Visibility="{Binding IsError, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ui:SymbolIcon Symbol="ErrorCircle12" Foreground="Red" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding ErrorText, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 0 0" VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10">
+            <Image Source="/assets/images/wwd_logo.png" Height="35" Width="35" VerticalAlignment="Center"></Image>
+            <TextBlock Text="WebWatchDog CipherKey" Foreground="Gray" Margin="10 0 0 0" VerticalAlignment="Bottom"></TextBlock>
+        </StackPanel>
     </Grid>
-
+    
 </ui:FluentWindow>
