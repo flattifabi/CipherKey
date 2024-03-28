@@ -88,7 +88,6 @@ namespace Module.Passwords
 		}
 
 		public ObservableCollection<PasswordBase> Passwords { get; set; }
-		public ObservableCollection<RemoteAdressData> Addresses { get; set; }
 		public Topic SelectedTopic
 		{
 			get => _selectedTopic;
@@ -110,12 +109,10 @@ namespace Module.Passwords
 		public async void Initialize()
 		{
 			Topics = new ObservableCollection<Topic>(_configurationService.GetTopics().ResultData);
-			Addresses = new ObservableCollection<RemoteAdressData>(_configurationService.GetRemoteAdresses().ResultData);
 
             _createTopicView.TopicCreated += OnTopicCreated;
 			_createPasswordView.PasswordCreated += OnPasswordCreated;
 			_editPassword.PasswordChanged += OnPasswordChanged;
-			_createSource.RemoteAdressWantToAdd += OnSourceWantToAdd;
 			_backupList.PasswordBackupSetEvent += (sender, e) =>
 			{
 				LoadPasswordsForSelectedTopic();
@@ -123,16 +120,8 @@ namespace Module.Passwords
 				_snackbarService.Show("Wiederhergestellt", "Das Passwort wurde wiederhergestellt", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
 				CloseModuleView();
 			};
-
-			if(Addresses.Where(x => !string.IsNullOrEmpty(x.Password)).Count() != 0)
-			{
-				var result = await _safeConnectService.ConnectAllAvailabelSafes(Addresses.Where(x => !string.IsNullOrEmpty(x.Password)).ToList(), MasterPassword);
-				if (result) _snackbarService.Show("Erfolgreich", "Alle Tresore wurden erfolgreich verbunden", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
-				else _snackbarService.Show("Fehler", "Es konnten nicht alle Tresore verbunden werden", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
-			}
+			
 			SelectedTopic = Topics.FirstOrDefault();
-			foreach(var address in Addresses)
-				address.Changed();
 			OnPropertyChanged(nameof(Topics));
 		}
 		private async void OnAddTopicToRemoteConnection(RemoteAdressData data)
@@ -175,76 +164,6 @@ namespace Module.Passwords
 			//	Path = data.FilePath,
 			//	Password = data.Password,
 			//});
-		}
-		private async void OnSourceWantToAdd(object? sender, string e)
-		{
-			var checkIfSourceIsValid = CipherF<CipherStorage>.IsRemoteSourceValid(e);
-			if (!checkIfSourceIsValid)
-			{
-				_snackbarService.Show("Fehler", "Der Tresorpfad ist nicht gültig. Überprüfe den Pfad und die Datei", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
-				return;
-			}
-
-			var inputDialog = new InputDialog();
-			inputDialog.Title = "Passwort eingeben";
-			inputDialog.Text = "Gib das Master-Passwort für den geteilten Tresor ein";
-			var result = await _contentDialogService.ShowAsync(new ContentDialog()
-			{
-				Content = inputDialog,
-				PrimaryButtonText = "OK",
-			}, new CancellationToken());
-
-			if(result.ToString() != "Primary") return;
-			if(result.ToString() == "Primary")
-			{
-				if (!string.IsNullOrEmpty(inputDialog.GetPassword()))
-				{
-					try
-					{
-                        var t = CipherF<CipherStorage>.Load(e, inputDialog.GetPassword().Hash());
-                        if (t != null)
-                        {
-                            var remoteAddressData = new RemoteAdressData()
-                            {
-                                FilePath = e,
-                                PersonalName = e,
-                                RemoteAddressState = CipherKey.Core.Enums.RemoteAddressState.Connected,
-                                Password = inputDialog.GetPassword(),
-                            };
-                            if (t.EnableToSavePassword)
-                                remoteAddressData.Password = _passwordService.GetEncryptedPassword(inputDialog.GetPassword(), MasterPassword).ResultData;
-
-                            var textInputDialog = new TextInputDialog();
-                            textInputDialog.Title = "Anzeige Name";
-                            textInputDialog.Text = "Gib einen Namen an wie der Tresor bei dir angezeigt werden soll. Diesen Namen kannst nur du sehen";
-                            var textInputDialogResult = await _contentDialogService.ShowAsync(new ContentDialog()
-                            {
-                                Content = textInputDialog,
-                                PrimaryButtonText = "OK",
-                            }, new CancellationToken());
-                            if (textInputDialogResult.ToString() == "Primary")
-                            {
-                                remoteAddressData.PersonalName = textInputDialog.Input;
-                            }
-							remoteAddressData.CipherStorage = t;
-                            Addresses.Add(remoteAddressData);
-                            _configurationService.AddRemoteAddress(remoteAddressData);
-                        }
-                        else
-                        {
-                            _snackbarService.Show("Fehler", "Das Master-Passwort ist nicht gültig wodurch diese Datei nicht entschlüsselt werden kann", ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
-                        }
-                    }
-					catch(Exception ex)
-					{
-                        _snackbarService.Show("Fehler", "Das Master-Passwort ist nicht gültig wodurch diese Datei nicht entschlüsselt werden kann", ControlAppearance.Danger, null, new TimeSpan(0, 0, 5));
-                    }
-					
-				}
-				else
-					_snackbarService.Show("Eingabe ungültig", "Deine Eingabe war unvollständig. Das Passwortfeld darf nicht leer sein", ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
-			}
-			Console.WriteLine("Test");
 		}
 
 		#endregion Public Methods
