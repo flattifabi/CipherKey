@@ -12,7 +12,6 @@ namespace CipherKey.Core.Configurations
     public interface IConfigurationService
     {
 		void Initialize();
-		CipherResult<List<RemoteAdressData>> GetRemoteAdresses();
 		CipherResult<bool> IsConfigured();
 		CipherResult<bool> SetMasterPassword(string enteredMasterPassword);
 		CipherResult<string> CheckPassword(string password);
@@ -24,7 +23,8 @@ namespace CipherKey.Core.Configurations
 		CipherResult<bool> UpdateTopic(Topic topic, ISourceConfiguration sourceConfiguration);
 		CipherResult<List<Topic>> GetTopics();
 		CipherResult<List<Topic>> GetTopics(ISourceConfiguration sourceConfiguration);
-		CipherResult<bool> AddRemoteAddress(RemoteAdressData addressData);
-		CipherResult<bool> RemoveRemoteAddress(string address);
-	}
+		CipherResult<bool> UpdateApplicationConfiguration(PublicApplicationConfiguration updateValues);
+		CipherResult<PublicApplicationConfiguration> GetApplicationConfiguration();
+
+    }
 }

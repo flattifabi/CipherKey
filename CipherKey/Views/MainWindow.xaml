@@ -50,8 +50,12 @@
         <Grid Grid.ColumnSpan="100" Background="{ui:ThemeResource }" MouseDown="RowDefinition_MouseDown"></Grid>
 
         <!-- Header information -->
-        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="100" Margin="15" Grid.RowSpan="100" Panel.ZIndex="99">
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="100" Margin="15" Panel.ZIndex="99">
             <TextBlock Text="CipherKey"/>
+            <Border Background="Gray" Width="2" Margin="20 0 0 0"/> 
+            <TextBlock Text="Made with" Margin="20 0 0 0"/>
+            <ui:SymbolIcon Symbol="Heart12" VerticalAlignment="Top" Margin="5 2 0 0" Foreground="Red"/>
+            <TextBlock Text="by WebWatchDog" Margin="5 0 0 0"/>
         </StackPanel>
 
         <!-- Right Window Commands -->

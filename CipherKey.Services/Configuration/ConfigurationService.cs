@@ -21,20 +21,24 @@ namespace CipherKey.Services.Configuration
 	{
 
         #region Public Constructors
+
+        private XmlService<PublicApplicationConfiguration> _configuration;
         private readonly ILogService _logService;
 		private readonly IPasswordService _passwordService;
         public ConfigurationService(ILogService logService, IPasswordService passwordService)
 		{
             _logService = logService;
 			_passwordService = passwordService;
-        }
+			_configuration =
+				new XmlService<PublicApplicationConfiguration>(FilePaths.CipherPublicConfigurationFilePath);
+		}
 
 		#endregion Public Constructors
 
 		#region Public Methods
 
 		public CipherResult<bool> AddTopic(Topic topic)
-        { 
+        {
             try
             {
 				var t = CipherF<CipherStorage>.Load();
@@ -85,21 +89,6 @@ namespace CipherKey.Services.Configuration
 				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
             }
         }
-
-		public CipherResult<List<RemoteAdressData>> GetRemoteAdresses()
-		{
-            try
-            {
-				var t = CipherF<CipherStorage>.Load();
-				var addresses = t.ApplicationConfiguration.RemoteAddresses;
-				return new CipherResult<List<RemoteAdressData>> { ResultData = addresses };
-			}
-            catch(Exception e)
-            {
-                _logService.Error<IConfigurationService>("Failed to get remote addresses", null, e);
-                return new CipherResult<List<RemoteAdressData>> { ResultData = new List<RemoteAdressData>(), ErrorText = e.Message };
-            }
-		}
 
 		public CipherResult<List<Topic>> GetTopics()
         {
@@ -183,44 +172,6 @@ namespace CipherKey.Services.Configuration
 				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
             }
         }
-		public CipherResult<bool> AddRemoteAddress(RemoteAdressData address)
-		{
-            try
-            {
-				var t = CipherF<CipherStorage>.Load();
-				t.ApplicationConfiguration.RemoteAddresses.Add(address);
-				CipherF<CipherStorage>.Save(t);
-                _logService.Info<IConfigurationService>("Remote address added", null);
-				return new CipherResult<bool> { ResultData = true };
-			}
-            catch(Exception e)
-            {
-                _logService.Error<IConfigurationService>("Failed to add remote address", null, e);
-                return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
-            }
-		}
-		public CipherResult<bool> RemoveRemoteAddress(string address)
-		{
-            try
-            {
-				var t = CipherF<CipherStorage>.Load();
-				var remoteAddress = t.ApplicationConfiguration.RemoteAddresses.FirstOrDefault(x => x.FilePath == address);
-				if (remoteAddress != null)
-				{
-					t.ApplicationConfiguration.RemoteAddresses.Remove(remoteAddress);
-					CipherF<CipherStorage>.Save(t);
-					return new CipherResult<bool> { ResultData = true };
-				}
-                _logService.Info<IConfigurationService>("Adress not available on personal source", address);
-				return new CipherResult<bool> { ResultData = false, ErrorText = "Adress not available on personal source" };
-			}
-            catch(Exception e)
-            {
-                _logService.Error<IConfigurationService>("Failed to remove remote address", null, e);
-				return new CipherResult<bool> { ResultData = false, ErrorText = e.Message };
-            }
-			
-		}
 		#endregion Public Methods
 
 		#region Private Methods
@@ -319,6 +270,28 @@ namespace CipherKey.Services.Configuration
 				_logService.Error<IConfigurationService>($"Failed to load topics at Remote [{sourceConfiguration.Path}]", null, e);
 				return new CipherResult<List<Topic>> { ResultData = new List<Topic>(), ErrorText = e.Message };
 			}
+		}
+
+		public CipherResult<bool> UpdateApplicationConfiguration(PublicApplicationConfiguration updateValues)
+		{
+			Predicate<PublicApplicationConfiguration> get = (conf) => conf.ID == updateValues.ID;
+			Action<PublicApplicationConfiguration> upd = (update) => update = updateValues;
+			_configuration.Update(get, upd);
+			return new CipherResult<bool> { ResultData = true };
+		}
+
+		public CipherResult<PublicApplicationConfiguration> GetApplicationConfiguration()
+		{
+			var result = _configuration.GetAll();
+			if(result.Count == 0)
+				_configuration.Add(new PublicApplicationConfiguration()
+				{
+					ID = 1,
+					LanguagePack = "us-US",
+					ThemeName = "WWD_Dark",
+					LastConnectedFilePath = ""
+				});
+			return new CipherResult<PublicApplicationConfiguration>() { ResultData = result.First() };
 		}
 
 		#endregion Private Methods

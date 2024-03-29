@@ -28,19 +28,13 @@ namespace CipherKey.Core.Helpers
 				aes.Key = keyBytes;
 				aes.GenerateIV();
 
-				using (FileStream fsInput = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
+				using FileStream fsInput = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite);
+				using FileStream fsEncrypted = new FileStream(filePath + ".encrypted", FileMode.Create, FileAccess.Write);
+				using ICryptoTransform encryptor = aes.CreateEncryptor();
+				using (CryptoStream cs = new CryptoStream(fsEncrypted, encryptor, CryptoStreamMode.Write))
 				{
-					using (FileStream fsEncrypted = new FileStream(filePath + ".encrypted", FileMode.Create, FileAccess.Write))
-					{
-						using (ICryptoTransform encryptor = aes.CreateEncryptor())
-						{
-							using (CryptoStream cs = new CryptoStream(fsEncrypted, encryptor, CryptoStreamMode.Write))
-							{
-								fsEncrypted.Write(aes.IV, 0, aes.IV.Length);
-								fsInput.CopyTo(cs);
-							}
-						}
-					}
+					fsEncrypted.Write(aes.IV, 0, aes.IV.Length);
+					fsInput.CopyTo(cs);
 				}
 			}
 
