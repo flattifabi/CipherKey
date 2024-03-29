@@ -18,8 +18,8 @@ namespace CipherKey.Core.ApplicationConstants
         public static readonly string LogFolder = PasswordStorageFilePath + "Logs\\";
         public static void CreateBaseFilePath()
         {
-	        if (!System.IO.Directory.Exists(CipherPublicConfigurationFilePath))
-		        System.IO.Directory.CreateDirectory(CipherPublicConfigurationFilePath);
+	        if (!System.IO.Directory.Exists(ProgrammFilePath))
+		        System.IO.Directory.CreateDirectory(ProgrammFilePath);
 			if (!System.IO.Directory.Exists(PasswordStorageFilePath))
 				System.IO.Directory.CreateDirectory(PasswordStorageFilePath);
 		}

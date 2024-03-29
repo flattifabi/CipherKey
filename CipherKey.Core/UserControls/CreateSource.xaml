@@ -20,18 +20,18 @@
                     <TextBlock Text="Tresor Verbindung hinzufügen" FontSize="17" FontWeight="Bold" Margin="0 10 0 0"/>
                     <Border Background="Black" Height="2" HorizontalAlignment="Stretch" Margin="0 15 0 0" Opacity=".2"/>
 
-                    <Expander Header="Verbindung zu Laufwerk" Margin="0 10 0 0">
-                        <Expander.Content>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Bei einer Verbindung zum Laufwerk muss die Adresse der .cipher Datei eingegeben werden. Wende dich an den ersteller des Tresors" TextWrapping="Wrap"/>
-                                <WrapPanel Margin="0 5 0 0">
-                                    <ui:TextBox PlaceholderEnabled="True" Text="{Binding RemotePath, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Y:\Laufwerk\storage.cipher" Margin="0 0 0 0"/>
-                                    <Button Content="Durchsuchen" Command="{Binding SelectRemotePasswordSafeCommand}" VerticalAlignment="Center" Height="35"/>
-                                </WrapPanel>
-                                <Button Content="Hinzufügen" Command="{Binding AddRemoteSourceCommand}" Margin="0 10 0 0" HorizontalAlignment="Right"/>
-                            </StackPanel>
-                        </Expander.Content>
-                    </Expander>
+                    <!-- <Expander Header="Verbindung zu Laufwerk" Margin="0 10 0 0"> -->
+                    <!--     <Expander.Content> -->
+                    <!--         <StackPanel Orientation="Vertical"> -->
+                    <!--             <TextBlock Text="Bei einer Verbindung zum Laufwerk muss die Adresse der .cipher Datei eingegeben werden. Wende dich an den ersteller des Tresors" TextWrapping="Wrap"/> -->
+                    <!--             <WrapPanel Margin="0 5 0 0"> -->
+                    <!--                 <ui:TextBox PlaceholderEnabled="True" Text="{Binding RemotePath, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="Y:\Laufwerk\storage.cipher" Margin="0 0 0 0"/> -->
+                    <!--                 <Button Content="Durchsuchen" Command="{Binding SelectRemotePasswordSafeCommand}" VerticalAlignment="Center" Height="35"/> -->
+                    <!--             </WrapPanel> -->
+                    <!--             <Button Content="Hinzufügen" Command="{Binding AddRemoteSourceCommand}" Margin="0 10 0 0" HorizontalAlignment="Right"/> -->
+                    <!--         </StackPanel> -->
+                    <!--     </Expander.Content> -->
+                    <!-- </Expander> -->
 
                     <Expander Header="Tresor erstellen" Margin="0 10 0 0">
                         <Expander.Content>

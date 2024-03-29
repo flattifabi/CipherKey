@@ -283,6 +283,14 @@ namespace CipherKey.Services.Configuration
 		public CipherResult<PublicApplicationConfiguration> GetApplicationConfiguration()
 		{
 			var result = _configuration.GetAll();
+			if(result.Count == 0)
+				_configuration.Add(new PublicApplicationConfiguration()
+				{
+					ID = 1,
+					LanguagePack = "us-US",
+					ThemeName = "WWD_Dark",
+					LastConnectedFilePath = ""
+				});
 			return new CipherResult<PublicApplicationConfiguration>() { ResultData = result.First() };
 		}
 
