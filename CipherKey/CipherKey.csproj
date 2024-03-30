@@ -37,6 +37,7 @@
     <ProjectReference Include="..\CipherKey.Crypt\CipherKey.Crypt.csproj" />
     <ProjectReference Include="..\CipherKey.Services\CipherKey.Services.csproj" />
     <ProjectReference Include="..\Module.Passwords\Module.Passwords.csproj" />
+    <ProjectReference Include="..\Module.Triggers\Module.Triggers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

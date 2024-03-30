@@ -39,9 +39,8 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
         
-        <StackPanel Orientation="Horizontal" Grid.RowSpan="100" Grid.ColumnSpan="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
+        <StackPanel Orientation="Horizontal" Panel.ZIndex="999999" Grid.RowSpan="100" Grid.ColumnSpan="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
             <TextBlock Text="Made with" Margin="20 0 0 0"/>
             <ui:SymbolIcon Symbol="Heart12" VerticalAlignment="Top" Margin="5 2 0 0" Foreground="Red"/>
             <TextBlock Text="by WebWatchDog" Margin="5 0 0 0"/>
@@ -82,7 +81,7 @@
                 <DataTemplate>
                     <Grid Background="Transparent" Width="55" Height="55">
 
-                        <ui:SymbolIcon Symbol="{Binding Symbol.Symbol, UpdateSourceTrigger=PropertyChanged}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ui:SymbolIcon Symbol="{Binding Symbol.Symbol, UpdateSourceTrigger=PropertyChanged}" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                         <ToolTipService.ToolTip>
                             <ToolTip Content="{Binding ModuleName}"/>
