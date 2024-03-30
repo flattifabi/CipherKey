@@ -13,7 +13,7 @@
         ResizeMode="NoResize"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         WindowStartupLocation="CenterScreen" x:Name="Window"
-        Title="CipherKey | Login" Height="620" Width="800" Icon="/assets/images/CodeQuestLogoWithoutText.png">
+        Title="CipherKey | Auth" Height="620" Width="800" Icon="/assets/images/CodeQuestLogoWithoutText.png">
     <Window.Resources>
         <converter:SecureStringConverter x:Key="SecureStringConverter"/>
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

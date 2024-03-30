@@ -142,8 +142,6 @@ namespace Module.Passwords
 		{
 			var webAddress = obj.AutoTypeConfiguration.WebPath;
 			WindowsOpenPathCommand.OpenWebPath(webAddress);
-			await Task.Delay(500);
-			NativeFactory.SendKeys("hallo");
 		}
 		private void LoadPasswordsForSelectedTopic()
 		{
