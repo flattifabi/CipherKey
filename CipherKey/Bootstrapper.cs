@@ -22,7 +22,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Module.Triggers;
 using Wpf.Ui;
 
 namespace CipherKey
@@ -72,10 +71,6 @@ namespace CipherKey
 			services.AddSingleton<PasswordModuleView>();
 			services.AddSingleton<PasswordModuleViewModel>();
 			services.AddSingleton<PasswordModule>();
-
-			services.AddSingleton<TriggerModuleView>();
-			services.AddSingleton<TriggerModuleViewModel>();
-			services.AddSingleton<TriggerModule>();
 		}
 		public void Run()
 		{

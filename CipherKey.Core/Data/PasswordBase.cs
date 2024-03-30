@@ -1,15 +1,10 @@
 ﻿using CipherKey.Core.Data;
 using CipherKey.Core.Enums;
 using CipherKey.Core.Helpers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using System.Xml.Serialization;
+using CipherKey.Core.Automation;
 
 namespace CipherKey.Core.Password
 {
@@ -74,6 +69,7 @@ namespace CipherKey.Core.Password
         [XmlAttribute]
         public string Password { get; set; } = string.Empty;
 
+        [XmlElement] public AutoTypeConfiguration AutoTypeConfiguration { get; set; } = new AutoTypeConfiguration() { };
         public PasswordEntryDesign PasswordEntryDesign { get; set; } = new PasswordEntryDesign();
 
         public PasswordProperties PasswordProperties { get; set; } = new PasswordProperties();
@@ -98,10 +94,21 @@ namespace CipherKey.Core.Password
         [XmlAttribute]
         public Guid Guid { get; set; } = Guid.NewGuid();
 
+        [XmlIgnore]
+        public bool IsAutoTypeAvailable
+        {
+	        get
+	        {
+		        if (string.IsNullOrEmpty(this.AutoTypeConfiguration.WebPath))
+			        return false;
+		        else return true;
+	        }
+        }
+
         #endregion Public Properties
 
         #region Public Methods
-
+        
         public void DataChanged()
         {
             OnPropertyChanged(nameof(Name), nameof(Note), nameof(Password), nameof(PasswordEntryDesign), nameof(PasswordProperties), 

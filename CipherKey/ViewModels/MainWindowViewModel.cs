@@ -15,7 +15,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using Module.Triggers;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
@@ -36,18 +35,14 @@ namespace CipherKey.ViewModels
 
         private readonly MainWindow _mainWindow;
         private readonly PasswordModule _passwordModule;
-        private readonly TriggerModule _triggerModule;
-        public MainWindowViewModel(PasswordModule passwordModule, MainWindow mainWindow, TriggerModule triggerModule)
+        public MainWindowViewModel(PasswordModule passwordModule, MainWindow mainWindow)
         {
             _passwordModule = passwordModule;
             _mainWindow = mainWindow;
-            _triggerModule = triggerModule;
-
         }
         public void Initialize()
         {
             Modules.Add(_passwordModule);
-            Modules.Add(_triggerModule);
             foreach(var module in Modules)
                 module.Initialize();
 
