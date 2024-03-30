@@ -8,9 +8,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using System.Windows;
+using System.Windows.Forms;
 using Wpf.Ui;
 using CipherKey.Crypt;
 using CipherKey.Core.Data;
@@ -18,7 +17,10 @@ using Wpf.Ui.Extensions;
 using Wpf.Ui.Controls;
 using CipherKey.Core.Extensions;
 using CipherKey.Core.Dialogs;
+using CipherKey.Core.NativeCommands;
 using CipherKey.Core.SafeConnect;
+using Clipboard = System.Windows.Clipboard;
+using Control = System.Windows.Controls.Control;
 
 namespace Module.Passwords
 {
@@ -75,6 +77,7 @@ namespace Module.Passwords
 		public IDelegateCommand DeletePasswordEntry => new DelegateCommand<PasswordBase>(OnDeletePasswordEntry);
 		public IDelegateCommand EditPasswordCommand => new DelegateCommand<PasswordBase>(OnEditPasswordEntry);
 		public IDelegateCommand OpenPasswordBackupCommand => new DelegateCommand<PasswordBase>(OnOpenPasswordBackup);
+		public IDelegateCommand AutoTypeCredentialsCommand => new DelegateCommand<PasswordBase>(AutoTypeCredentials);
 
 		public string MasterPassword { get; set; } = string.Empty;
 		public Control ModuleView
@@ -124,48 +127,7 @@ namespace Module.Passwords
 			SelectedTopic = Topics.FirstOrDefault();
 			OnPropertyChanged(nameof(Topics));
 		}
-		private async void OnAddTopicToRemoteConnection(RemoteAdressData data)
-		{
-			AddRemoteTopicDialog addRemoteTopicDialog = new();
-			var result = await _contentDialogService.ShowAsync(new ContentDialog()
-			{
-				Content = addRemoteTopicDialog,
-				PrimaryButtonText = "OK",
-			}, new CancellationToken());
-			if(result.ToString() != "Primary") return;
-			if(result.ToString() == "Primary")
-			{
-
-				if(string.IsNullOrEmpty(addRemoteTopicDialog.Topic.Name))
-				{
-					_snackbarService.Show("Fehler", "Der Name des Themas darf nicht leer sein", Wpf.Ui.Controls.ControlAppearance.Caution, null, new TimeSpan(0, 0, 5));
-					return;
-				}
-				var topic = new Topic()
-				{
-					Name = addRemoteTopicDialog.Topic.Name,
-					Description = addRemoteTopicDialog.Topic.Description,
-					Design = addRemoteTopicDialog.Topic.Design
-				};
-				_configurationService.AddTopic(topic, new SourceConfiguration()
-				{
-					Password = data.Password,
-					Path = data.FilePath,
-					LocalMasterPassword = MasterPassword
-				});
-				//Topics.Add(topic);
-				data.CipherStorage.Topics.Add(topic);
-				data.Changed();
-				_snackbarService.Show("Erfolgreich", "Die Kategorie wurde erfolgreich hinzugefügt", Wpf.Ui.Controls.ControlAppearance.Success, null, new TimeSpan(0, 0, 5));
-			}
-
-			//_createTopicRemote.SetSourceContext(new SourceConfiguration()
-			//{
-			//	Path = data.FilePath,
-			//	Password = data.Password,
-			//});
-		}
-
+		
 		#endregion Public Methods
 
 
@@ -176,7 +138,11 @@ namespace Module.Passwords
 			var storyboard = _view.FindResource("CollapseModuleView") as Storyboard;
 			storyboard.Begin();
 		}
-
+		private async void AutoTypeCredentials(PasswordBase obj)
+		{
+			var webAddress = obj.AutoTypeConfiguration.WebPath;
+			WindowsOpenPathCommand.OpenWebPath(webAddress);
+		}
 		private void LoadPasswordsForSelectedTopic()
 		{
 			if (SelectedTopic == null)
@@ -271,7 +237,8 @@ namespace Module.Passwords
 				PasswordScore = e.PasswordScore,
 				Username = e.Username,
 				Value = e.Value,
-				Created = e.Created
+				Created = e.Created,
+				AutoTypeConfiguration = e.AutoTypeConfiguration
 			};
 			_passwordService.AddPassword(password);
 			Passwords.Add(password);
