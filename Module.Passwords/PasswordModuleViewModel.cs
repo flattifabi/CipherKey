@@ -8,9 +8,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using System.Windows;
+using System.Windows.Forms;
 using Wpf.Ui;
 using CipherKey.Crypt;
 using CipherKey.Core.Data;
@@ -20,6 +19,8 @@ using CipherKey.Core.Extensions;
 using CipherKey.Core.Dialogs;
 using CipherKey.Core.NativeCommands;
 using CipherKey.Core.SafeConnect;
+using Clipboard = System.Windows.Clipboard;
+using Control = System.Windows.Controls.Control;
 
 namespace Module.Passwords
 {
@@ -137,10 +138,12 @@ namespace Module.Passwords
 			var storyboard = _view.FindResource("CollapseModuleView") as Storyboard;
 			storyboard.Begin();
 		}
-		private void AutoTypeCredentials(PasswordBase obj)
+		private async void AutoTypeCredentials(PasswordBase obj)
 		{
 			var webAddress = obj.AutoTypeConfiguration.WebPath;
 			WindowsOpenPathCommand.OpenWebPath(webAddress);
+			await Task.Delay(500);
+			NativeFactory.SendKeys("hallo");
 		}
 		private void LoadPasswordsForSelectedTopic()
 		{
