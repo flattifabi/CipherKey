@@ -16,4 +16,9 @@
       <ProjectReference Include="..\CipherKey.Core\CipherKey.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="assets\images\CodeQuestLogoWithoutText.png" />
+      <Resource Include="assets\images\CodeQuestLogoWithoutText.png" />
+    </ItemGroup>
+
 </Project>
