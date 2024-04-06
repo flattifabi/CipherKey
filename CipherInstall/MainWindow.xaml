@@ -8,9 +8,8 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         WindowStartupLocation="CenterScreen" x:Name="Window"
         mc:Ignorable="d"
-        Title="CipherKey | Install" Height="620" Width="600" Icon="/assets/images/CodeQuestLogoWithoutText.png">
+        Title="CipherKey | Install" Height="500" Width="400" Icon="/assets/images/CodeQuestLogoWithoutText.png">
     <Grid>
-        
         <ContentControl Width="0" Grid.RowSpan="100" Grid.ColumnSpan="100" Panel.ZIndex="99999" Content="{Binding ModuleView, UpdateSourceTrigger=PropertyChanged}" x:Name="ModuleView" HorizontalAlignment="Right" Margin="0 25 0 25"/>
         
         <Button BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15" Command="{Binding CloseCommand}">
@@ -20,17 +19,25 @@
             <Image Source="/assets/images/CodeQuestLogoWithoutText.png" Height="120"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 15 0 0">
                 <TextBlock Text="CipherKey - Install" FontSize="23" HorizontalAlignment="Center" Margin="0 5 0 0" FontWeight="SemiBold"/>
-                <TextBlock Text="CipherKey Installer" Margin="0 5 0 0"/>
                 
-                <CheckBox Content="Desktop Icon erstellen"></CheckBox>
-                <CheckBox Content="Benachrichtigung ein"></CheckBox>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 15 0 0">
+                    <CheckBox Content="Desktop Icon erstellen"></CheckBox>
+                    <CheckBox Content="Statistik an das WebWatchDog senden"></CheckBox>
+                    <TextBlock Text="*Die Statistiken enthalten keine Persönlichen Informationen. Diese Informationen dienen dazu den Tresor zu verbessern" TextWrapping="Wrap" Opacity=".3"></TextBlock>
+                </StackPanel>
+                
+                <Button HorizontalAlignment="Center" Padding="5 5 5 5" Margin="0 15 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Symbol="ArrowDownload16"></ui:SymbolIcon>
+                        <TextBlock Text="Download" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                    
+                </Button>
+                
+                
                 
                 
             </StackPanel>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10" Visibility="{Binding IsError, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <ui:SymbolIcon Symbol="ErrorCircle12" Foreground="Red" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding ErrorText, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 0 0" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10">
             <Image Source="/assets/images/wwd_logo.png" Height="35" Width="35" VerticalAlignment="Center"></Image>

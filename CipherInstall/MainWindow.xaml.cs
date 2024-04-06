@@ -20,6 +20,8 @@ namespace CipherInstall;
 /// </summary>
 public partial class MainWindow : FluentWindow, INotifyPropertyChanged
 {
+    private bool _createDesktopShortCut;
+    private bool _sendAnalytics;
     private bool _isInstallActive;
     private string _installInformation;
     public bool IsInstallActive
@@ -32,6 +34,24 @@ public partial class MainWindow : FluentWindow, INotifyPropertyChanged
         }
     }
 
+    public bool SendAnalytics
+    {
+        get => _sendAnalytics;
+        set
+        {
+            _sendAnalytics = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool CreateDesktopShortcut
+    {
+        get => _createDesktopShortCut;
+        set
+        {
+            _createDesktopShortCut = value;
+            OnPropertyChanged();
+        }
+    }
     public string InstallInformation
     {
         get => _installInformation;
@@ -54,6 +74,7 @@ public partial class MainWindow : FluentWindow, INotifyPropertyChanged
 
     private void StartInstall()
     {
+        
     }
     
     
