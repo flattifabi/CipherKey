@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.FileCryptor", "Modul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CipherInstall", "CipherInstall\CipherInstall.csproj", "{5F52015E-5382-4411-9858-958E405DDAEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CipherKey.Cloud", "CipherKey.Cloud\CipherKey.Cloud.csproj", "{09F2A225-BFF9-4906-9E2B-E5AA5D086901}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{5F52015E-5382-4411-9858-958E405DDAEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F52015E-5382-4411-9858-958E405DDAEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F52015E-5382-4411-9858-958E405DDAEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09F2A225-BFF9-4906-9E2B-E5AA5D086901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F2A225-BFF9-4906-9E2B-E5AA5D086901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F2A225-BFF9-4906-9E2B-E5AA5D086901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F2A225-BFF9-4906-9E2B-E5AA5D086901}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
