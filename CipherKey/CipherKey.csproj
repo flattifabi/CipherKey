@@ -7,8 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <PackageIcon>CodeQuestLogoWithoutText.png</PackageIcon>
-    <Title></Title>
-    <Description></Description>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <SignAssembly>true</SignAssembly>
     <PublicSign>true</PublicSign>
     <AssemblyOriginatorKeyFile>Flattinger.snk</AssemblyOriginatorKeyFile>
