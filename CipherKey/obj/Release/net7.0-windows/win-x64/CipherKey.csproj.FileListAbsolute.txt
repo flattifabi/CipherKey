@@ -37,8 +37,6 @@ C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x6
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\Views\Splash.baml
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.g.resources
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.AssemblyInfoInputs.cache
-C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.AssemblyInfo.cs
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.csproj.CoreCompileInputs.cache
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.csproj.CopyComplete
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.dll
@@ -46,3 +44,4 @@ C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x6
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.pdb
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey.genruntimeconfig.cache
 C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\ref\CipherKey.dll
+C:\Users\fabif\RiderProjects\windows\CipherKey\obj\Release\net7.0-windows\win-x64\CipherKey_Content.g.cs

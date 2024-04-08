@@ -15,8 +15,6 @@ C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windo
 C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windows\FileCryptorModuleView.baml
 C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windows\Module.FileCryptor.g.resources
 C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windows\Module.FileCryptor.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windows\Module.FileCryptor.AssemblyInfoInputs.cache
-C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windows\Module.FileCryptor.AssemblyInfo.cs
 C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windows\Module.FileCryptor.csproj.CoreCompileInputs.cache
 C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windows\Module.FileCryptor.csproj.CopyComplete
 C:\Users\fabif\RiderProjects\windows\Module.FileCryptor\obj\Release\net7.0-windows\Module.FileCryptor.dll

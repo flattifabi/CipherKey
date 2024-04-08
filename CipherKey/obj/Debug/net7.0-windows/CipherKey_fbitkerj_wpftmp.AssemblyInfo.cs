@@ -10,15 +10,7 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("CipherKey")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyDescriptionAttribute("Cipher Key is a local Password Storage by InitialBug aka Flattinger Fabian  ")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a09bf907e9ddbd965e670bc9ccbba9c0c7c9afeb")]
-[assembly: System.Reflection.AssemblyProductAttribute("CipherKey")]
-[assembly: System.Reflection.AssemblyTitleAttribute("CipherKey")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
-[assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
+
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 
 // Von der MSBuild WriteCodeFragment-Klasse generiert.

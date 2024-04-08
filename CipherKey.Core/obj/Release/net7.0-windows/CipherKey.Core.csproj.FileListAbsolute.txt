@@ -28,8 +28,6 @@ C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\U
 C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\UserControls\PasswordBackupList.baml
 C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\CipherKey.Core.g.resources
 C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\CipherKey.Core.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\CipherKey.Core.AssemblyInfoInputs.cache
-C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\CipherKey.Core.AssemblyInfo.cs
 C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\CipherKey.Core.csproj.CoreCompileInputs.cache
 C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\CipherKey.Core.csproj.CopyComplete
 C:\Users\fabif\RiderProjects\windows\CipherKey.Core\obj\Release\net7.0-windows\CipherKey.Core.dll

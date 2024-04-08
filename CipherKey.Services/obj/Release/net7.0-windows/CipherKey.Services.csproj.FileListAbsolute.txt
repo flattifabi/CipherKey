@@ -8,8 +8,6 @@ C:\Users\fabif\RiderProjects\windows\CipherKey.Services\bin\Release\net7.0-windo
 C:\Users\fabif\RiderProjects\windows\CipherKey.Services\bin\Release\net7.0-windows\CipherKey.Crypt.pdb
 C:\Users\fabif\RiderProjects\windows\CipherKey.Services\obj\Release\net7.0-windows\CipherKey.Services.csproj.AssemblyReference.cache
 C:\Users\fabif\RiderProjects\windows\CipherKey.Services\obj\Release\net7.0-windows\CipherKey.Services.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\fabif\RiderProjects\windows\CipherKey.Services\obj\Release\net7.0-windows\CipherKey.Services.AssemblyInfoInputs.cache
-C:\Users\fabif\RiderProjects\windows\CipherKey.Services\obj\Release\net7.0-windows\CipherKey.Services.AssemblyInfo.cs
 C:\Users\fabif\RiderProjects\windows\CipherKey.Services\obj\Release\net7.0-windows\CipherKey.Services.csproj.CoreCompileInputs.cache
 C:\Users\fabif\RiderProjects\windows\CipherKey.Services\obj\Release\net7.0-windows\CipherKey.Services.csproj.CopyComplete
 C:\Users\fabif\RiderProjects\windows\CipherKey.Services\obj\Release\net7.0-windows\CipherKey.Services.dll
