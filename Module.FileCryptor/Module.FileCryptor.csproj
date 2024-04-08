@@ -17,4 +17,16 @@
       <ProjectReference Include="..\CipherKey.Services\CipherKey.Services.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="obj\Debug\net7.0-windows\FileCryptorModuleView.baml" />
+      <Content Include="obj\Debug\net7.0-windows\Module.FileCryptor_1celegi2_wpftmp.AssemblyInfoInputs.cache" />
+      <Content Include="obj\Debug\net7.0-windows\Module.FileCryptor_1celegi2_wpftmp.assets.cache" />
+      <Content Include="obj\Debug\net7.0-windows\Module.FileCryptor_1celegi2_wpftmp.GeneratedMSBuildEditorConfig.editorconfig" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="obj\Debug\net7.0-windows\Module.FileCryptor_1celegi2_wpftmp.AssemblyInfo.cs" />
+      <Compile Include="obj\Debug\net7.0-windows\Module.FileCryptor_1celegi2_wpftmp.GlobalUsings.g.cs" />
+    </ItemGroup>
+
 </Project>

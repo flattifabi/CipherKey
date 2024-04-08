@@ -14,4 +14,18 @@
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Crypt.AssemblyInfoInputs.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Crypt.assets.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Crypt.csproj.AssemblyReference.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Crypt.csproj.CoreCompileInputs.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Crypt.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Crypt.dll" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Crypt.pdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="obj\Debug\net7.0-windows\.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" />
+  </ItemGroup>
+
 </Project>

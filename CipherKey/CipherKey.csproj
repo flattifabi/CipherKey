@@ -50,4 +50,24 @@
     <Resource Include="assets\images\wwd_logo.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="obj\Debug\net7.0-windows\CipherKey_1zqorgmo_wpftmp.AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\net7.0-windows\CipherKey_1zqorgmo_wpftmp.GlobalUsings.g.cs" />
+    <Compile Include="obj\Debug\net7.0-windows\CipherKey_fbitkerj_wpftmp.AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\net7.0-windows\CipherKey_fbitkerj_wpftmp.GlobalUsings.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="obj\Debug\net7.0-windows\App.baml" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey_1zqorgmo_wpftmp.AssemblyInfoInputs.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey_1zqorgmo_wpftmp.assets.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey_1zqorgmo_wpftmp.GeneratedMSBuildEditorConfig.editorconfig" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey_fbitkerj_wpftmp.AssemblyInfoInputs.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey_fbitkerj_wpftmp.assets.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey_fbitkerj_wpftmp.GeneratedMSBuildEditorConfig.editorconfig" />
+    <Content Include="obj\Debug\net7.0-windows\Views\ConfigurationWindow.baml" />
+    <Content Include="obj\Debug\net7.0-windows\Views\MainWindow.baml" />
+    <Content Include="obj\Debug\net7.0-windows\Views\Splash.baml" />
+  </ItemGroup>
+
 </Project>

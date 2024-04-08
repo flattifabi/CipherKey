@@ -18,4 +18,24 @@
     <ProjectReference Include="..\CipherKey.Crypt\CipherKey.Crypt.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="obj\Debug\net7.0-windows\CipherKey.Core_warngnsz_wpftmp.AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\net7.0-windows\CipherKey.Core_warngnsz_wpftmp.GlobalUsings.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Core_warngnsz_wpftmp.AssemblyInfoInputs.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Core_warngnsz_wpftmp.assets.cache" />
+    <Content Include="obj\Debug\net7.0-windows\CipherKey.Core_warngnsz_wpftmp.GeneratedMSBuildEditorConfig.editorconfig" />
+    <Content Include="obj\Debug\net7.0-windows\Dialogs\AddRemoteTopicDialog.baml" />
+    <Content Include="obj\Debug\net7.0-windows\Dialogs\InputDialog.baml" />
+    <Content Include="obj\Debug\net7.0-windows\Dialogs\TextInputDialog.baml" />
+    <Content Include="obj\Debug\net7.0-windows\UserControls\CreatePassword.baml" />
+    <Content Include="obj\Debug\net7.0-windows\UserControls\CreateSource.baml" />
+    <Content Include="obj\Debug\net7.0-windows\UserControls\CreateTopic.baml" />
+    <Content Include="obj\Debug\net7.0-windows\UserControls\CreateTopicRemote.baml" />
+    <Content Include="obj\Debug\net7.0-windows\UserControls\EditPassword.baml" />
+    <Content Include="obj\Debug\net7.0-windows\UserControls\PasswordBackupList.baml" />
+  </ItemGroup>
+
 </Project>
