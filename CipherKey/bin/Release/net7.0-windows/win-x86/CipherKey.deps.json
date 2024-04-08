@@ -1,0 +1,577 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0/win-x86",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {},
+    ".NETCoreApp,Version=v7.0/win-x86": {
+      "CipherKey/1.0.0": {
+        "dependencies": {
+          "CipherKey.Core": "1.0.0",
+          "CipherKey.Crypt": "1.0.0",
+          "CipherKey.Services": "1.0.0",
+          "Microsoft-WindowsAPICodePack-Shell": "1.1.5",
+          "Microsoft.Extensions.DependencyInjection": "8.0.0",
+          "Microsoft.NET.ILLink.Analyzers": "7.0.100-1.23211.1",
+          "Microsoft.NET.ILLink.Tasks": "7.0.100-1.23211.1",
+          "Module.FileCryptor": "1.0.0",
+          "Module.Passwords": "1.0.0",
+          "Newtonsoft.Json": "13.0.3",
+          "Serilog": "3.1.1",
+          "Serilog.Sinks.Console": "5.0.1",
+          "Serilog.Sinks.File": "5.0.0",
+          "Serilog.Sinks.RollingFile": "3.3.0",
+          "WPF-UI": "3.0.1"
+        },
+        "runtime": {
+          "CipherKey.dll": {}
+        }
+      },
+      "Microsoft-WindowsAPICodePack-Core/1.1.5": {
+        "runtime": {
+          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.dll": {
+            "assemblyVersion": "1.1.5.0",
+            "fileVersion": "1.1.5.0"
+          }
+        }
+      },
+      "Microsoft-WindowsAPICodePack-Shell/1.1.5": {
+        "dependencies": {
+          "Microsoft-WindowsAPICodePack-Core": "1.1.5"
+        },
+        "runtime": {
+          "lib/net7.0-windows7.0/Microsoft.WindowsAPICodePack.Shell.dll": {
+            "assemblyVersion": "1.1.5.0",
+            "fileVersion": "1.1.5.0"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
+        "runtime": {
+          "lib/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.NET.ILLink.Analyzers/7.0.100-1.23211.1": {},
+      "Microsoft.NET.ILLink.Tasks/7.0.100-1.23211.1": {},
+      "Microsoft.NETCore.Platforms/1.0.1": {},
+      "Microsoft.NETCore.Targets/1.0.1": {},
+      "Newtonsoft.Json/13.0.3": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.3.27908"
+          }
+        }
+      },
+      "runtime.any.System.IO/4.1.0": {},
+      "runtime.any.System.Reflection/4.1.0": {},
+      "runtime.any.System.Reflection.Primitives/4.0.1": {},
+      "runtime.any.System.Runtime/4.1.0": {
+        "dependencies": {
+          "System.Private.Uri": "4.0.1"
+        }
+      },
+      "runtime.any.System.Runtime.Handles/4.0.1": {},
+      "runtime.any.System.Runtime.InteropServices/4.1.0": {},
+      "runtime.any.System.Text.Encoding/4.0.11": {},
+      "runtime.any.System.Text.Encoding.Extensions/4.0.11": {},
+      "runtime.any.System.Threading.Tasks/4.0.11": {},
+      "Serilog/3.1.1": {
+        "runtime": {
+          "lib/net7.0/Serilog.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "3.1.1.0"
+          }
+        }
+      },
+      "Serilog.Sinks.Console/5.0.1": {
+        "dependencies": {
+          "Serilog": "3.1.1"
+        },
+        "runtime": {
+          "lib/net7.0/Serilog.Sinks.Console.dll": {
+            "assemblyVersion": "5.0.1.0",
+            "fileVersion": "5.0.1.0"
+          }
+        }
+      },
+      "Serilog.Sinks.File/5.0.0": {
+        "dependencies": {
+          "Serilog": "3.1.1"
+        },
+        "runtime": {
+          "lib/net5.0/Serilog.Sinks.File.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.0"
+          }
+        }
+      },
+      "Serilog.Sinks.RollingFile/3.3.0": {
+        "dependencies": {
+          "Serilog.Sinks.File": "5.0.0",
+          "System.IO": "4.1.0",
+          "System.IO.FileSystem.Primitives": "4.0.1",
+          "System.Runtime.InteropServices": "4.1.0",
+          "System.Text.Encoding.Extensions": "4.0.11"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.Sinks.RollingFile.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "3.3.0.0"
+          }
+        }
+      },
+      "System.IO/4.1.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Text.Encoding": "4.0.11",
+          "System.Threading.Tasks": "4.0.11",
+          "runtime.any.System.IO": "4.1.0"
+        }
+      },
+      "System.IO.FileSystem.Primitives/4.0.1": {
+        "dependencies": {
+          "System.Runtime": "4.1.0"
+        }
+      },
+      "System.Private.Uri/4.0.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1"
+        }
+      },
+      "System.Reflection/4.1.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "System.IO": "4.1.0",
+          "System.Reflection.Primitives": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Reflection": "4.1.0"
+        }
+      },
+      "System.Reflection.Primitives/4.0.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Reflection.Primitives": "4.0.1"
+        }
+      },
+      "System.Runtime/4.1.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "runtime.any.System.Runtime": "4.1.0"
+        }
+      },
+      "System.Runtime.Handles/4.0.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Runtime.Handles": "4.0.1"
+        }
+      },
+      "System.Runtime.InteropServices/4.1.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "System.Reflection": "4.1.0",
+          "System.Reflection.Primitives": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Handles": "4.0.1",
+          "runtime.any.System.Runtime.InteropServices": "4.1.0"
+        }
+      },
+      "System.Text.Encoding/4.0.11": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Text.Encoding": "4.0.11"
+        }
+      },
+      "System.Text.Encoding.Extensions/4.0.11": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Text.Encoding": "4.0.11",
+          "runtime.any.System.Text.Encoding.Extensions": "4.0.11"
+        }
+      },
+      "System.Threading.Tasks/4.0.11": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Targets": "1.0.1",
+          "System.Runtime": "4.1.0",
+          "runtime.any.System.Threading.Tasks": "4.0.11"
+        }
+      },
+      "WPF-UI/3.0.1": {
+        "runtime": {
+          "lib/net7.0-windows7.0/Wpf.Ui.dll": {
+            "assemblyVersion": "3.0.1.0",
+            "fileVersion": "3.0.1.0"
+          }
+        }
+      },
+      "CipherKey.Core/1.0.0": {
+        "dependencies": {
+          "CipherKey.Crypt": "1.0.0",
+          "Microsoft-WindowsAPICodePack-Shell": "1.1.5",
+          "Newtonsoft.Json": "13.0.3",
+          "WPF-UI": "3.0.1"
+        },
+        "runtime": {
+          "CipherKey.Core.dll": {}
+        }
+      },
+      "CipherKey.Crypt/1.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "Serilog": "3.1.1",
+          "Serilog.Sinks.Console": "5.0.1",
+          "Serilog.Sinks.File": "5.0.0",
+          "Serilog.Sinks.RollingFile": "3.3.0"
+        },
+        "runtime": {
+          "CipherKey.Crypt.dll": {}
+        }
+      },
+      "CipherKey.Services/1.0.0": {
+        "dependencies": {
+          "CipherKey.Core": "1.0.0",
+          "CipherKey.Crypt": "1.0.0",
+          "Microsoft-WindowsAPICodePack-Shell": "1.1.5",
+          "Newtonsoft.Json": "13.0.3",
+          "Serilog": "3.1.1",
+          "Serilog.Sinks.Console": "5.0.1",
+          "Serilog.Sinks.File": "5.0.0",
+          "Serilog.Sinks.RollingFile": "3.3.0",
+          "WPF-UI": "3.0.1"
+        },
+        "runtime": {
+          "CipherKey.Services.dll": {}
+        }
+      },
+      "Module.FileCryptor/1.0.0": {
+        "dependencies": {
+          "CipherKey.Core": "1.0.0",
+          "CipherKey.Crypt": "1.0.0",
+          "CipherKey.Services": "1.0.0",
+          "WPF-UI": "3.0.1"
+        },
+        "runtime": {
+          "Module.FileCryptor.dll": {}
+        }
+      },
+      "Module.Passwords/1.0.0": {
+        "dependencies": {
+          "CipherKey.Core": "1.0.0",
+          "CipherKey.Crypt": "1.0.0",
+          "CipherKey.Services": "1.0.0",
+          "Microsoft-WindowsAPICodePack-Shell": "1.1.5",
+          "Newtonsoft.Json": "13.0.3",
+          "Serilog": "3.1.1",
+          "Serilog.Sinks.Console": "5.0.1",
+          "Serilog.Sinks.File": "5.0.0",
+          "Serilog.Sinks.RollingFile": "3.3.0",
+          "WPF-UI": "3.0.1"
+        },
+        "runtime": {
+          "Module.Passwords.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CipherKey/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft-WindowsAPICodePack-Core/1.1.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3feeT5wxrH/T4YmoZwCglVrUw6aS4+WJLA3FRADLVT2J85/zjptrCikvGNcLI1+gDeoI1AZ4w45gF2FvBv6eQw==",
+      "path": "microsoft-windowsapicodepack-core/1.1.5",
+      "hashPath": "microsoft-windowsapicodepack-core.1.1.5.nupkg.sha512"
+    },
+    "Microsoft-WindowsAPICodePack-Shell/1.1.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lZ+oIxvTp1Ph0YrzFl3AKcrry7OCfi0awf43nrGwodWqDlFASktZ+pN532rbU/5o09irYjxVu1m3UxO5L1H8fw==",
+      "path": "microsoft-windowsapicodepack-shell/1.1.5",
+      "hashPath": "microsoft-windowsapicodepack-shell.1.1.5.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-V8S3bsm50ig6JSyrbcJJ8bW2b9QLGouz+G1miK3UTaOWmMtFwNNNzUf4AleyDWUmTrWMLNnFSLEQtxmxgNQnNQ==",
+      "path": "microsoft.extensions.dependencyinjection/8.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cjWrLkJXK0rs4zofsK4bSdg+jhDLTaxrkXu4gS6Y7MAlCvRyNNgwY/lJi5RDlQOnSZweHqoyvgvbdvQsRIW+hg==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/8.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.NET.ILLink.Analyzers/7.0.100-1.23211.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0GvbEgDGcUQA9KuWcQU1WwYHXt1tBzNr1Nls/M57rM7NA/AndFwCaCEoJpJkmxRY7xLlPDBnmGp8h5+FNqUngg==",
+      "path": "microsoft.net.illink.analyzers/7.0.100-1.23211.1",
+      "hashPath": "microsoft.net.illink.analyzers.7.0.100-1.23211.1.nupkg.sha512"
+    },
+    "Microsoft.NET.ILLink.Tasks/7.0.100-1.23211.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tvG8XZYLjT0o3WicCyKBZysVWo1jC9HdCFmNRmddx3WbAz0UCsd0qKZqpiEo99VLA8Re+FzWK51OcRldQPbt2Q==",
+      "path": "microsoft.net.illink.tasks/7.0.100-1.23211.1",
+      "hashPath": "microsoft.net.illink.tasks.7.0.100-1.23211.1.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2G6OjjJzwBfNOO8myRV/nFrbTw5iA+DEm0N+qUqhrOmaVtn4pC77h38I1jsXGw5VH55+dPfQsqHD0We9sCl9FQ==",
+      "path": "microsoft.netcore.platforms/1.0.1",
+      "hashPath": "microsoft.netcore.platforms.1.0.1.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Targets/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rkn+fKobF/cbWfnnfBOQHKVKIOpxMZBvlSHkqDWgBpwGDcLRduvs3D9OLGeV6GWGvVwNlVi2CBbTjuPmtHvyNw==",
+      "path": "microsoft.netcore.targets/1.0.1",
+      "hashPath": "microsoft.netcore.targets.1.0.1.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "path": "newtonsoft.json/13.0.3",
+      "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
+    },
+    "runtime.any.System.IO/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sC7zKVdhYQEtrREKBJf4zkUwNdi6fsbkzrhJLDIAxIxD+YA5PABAQJps13zxpA1Ke3AgzOA9551JDymAfmRuTg==",
+      "path": "runtime.any.system.io/4.1.0",
+      "hashPath": "runtime.any.system.io.4.1.0.nupkg.sha512"
+    },
+    "runtime.any.System.Reflection/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-eKq6/GprEINYbugjWf2V9cjkyuAH/y+Raed28PJQ35zd30oR/pvKEHNN8JbPAgzYpI09TCd1yuhXN/Rb8PM8GA==",
+      "path": "runtime.any.system.reflection/4.1.0",
+      "hashPath": "runtime.any.system.reflection.4.1.0.nupkg.sha512"
+    },
+    "runtime.any.System.Reflection.Primitives/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oKs78h11WDhCGFNpxT26IqL8Oo8OBzr6YOW0WG+R14FGaB/WDM5UHiK/jr6dipdnO8Wxlg/U48ka6uaPM6l53w==",
+      "path": "runtime.any.system.reflection.primitives/4.0.1",
+      "hashPath": "runtime.any.system.reflection.primitives.4.0.1.nupkg.sha512"
+    },
+    "runtime.any.System.Runtime/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0QVLwEGXROl0Trt2XosEjly9uqXcjHKStoZyZG9twJYFZJqq2JJXcBMXl/fnyQAgYEEODV8lUsU+t7NCCY0nUQ==",
+      "path": "runtime.any.system.runtime/4.1.0",
+      "hashPath": "runtime.any.system.runtime.4.1.0.nupkg.sha512"
+    },
+    "runtime.any.System.Runtime.Handles/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MZ5fVmAE/3S11wt3hPfn3RsAHppj5gUz+VZuLQkRjLCMSlX0krOI601IZsMWc3CoxUb+wMt3gZVb/mEjblw6Mg==",
+      "path": "runtime.any.system.runtime.handles/4.0.1",
+      "hashPath": "runtime.any.system.runtime.handles.4.0.1.nupkg.sha512"
+    },
+    "runtime.any.System.Runtime.InteropServices/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gmibdZ9x/eB6hf5le33DWLCQbhcIUD2vqoc0tBgqSUWlB8YjEzVJXyTPDO+ypKLlL90Kv3ZDrK7yPCNqcyhqCA==",
+      "path": "runtime.any.system.runtime.interopservices/4.1.0",
+      "hashPath": "runtime.any.system.runtime.interopservices.4.1.0.nupkg.sha512"
+    },
+    "runtime.any.System.Text.Encoding/4.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uweRMRDD4O8Iy8m4h1cJvoFIHNCzHMpipuxkRNAMML6EMzAhDCQTjgvRwki7PlUg8RGY1ctXnBZjT1rXvMZuRw==",
+      "path": "runtime.any.system.text.encoding/4.0.11",
+      "hashPath": "runtime.any.system.text.encoding.4.0.11.nupkg.sha512"
+    },
+    "runtime.any.System.Text.Encoding.Extensions/4.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3n6qbf59NMgA7F9S+q9gmqFV7T/CtAZw2pa6aprfdZxUinR2mDvVchsgthoacpQvAQu6e3ok8WWeypSu/yjXrA==",
+      "path": "runtime.any.system.text.encoding.extensions/4.0.11",
+      "hashPath": "runtime.any.system.text.encoding.extensions.4.0.11.nupkg.sha512"
+    },
+    "runtime.any.System.Threading.Tasks/4.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CEvWO0IwtdCAsmCb9aAl59psy0hzx+whYh4DzbjNb0GsQmxw/G7bZEcrBtE8c9QupNVbu87c2xaMi6p4r1bpjA==",
+      "path": "runtime.any.system.threading.tasks/4.0.11",
+      "hashPath": "runtime.any.system.threading.tasks.4.0.11.nupkg.sha512"
+    },
+    "Serilog/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-P6G4/4Kt9bT635bhuwdXlJ2SCqqn2nhh4gqFqQueCOr9bK/e7W9ll/IoX1Ter948cV2Z/5+5v8pAfJYUISY03A==",
+      "path": "serilog/3.1.1",
+      "hashPath": "serilog.3.1.1.nupkg.sha512"
+    },
+    "Serilog.Sinks.Console/5.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6Jt8jl9y2ey8VV7nVEUAyjjyxjAQuvd5+qj4XYAT9CwcsvR70HHULGBeD+K2WCALFXf7CFsNQT4lON6qXcu2AA==",
+      "path": "serilog.sinks.console/5.0.1",
+      "hashPath": "serilog.sinks.console.5.0.1.nupkg.sha512"
+    },
+    "Serilog.Sinks.File/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uwV5hdhWPwUH1szhO8PJpFiahqXmzPzJT/sOijH/kFgUx+cyoDTMM8MHD0adw9+Iem6itoibbUXHYslzXsLEAg==",
+      "path": "serilog.sinks.file/5.0.0",
+      "hashPath": "serilog.sinks.file.5.0.0.nupkg.sha512"
+    },
+    "Serilog.Sinks.RollingFile/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2lT5X1r3GH4P0bRWJfhA7etGl8Q2Ipw9AACvtAHWRUSpYZ42NGVyHoVs2ALBZ/cAkkS+tA4jl80Zie144eLQPg==",
+      "path": "serilog.sinks.rollingfile/3.3.0",
+      "hashPath": "serilog.sinks.rollingfile.3.3.0.nupkg.sha512"
+    },
+    "System.IO/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3KlTJceQc3gnGIaHZ7UBZO26SHL1SHE4ddrmiwumFnId+CEHP+O8r386tZKaE6zlk5/mF8vifMBzHj9SaXN+mQ==",
+      "path": "system.io/4.1.0",
+      "hashPath": "system.io.4.1.0.nupkg.sha512"
+    },
+    "System.IO.FileSystem.Primitives/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kWkKD203JJKxJeE74p8aF8y4Qc9r9WQx4C0cHzHPrY3fv/L/IhWnyCHaFJ3H1QPOH6A93whlQ2vG5nHlBDvzWQ==",
+      "path": "system.io.filesystem.primitives/4.0.1",
+      "hashPath": "system.io.filesystem.primitives.4.0.1.nupkg.sha512"
+    },
+    "System.Private.Uri/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OltceAn9yyNf9LZIqvf80DhdRH55iVu1fxowdR79018w1CWIRNojUZBStsiRHvADeKI5pXcM9EftOFikBQh5AA==",
+      "path": "system.private.uri/4.0.1",
+      "hashPath": "system.private.uri.4.0.1.nupkg.sha512"
+    },
+    "System.Reflection/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JCKANJ0TI7kzoQzuwB/OoJANy1Lg338B6+JVacPl4TpUwi3cReg3nMLplMq2uqYfHFQpKIlHAUVAJlImZz/4ng==",
+      "path": "system.reflection/4.1.0",
+      "hashPath": "system.reflection.4.1.0.nupkg.sha512"
+    },
+    "System.Reflection.Primitives/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4inTox4wTBaDhB7V3mPvp9XlCbeGYWVEM9/fXALd52vNEAVisc1BoVWQPuUuD0Ga//dNbA/WeMy9u9mzLxGTHQ==",
+      "path": "system.reflection.primitives/4.0.1",
+      "hashPath": "system.reflection.primitives.4.0.1.nupkg.sha512"
+    },
+    "System.Runtime/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-v6c/4Yaa9uWsq+JMhnOFewrYkgdNHNG2eMKuNqRn8P733rNXeRCGvV5FkkjBXn2dbVkPXOsO0xjsEeM1q2zC0g==",
+      "path": "system.runtime/4.1.0",
+      "hashPath": "system.runtime.4.1.0.nupkg.sha512"
+    },
+    "System.Runtime.Handles/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nCJvEKguXEvk2ymk1gqj625vVnlK3/xdGzx0vOKicQkoquaTBJTP13AIYkocSUwHCLNBwUbXTqTWGDxBTWpt7g==",
+      "path": "system.runtime.handles/4.0.1",
+      "hashPath": "system.runtime.handles.4.0.1.nupkg.sha512"
+    },
+    "System.Runtime.InteropServices/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-16eu3kjHS633yYdkjwShDHZLRNMKVi/s0bY8ODiqJ2RfMhDMAwxZaUaWVnZ2P71kr/or+X9o/xFWtNqz8ivieQ==",
+      "path": "system.runtime.interopservices/4.1.0",
+      "hashPath": "system.runtime.interopservices.4.1.0.nupkg.sha512"
+    },
+    "System.Text.Encoding/4.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-U3gGeMlDZXxCEiY4DwVLSacg+DFWCvoiX+JThA/rvw37Sqrku7sEFeVBBBMBnfB6FeZHsyDx85HlKL19x0HtZA==",
+      "path": "system.text.encoding/4.0.11",
+      "hashPath": "system.text.encoding.4.0.11.nupkg.sha512"
+    },
+    "System.Text.Encoding.Extensions/4.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jtbiTDtvfLYgXn8PTfWI+SiBs51rrmO4AAckx4KR6vFK9Wzf6tI8kcRdsYQNwriUeQ1+CtQbM1W4cMbLXnj/OQ==",
+      "path": "system.text.encoding.extensions/4.0.11",
+      "hashPath": "system.text.encoding.extensions.4.0.11.nupkg.sha512"
+    },
+    "System.Threading.Tasks/4.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-k1S4Gc6IGwtHGT8188RSeGaX86Qw/wnrgNLshJvsdNUOPP9etMmo8S07c+UlOAx4K/xLuN9ivA1bD0LVurtIxQ==",
+      "path": "system.threading.tasks/4.0.11",
+      "hashPath": "system.threading.tasks.4.0.11.nupkg.sha512"
+    },
+    "WPF-UI/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kV42QrpQoWcL0oM5Ke546aqyn/9sHwDK94XpKZShY1tbaGB0dlJz7cNJwUph8GcTblWlqdP7i6j7UeH7zKDoWQ==",
+      "path": "wpf-ui/3.0.1",
+      "hashPath": "wpf-ui.3.0.1.nupkg.sha512"
+    },
+    "CipherKey.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CipherKey.Crypt/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CipherKey.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Module.FileCryptor/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Module.Passwords/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

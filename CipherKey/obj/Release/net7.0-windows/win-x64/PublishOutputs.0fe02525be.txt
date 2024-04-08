@@ -1,0 +1,8 @@
+C:\Users\fabif\RiderProjects\windows\CipherKey\bin\Release\net7.0-windows\win-x64\publish\CipherKey.pdb
+C:\Users\fabif\RiderProjects\windows\CipherKey\bin\Release\net7.0-windows\win-x64\publish\CipherKey.Core.pdb
+C:\Users\fabif\RiderProjects\windows\CipherKey\bin\Release\net7.0-windows\win-x64\publish\CipherKey.Core.dll.config
+C:\Users\fabif\RiderProjects\windows\CipherKey\bin\Release\net7.0-windows\win-x64\publish\CipherKey.Crypt.pdb
+C:\Users\fabif\RiderProjects\windows\CipherKey\bin\Release\net7.0-windows\win-x64\publish\CipherKey.Services.pdb
+C:\Users\fabif\RiderProjects\windows\CipherKey\bin\Release\net7.0-windows\win-x64\publish\Module.FileCryptor.pdb
+C:\Users\fabif\RiderProjects\windows\CipherKey\bin\Release\net7.0-windows\win-x64\publish\Module.Passwords.pdb
+C:\Users\fabif\RiderProjects\windows\CipherKey\bin\Release\net7.0-windows\win-x64\publish\CipherKey.exe

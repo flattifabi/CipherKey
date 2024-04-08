@@ -1,6 +1,0 @@
-@CipherKey.Cloud_HostAddress = http://localhost:5190
-
-GET {{CipherKey.Cloud_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

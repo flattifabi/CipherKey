@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b00bcc69-10c4-4ce4-bcab-69c9eeffce4d" name="Flattinger" url="http://185.117.249.191">
+        <fileTransfer rootFolder="/deployments/CipherKey" host="185.117.249.191" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

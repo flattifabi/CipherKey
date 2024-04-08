@@ -1,0 +1,12 @@
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\bin\Release\net7.0\CipherKey.Crypt.deps.json
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\bin\Release\net7.0\CipherKey.Crypt.dll
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\bin\Release\net7.0\CipherKey.Crypt.pdb
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\CipherKey.Crypt.csproj.AssemblyReference.cache
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\CipherKey.Crypt.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\CipherKey.Crypt.AssemblyInfoInputs.cache
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\CipherKey.Crypt.AssemblyInfo.cs
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\CipherKey.Crypt.csproj.CoreCompileInputs.cache
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\CipherKey.Crypt.dll
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\refint\CipherKey.Crypt.dll
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\CipherKey.Crypt.pdb
+C:\Users\fabif\RiderProjects\windows\CipherKey.Crypt\obj\Release\net7.0\ref\CipherKey.Crypt.dll
