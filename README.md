@@ -20,7 +20,7 @@ Private Storage file is located at:  `C:\Users\Username\CipherKey`
 
 ## Authors
 
-- [@octokatherine](https://www.github.com/flattifabi)
+- [@initialbug](https://www.github.com/flattifabi)
 
 
 ## Badges
