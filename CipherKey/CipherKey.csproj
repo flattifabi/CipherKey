@@ -7,11 +7,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <PackageIcon>CodeQuestLogoWithoutText.png</PackageIcon>
-    <Title>CipherKey - Password Storage</Title>
-    <Description>Cipher Key is a local Password Storage by InitialBug aka Flattinger Fabian  </Description>
+    <Title></Title>
+    <Description></Description>
     <SignAssembly>true</SignAssembly>
     <PublicSign>true</PublicSign>
     <AssemblyOriginatorKeyFile>Flattinger.snk</AssemblyOriginatorKeyFile>
+    <Authors />
   </PropertyGroup>
 
   <ItemGroup>
